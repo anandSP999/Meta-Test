@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
@@ -21,15 +21,18 @@
 <style>
   /* ===== CSS Variables ===== */
   :root {
-    --bg-primary: #070a12;
-    --bg-secondary: #0f172a;
-    --text-primary: #f8fafc;
-    --text-secondary: #94a3b8;
+    --bg: #070a12;
+    --card-bg: rgba(18, 24, 38, 0.75);
+    --card-border: rgba(255, 255, 255, 0.12);
     --accent: #3b82f6;
     --accent2: #8b5cf6;
     --accent3: #ec4899;
-    --glass: rgba(15, 20, 32, 0.6);
-    --glass-border: rgba(255,255,255,0.15);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --ok: #10b981;
+    --danger: #ef4444;
+    --glass: rgba(15, 20, 32, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.15);
     --shadow: 0 10px 40px rgba(0,0,0,0.6);
     --gradient: linear-gradient(135deg, var(--accent), var(--accent2), var(--accent3));
     --font-main: 'Inter', 'Noto Sans Devanagari', sans-serif;
@@ -46,64 +49,68 @@
 
   body {
     font-family: var(--font-main);
-    background: var(--bg-primary);
-    color: var(--text-primary);
+    background: var(--bg);
+    color: var(--text-main);
     overflow-x: hidden;
     line-height: 1.6;
   }
 
-  /* Animated background blobs */
-  .bg-blobs {
+  /* ===== Animated Background ===== */
+  .bg-animated {
     position: fixed;
-    width: 100%;
-    height: 100%;
+    top: 0; left: 0; width: 100%; height: 100%;
     z-index: -1;
+    background: radial-gradient(circle at 20% 20%, rgba(59,130,246,0.15), transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(236,72,153,0.15), transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(139,92,246,0.1), transparent 60%),
+                #070a12;
+  }
+  .bg-blobs {
+    position: fixed; width: 100%; height: 100%;
+    z-index: -2;
     filter: blur(80px);
     overflow: hidden;
   }
   .blob {
     position: absolute;
     border-radius: 50%;
-    opacity: 0.3;
-    animation: floatBlob 12s infinite alternate ease-in-out;
+    opacity: 0.4;
+    animation: float 12s infinite alternate ease-in-out;
   }
-  .blob1 { width: 400px; height: 400px; background: var(--accent); top: -10%; left: -10%; }
-  .blob2 { width: 300px; height: 300px; background: var(--accent3); bottom: -10%; right: -10%; animation-delay: 4s; }
-  .blob3 { width: 200px; height: 200px; background: var(--accent2); top: 40%; left: 60%; animation-delay: 8s; }
-  @keyframes floatBlob {
+  .blob1 { width: 400px; height: 400px; background: #3b82f6; top: -10%; left: -10%; }
+  .blob2 { width: 300px; height: 300px; background: #ec4899; bottom: -10%; right: -10%; animation-delay: 4s; }
+  .blob3 { width: 200px; height: 200px; background: #8b5cf6; top: 40%; left: 60%; animation-delay: 8s; }
+  @keyframes float {
     0% { transform: translate(0,0) scale(1); }
     100% { transform: translate(30px,-30px) scale(1.1); }
   }
 
-  /* Preloader */
+  /* ===== Preloader ===== */
   #preloader {
     position: fixed;
-    top:0; left:0; width:100%; height:100%;
-    background: var(--bg-primary);
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: #070a12;
     z-index: 10000;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    transition: opacity 0.5s;
+    transition: opacity 0.5s ease;
   }
-  #preloader.hidden {
-    opacity:0;
-    pointer-events:none;
-  }
+  #preloader.hidden { opacity: 0; pointer-events: none; }
   .preloader-glasses {
     font-size: 80px;
-    animation: pulseGlasses 2s infinite;
+    animation: glassesPulse 2s infinite;
   }
-  @keyframes pulseGlasses {
-    0%,100% { transform: scale(1); opacity: 0.8; }
+  @keyframes glassesPulse {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
     50% { transform: scale(1.1); opacity: 1; }
   }
   .preloader-text {
     margin-top: 20px;
     font-family: var(--font-heading);
     font-weight: 700;
-    font-size: 20px;
+    font-size: 24px;
     letter-spacing: 2px;
     background: linear-gradient(90deg, #60a5fa, #8b5cf6, #ec4899);
     -webkit-background-clip: text;
@@ -111,11 +118,11 @@
     animation: textFade 2s infinite;
   }
   @keyframes textFade {
-    0%,100% { opacity: 0.6; }
+    0%, 100% { opacity: 0.6; }
     50% { opacity: 1; }
   }
 
-  /* Navigation */
+  /* ===== Navigation ===== */
   .nav {
     position: sticky;
     top: 0;
@@ -132,7 +139,7 @@
   .nav-logo {
     font-family: var(--font-heading);
     font-weight: 800;
-    font-size: 20px;
+    font-size: 18px;
     color: #fff;
     display: flex;
     align-items: center;
@@ -140,12 +147,13 @@
   }
   .nav-menu {
     display: flex;
-    gap: 16px;
+    gap: 14px;
+    align-items: center;
   }
   .nav-menu a {
-    color: var(--text-secondary);
+    color: var(--text-muted);
     text-decoration: none;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
     transition: color 0.2s;
   }
@@ -157,12 +165,12 @@
     color: #fff;
     font-weight: 800;
     text-decoration: none;
-    font-size: 14px;
+    font-size: 13px;
     box-shadow: 0 4px 15px rgba(59,130,246,0.4);
   }
   .nav-cta:active { transform: scale(0.95); }
 
-  /* Scroll Progress */
+  /* Scroll progress bar */
   .scroll-progress {
     position: fixed;
     top: 0;
@@ -171,42 +179,65 @@
     background: var(--gradient);
     z-index: 1001;
     width: 0%;
-    transition: width 0.1s;
+    transition: width 0.1s linear;
   }
 
-  /* Ecosystem Top Bar */
-  .ecosystem-top {
-    background: rgba(0,0,0,0.5);
+  /* ===== Top Ecosystem Bar ===== */
+  .eco-bar {
+    background: linear-gradient(90deg, rgba(59,130,246,0.1), rgba(236,72,153,0.1));
     border-bottom: 1px solid var(--glass-border);
-    padding: 10px 20px;
-    overflow-x: auto;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    -webkit-overflow-scrolling: touch;
+    padding: 16px 0;
+    overflow: hidden;
   }
-  .ecosystem-top::-webkit-scrollbar { display: none; }
-  .eco-item {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid var(--glass-border);
-    border-radius: 50px;
-    padding: 8px 16px;
+  .eco-header {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 800;
     color: #fff;
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 600;
-    transition: background 0.2s;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
   }
-  .eco-item:active { background: rgba(255,255,255,0.2); }
-  .eco-item .arrow { font-size: 12px; }
+  .eco-scroll {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding: 0 20px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .eco-scroll::-webkit-scrollbar { display: none; }
+  .eco-card {
+    min-width: 220px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    padding: 14px;
+    scroll-snap-align: center;
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s;
+    flex-shrink: 0;
+    text-align: center;
+  }
+  .eco-card:active { transform: scale(0.97); }
+  .eco-card .eco-icon { font-size: 32px; margin-bottom: 6px; }
+  .eco-card h4 { font-size: 16px; margin-bottom: 4px; color: #fff; }
+  .eco-card p { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; }
+  .eco-card a {
+    display: inline-block;
+    background: rgba(59,130,246,0.2);
+    border: 1px solid rgba(59,130,246,0.4);
+    color: #60a5fa;
+    padding: 4px 14px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 700;
+  }
 
-  /* Hero */
+  /* ===== Hero Section ===== */
   .hero {
-    padding: 80px 20px 40px;
+    padding: 60px 20px 40px;
     text-align: center;
     position: relative;
     min-height: 80vh;
@@ -230,7 +261,7 @@
   }
   .hero h1 {
     font-family: var(--font-heading);
-    font-size: 44px;
+    font-size: 40px;
     line-height: 1.2;
     font-weight: 800;
     background: linear-gradient(135deg, #fff, #cbd5e1);
@@ -239,7 +270,7 @@
     margin-bottom: 16px;
   }
   .hero p {
-    color: var(--text-secondary);
+    color: var(--text-muted);
     font-size: 16px;
     max-width: 400px;
     margin: 0 auto 30px;
@@ -253,52 +284,48 @@
   .btn-primary {
     background: var(--gradient);
     border: none;
-    padding: 14px 28px;
+    padding: 16px 32px;
     border-radius: 50px;
     color: #fff;
     font-weight: 800;
-    font-size: 15px;
+    font-size: 16px;
     cursor: pointer;
     box-shadow: 0 8px 30px rgba(59,130,246,0.5);
     transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+    display: inline-block;
   }
   .btn-primary:active { transform: scale(0.96); }
   .btn-secondary {
     background: rgba(255,255,255,0.1);
     border: 1px solid rgba(255,255,255,0.2);
-    padding: 14px 28px;
+    padding: 16px 32px;
     border-radius: 50px;
     color: #fff;
     font-weight: 700;
-    font-size: 15px;
+    font-size: 16px;
     cursor: pointer;
     backdrop-filter: blur(10px);
+    text-decoration: none;
+    display: inline-block;
   }
   .btn-secondary:active { transform: scale(0.96); }
-  .btn-share {
-    background: rgba(0,0,0,0.4);
-    border: 1px solid var(--glass-border);
-    padding: 14px 28px;
-    border-radius: 50px;
-    color: #fff;
-    font-weight: 700;
-    font-size: 15px;
-    cursor: pointer;
-    backdrop-filter: blur(10px);
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
+  .hero-share {
+    margin-top: 20px;
   }
+
+  /* Glasses animation */
   .hero-glasses {
     width: 200px;
     height: 150px;
     margin: 20px auto;
     position: relative;
     animation: glassesFloat 6s ease-in-out infinite;
+    transform: rotateX(10deg) rotateY(-10deg);
     transform-style: preserve-3d;
   }
   @keyframes glassesFloat {
-    0%,100% { transform: translateY(0) rotateX(10deg) rotateY(-10deg); }
+    0%, 100% { transform: translateY(0) rotateX(10deg) rotateY(-10deg); }
     50% { transform: translateY(-20px) rotateX(5deg) rotateY(10deg); }
   }
   .glasses-svg {
@@ -307,20 +334,11 @@
     filter: drop-shadow(0 0 20px rgba(59,130,246,0.5));
   }
 
-  /* Main Converter Card */
+  /* ===== Converter Section ===== */
   .converter-section {
     max-width: 480px;
     margin: 40px auto;
     padding: 0 20px;
-  }
-  .glass-card {
-    background: var(--glass);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid var(--glass-border);
-    border-radius: 24px;
-    box-shadow: var(--shadow);
-    padding: 24px;
   }
   .converter-header {
     display: flex;
@@ -330,7 +348,7 @@
   }
   .converter-header h2 {
     font-family: var(--font-heading);
-    font-size: 22px;
+    font-size: 24px;
     font-weight: 800;
   }
   .status-badge {
@@ -339,24 +357,35 @@
     gap: 6px;
     font-size: 12px;
     font-weight: 700;
+    color: var(--ok);
   }
   .status-badge .dot {
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: #10b981;
+    background: var(--ok);
     animation: blink 1s infinite;
   }
   @keyframes blink { 50% { opacity: 0.4; } }
 
-  /* Watermark Input */
-  .watermark-group {
+  .glass-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--card-border);
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+    padding: 24px;
+  }
+
+  /* Watermark input */
+  .watermark-input-group {
     margin-bottom: 16px;
   }
   .watermark-label {
     font-size: 13px;
     font-weight: 600;
-    color: var(--text-secondary);
+    color: var(--text-muted);
     margin-bottom: 6px;
     display: block;
   }
@@ -364,7 +393,7 @@
     width: 100%;
     padding: 12px 16px;
     border-radius: 12px;
-    border: 1px solid var(--glass-border);
+    border: 1px solid rgba(255,255,255,0.15);
     background: rgba(0,0,0,0.3);
     color: #fff;
     font-size: 16px;
@@ -376,7 +405,7 @@
     box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
   }
 
-  /* Upload Area */
+  /* Upload area */
   .upload-area {
     border: 2px dashed rgba(59,130,246,0.5);
     border-radius: 20px;
@@ -406,38 +435,38 @@
     font-weight: 700;
   }
   .upload-sub {
-    color: var(--text-secondary);
+    color: var(--text-muted);
     font-size: 14px;
   }
-
-  /* Source Buttons */
   .source-buttons {
     display: flex;
     gap: 10px;
-    margin-top: 16px;
+    margin-top: 10px;
   }
-  .source-btn {
+  .btn-source {
     flex: 1;
-    background: rgba(255,255,255,0.1);
-    border: 1px solid var(--glass-border);
+    background: rgba(255,255,255,0.08);
+    border: 1px solid var(--card-border);
     border-radius: 12px;
     padding: 12px;
-    color: #fff;
-    font-weight: 700;
+    color: #e2e8f0;
+    font-weight: 600;
     font-size: 14px;
     cursor: pointer;
     transition: background 0.2s;
   }
-  .source-btn:active { background: rgba(255,255,255,0.2); }
+  .btn-source:active {
+    background: rgba(59,130,246,0.2);
+  }
 
-  /* Preview Container */
+  /* Preview */
   .preview-container {
     display: none;
     position: relative;
     border-radius: 20px;
     overflow: hidden;
     background: #000;
-    border: 1px solid var(--glass-border);
+    border: 1px solid var(--card-border);
     margin-bottom: 16px;
   }
   .preview-container.visible {
@@ -480,7 +509,7 @@
     color: #e2e8f0;
   }
 
-  /* Convert Button */
+  /* Convert button */
   .convert-btn {
     width: 100%;
     background: var(--gradient);
@@ -501,17 +530,19 @@
   .convert-btn::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: -100%;
+    top: 0; left: -100%;
     width: 100%;
     height: 100%;
     background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
     transition: left 0.5s;
   }
   .convert-btn:hover::before { left: 100%; }
-  .convert-btn:disabled { opacity: 0.5; filter: grayscale(0.5); }
+  .convert-btn:disabled {
+    opacity: 0.5;
+    filter: grayscale(0.5);
+  }
 
-  /* Secondary Actions */
+  /* Sub actions */
   .sub-actions {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -520,7 +551,7 @@
   }
   .btn-secondary-small {
     background: rgba(255,255,255,0.1);
-    border: 1px solid var(--glass-border);
+    border: 1px solid var(--card-border);
     border-radius: 12px;
     padding: 14px;
     color: #fff;
@@ -531,7 +562,7 @@
   }
   .btn-secondary-small:active { background: rgba(255,255,255,0.2); }
 
-  /* Share Friends Button */
+  /* Share friends button */
   .share-friends-btn {
     width: 100%;
     background: rgba(255,255,255,0.08);
@@ -551,6 +582,27 @@
   }
   .share-friends-btn:active { transform: scale(0.97); }
 
+  /* How to use guide */
+  .how-to-use {
+    margin-top: 24px;
+    padding: 16px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 16px;
+  }
+  .how-to-use h3 {
+    font-size: 16px;
+    font-weight: 800;
+    margin-bottom: 12px;
+  }
+  .how-to-use ol {
+    padding-left: 20px;
+  }
+  .how-to-use li {
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #e2e8f0;
+  }
+
   /* Toast */
   .toast {
     position: fixed;
@@ -558,7 +610,7 @@
     left: 50%;
     transform: translateX(-50%);
     background: rgba(20,24,40,0.95);
-    border: 1px solid var(--glass-border);
+    border: 1px solid var(--card-border);
     color: #fff;
     padding: 14px 24px;
     border-radius: 50px;
@@ -576,7 +628,7 @@
     transform: translateX(-50%) translateY(-10px);
   }
 
-  /* Features Grid */
+  /* Feature cards */
   .features-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -585,7 +637,7 @@
   }
   .feature-card {
     background: var(--glass);
-    border: 1px solid var(--glass-border);
+    border: 1px solid var(--card-border);
     border-radius: 20px;
     padding: 24px;
     text-align: center;
@@ -607,10 +659,10 @@
   }
   .feature-desc {
     font-size: 14px;
-    color: var(--text-secondary);
+    color: var(--text-muted);
   }
 
-  /* How It Works Timeline */
+  /* Timeline */
   .timeline {
     max-width: 600px;
     margin: 40px auto;
@@ -653,16 +705,16 @@
   }
   .timeline-step p {
     font-size: 14px;
-    color: var(--text-secondary);
+    color: var(--text-muted);
   }
 
-  /* Privacy Section */
+  /* Privacy section */
   .privacy-section {
     text-align: center;
     padding: 50px 20px;
     background: rgba(0,0,0,0.3);
-    border-top: 1px solid var(--glass-border);
-    border-bottom: 1px solid var(--glass-border);
+    border-top: 1px solid var(--card-border);
+    border-bottom: 1px solid var(--card-border);
   }
   .privacy-shield {
     font-size: 60px;
@@ -678,7 +730,7 @@
     margin-bottom: 10px;
   }
   .privacy-section p {
-    color: var(--text-secondary);
+    color: var(--text-muted);
     max-width: 400px;
     margin: 0 auto;
   }
@@ -698,116 +750,36 @@
     letter-spacing: 1px;
   }
 
-  /* Creator Section */
+  /* Creator Personalization */
   .creator-section {
     text-align: center;
-    padding: 40px 20px;
+    padding: 30px 20px;
+    border-bottom: 1px solid var(--card-border);
   }
-  .creator-section h3 {
+  .creator-section h2 {
     font-size: 24px;
     font-weight: 800;
     margin-bottom: 10px;
   }
-  .creator-name {
+  .creator-section .display-name {
     font-size: 18px;
     font-weight: 700;
-    color: var(--accent);
+    color: #60a5fa;
   }
-  .edit-name-btn {
-    margin-top: 20px;
+  .creator-section button {
     background: rgba(255,255,255,0.1);
-    border: 1px solid var(--glass-border);
-    border-radius: 50px;
+    border: 1px solid var(--card-border);
+    border-radius: 30px;
     padding: 10px 20px;
     color: #fff;
-    font-size: 14px;
     font-weight: 700;
+    font-size: 14px;
     cursor: pointer;
+    margin-top: 10px;
   }
+  .creator-section button:active { background: rgba(255,255,255,0.2); }
 
-  /* Ecosystem Section (Detailed) */
-  .ecosystem-section {
-    max-width: 600px;
-    margin: 40px auto;
-    padding: 0 20px;
-  }
-  .ecosystem-section h3 {
-    text-align: center;
-    font-size: 24px;
-    margin-bottom: 20px;
-  }
-  .eco-card {
-    background: var(--glass);
-    border: 1px solid var(--glass-border);
-    border-radius: 16px;
-    padding: 20px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 16px;
-    transition: transform 0.2s;
-  }
-  .eco-card:active { transform: scale(0.98); }
-  .eco-icon {
-    font-size: 32px;
-  }
-  .eco-info {
-    flex: 1;
-  }
-  .eco-info h4 {
-    font-size: 16px;
-    margin-bottom: 4px;
-  }
-  .eco-info p {
-    font-size: 13px;
-    color: var(--text-secondary);
-  }
-  .eco-visit {
-    background: rgba(59,130,246,0.2);
-    border: 1px solid rgba(59,130,246,0.4);
-    padding: 8px 16px;
-    border-radius: 20px;
-    color: #60a5fa;
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 700;
-  }
-
-  /* Footer */
-  .footer {
-    padding: 30px 20px;
-    text-align: center;
-    border-top: 1px solid var(--glass-border);
-    background: rgba(0,0,0,0.4);
-  }
-  .footer .brand {
-    font-size: 18px;
-    font-weight: 800;
-    margin-bottom: 6px;
-  }
-  .footer .created {
-    font-size: 14px;
-    color: var(--text-secondary);
-  }
-  .footer .insta {
-    color: #60a5fa;
-    text-decoration: none;
-    font-weight: 700;
-  }
-  .footer .links {
-    margin-top: 16px;
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-  .footer .links a {
-    color: var(--text-secondary);
-    text-decoration: none;
-    font-size: 13px;
-  }
-
-  /* Modal */
+  /* Modal (Edit Name) */
   .modal-overlay {
     position: fixed;
     top:0; left:0; width:100%; height:100%;
@@ -817,25 +789,29 @@
     align-items: center;
     justify-content: center;
   }
-  .modal-overlay.open { display: flex; }
+  .modal-overlay.active {
+    display: flex;
+  }
   .modal {
-    background: var(--bg-secondary);
-    border: 1px solid var(--glass-border);
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
     border-radius: 20px;
     padding: 24px;
     width: 90%;
-    max-width: 400px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    max-width: 350px;
+    backdrop-filter: blur(20px);
   }
   .modal h3 {
+    font-size: 20px;
+    font-weight: 800;
     margin-bottom: 16px;
   }
   .modal input {
     width: 100%;
-    padding: 12px;
+    padding: 12px 16px;
     border-radius: 12px;
-    border: 1px solid var(--glass-border);
-    background: rgba(0,0,0,0.4);
+    border: 1px solid var(--card-border);
+    background: rgba(0,0,0,0.3);
     color: #fff;
     font-size: 16px;
     margin-bottom: 16px;
@@ -845,11 +821,10 @@
     gap: 10px;
   }
   .modal-buttons button {
-    flex: 1;
+    flex:1;
     padding: 12px;
     border-radius: 12px;
     border: none;
-    font-size: 14px;
     font-weight: 700;
     cursor: pointer;
   }
@@ -862,21 +837,54 @@
     color: #fff;
   }
 
-  /* Reduced Motion */
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-      scroll-behavior: auto !important;
-    }
+  /* Footer */
+  .footer {
+    padding: 30px 20px;
+    text-align: center;
+    border-top: 1px solid var(--card-border);
+    background: rgba(0,0,0,0.4);
+  }
+  .footer .brand {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+  .footer .creator-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #60a5fa;
+  }
+  .footer .insta-link {
+    color: #60a5fa;
+    text-decoration: none;
+    font-weight: 700;
+  }
+  .footer .eco-links {
+    margin: 20px 0;
+  }
+  .footer .eco-links a {
+    display: inline-block;
+    margin: 4px 8px;
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 13px;
+  }
+  .footer .edit-link {
+    background: none;
+    border: none;
+    color: #60a5fa;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: underline;
   }
 
   /* Responsive */
   @media (max-width: 480px) {
+    .hero h1 { font-size: 32px; }
     .nav-menu { display: none; }
-    .hero h1 { font-size: 36px; }
     .features-grid { grid-template-columns: 1fr 1fr; }
+    .btn-primary, .btn-secondary { padding: 14px 20px; font-size: 14px; }
   }
 </style>
 </head>
@@ -891,6 +899,7 @@
   <div class="blob blob2"></div>
   <div class="blob blob3"></div>
 </div>
+<div class="bg-animated"></div>
 
 <!-- Preloader -->
 <div id="preloader">
@@ -904,25 +913,36 @@
   <div class="nav-menu">
     <a href="#converter">Converter</a>
     <a href="#features">Features</a>
-    <a href="#how">How It Works</a>
     <a href="#privacy">Privacy</a>
+    <a href="#ecosystem">Ecosystem</a>
   </div>
   <a href="#converter" class="nav-cta">Convert Photo</a>
 </nav>
 
 <!-- Top Ecosystem Bar -->
-<div class="ecosystem-top">
-  <span style="font-size: 12px; font-weight: 700; color:#fff;">My Ecosystem:</span>
-  <a href="https://swipe-jobs-ten.vercel.app/" target="_blank" rel="noopener noreferrer" class="eco-item">
-    🚀 Swipe Jobs <span class="arrow">↗</span>
-  </a>
-  <a href="https://anandsp999.github.io/Video-course/candidate.html" target="_blank" rel="noopener noreferrer" class="eco-item">
-    🎓 Video Course <span class="arrow">↗</span>
-  </a>
-  <a href="https://gen-z-gravity-co.vercel.app/" target="_blank" rel="noopener noreferrer" class="eco-item">
-    ⚡ Gen-Z Gravity <span class="arrow">↗</span>
-  </a>
-</div>
+<section class="eco-bar">
+  <div class="eco-header">✨ Explore My Ecosystem ✨</div>
+  <div class="eco-scroll" id="ecoScroll">
+    <div class="eco-card">
+      <div class="eco-icon">🚀</div>
+      <h4>Swipe Jobs India</h4>
+      <p>Jobs, Hiring & Career Opportunities</p>
+      <a href="https://swipe-jobs-ten.vercel.app/" target="_blank" rel="noopener noreferrer">Visit ↗</a>
+    </div>
+    <div class="eco-card">
+      <div class="eco-icon">🎓</div>
+      <h4>Video Course</h4>
+      <p>Learn Skills, Create & Grow</p>
+      <a href="https://anandsp999.github.io/Video-course/candidate.html" target="_blank" rel="noopener noreferrer">Explore ↗</a>
+    </div>
+    <div class="eco-card">
+      <div class="eco-icon">⚡</div>
+      <h4>Gen-Z Gravity</h4>
+      <p>Freelancing, Projects & Digital Services</p>
+      <a href="https://gen-z-gravity-co.vercel.app/" target="_blank" rel="noopener noreferrer">Explore ↗</a>
+    </div>
+  </div>
+</section>
 
 <!-- Hero -->
 <section class="hero">
@@ -930,7 +950,6 @@
   <h1>Apni Photo Ko<br>Meta Glasses Experience Dein.</h1>
   <p>Ek tap mein photo ko 3024×4032 resolution, EXIF metadata aur custom watermark ke saath ready karein.</p>
   <div class="hero-glasses">
-    <!-- Glasses SVG -->
     <svg class="glasses-svg" viewBox="0 0 200 150">
       <defs>
         <linearGradient id="glassGrad" x1="0" y1="0" x2="1" y2="1">
@@ -948,11 +967,13 @@
   <div class="hero-buttons">
     <a href="#converter" class="btn-primary">⚡ Photo Convert Karein</a>
     <a href="#converter" class="btn-secondary">📸 Camera Se Photo Lein</a>
-    <button class="btn-share" id="shareHeroBtn">🔗 Friend Ko Share Karein</button>
+  </div>
+  <div class="hero-share">
+    <button id="shareFriendsBtnTop" class="btn-secondary">🔗 Friend Ko Share Karein</button>
   </div>
 </section>
 
-<!-- Converter Section -->
+<!-- Converter -->
 <section id="converter" class="converter-section">
   <div class="glass-card">
     <div class="converter-header">
@@ -961,9 +982,9 @@
     </div>
 
     <!-- Watermark Input -->
-    <div class="watermark-group">
+    <div class="watermark-input-group">
       <label class="watermark-label">Watermark Text (Custom Name)</label>
-      <input type="text" id="watermarkInput" class="watermark-input" value="Ganesh Patil" placeholder="Apna naam likhein">
+      <input type="text" id="watermarkInput" class="watermark-input" value="ganeshpatil_91i" placeholder="Apna naam likhein">
     </div>
 
     <!-- Upload Area -->
@@ -975,10 +996,10 @@
       <input type="file" id="cameraInput" accept="image/jpeg,.jpg,.jpeg" capture="environment" hidden>
     </div>
 
-    <!-- Source Buttons -->
+    <!-- Source buttons (Camera/Gallery) -->
     <div class="source-buttons">
-      <button id="cameraBtn" class="source-btn">📸 Camera</button>
-      <button id="galleryBtn" class="source-btn">🖼️ Gallery</button>
+      <button id="cameraBtn" class="btn-source">📸 Camera</button>
+      <button id="galleryBtn" class="btn-source">🖼️ Gallery</button>
     </div>
 
     <!-- Preview -->
@@ -988,14 +1009,14 @@
       <div class="preview-info">
         <span>📐 3024×4032</span>
         <span>🧬 EXIF Meta</span>
-        <span>💧 Watermark: <span id="previewWatermark">Ganesh Patil</span></span>
+        <span>💧 Watermark: <span id="previewWatermark">ganeshpatil_91i</span></span>
       </div>
     </div>
 
     <!-- Convert Button -->
     <button id="allInOneBtn" class="convert-btn" disabled>⚡ ALL-IN-ONE CONVERT</button>
 
-    <!-- Secondary Actions -->
+    <!-- Secondary actions -->
     <div class="sub-actions">
       <button id="copyBtn" class="btn-secondary-small" disabled>📋 Copy Base64</button>
       <button id="shareInstagramBtn" class="btn-secondary-small" disabled>📲 Instagram</button>
@@ -1005,6 +1026,19 @@
     <button id="shareFriendsBtn" class="share-friends-btn">
       👥 Dost Ko Share Karein
     </button>
+
+    <!-- How to use guide -->
+    <div class="how-to-use">
+      <h3>📝 Kaise Use Karein?</h3>
+      <ol>
+        <li>Photo select karein (Camera ya Gallery se).</li>
+        <li>Watermark text apne naam se change karein (optional).</li>
+        <li>"ALL-IN-ONE CONVERT" par tap karein.</li>
+        <li>Processing complete hone ke baad photo save ya share karein.</li>
+        <li>Base64 copy karke kahin bhi paste kar sakte hain.</li>
+        <li>Instagram par share karne ke liye "Instagram" button dabayein.</li>
+      </ol>
+    </div>
   </div>
 </section>
 
@@ -1027,13 +1061,13 @@
   </div>
   <div class="feature-card">
     <div class="feature-icon">🔒</div>
-    <div class="feature-title">Client-Side Processing</div>
+    <div class="feature-title">100% Client-Side</div>
     <div class="feature-desc">Photo processing aapke device/browser par hoti hai.</div>
   </div>
 </section>
 
 <!-- How It Works -->
-<section id="how" class="timeline">
+<section class="timeline">
   <h2 style="text-align:center; margin-bottom:40px; font-family:var(--font-heading); font-size:28px;">Kaise Kaam Karta Hai?</h2>
   <div class="timeline-step">
     <div class="timeline-num">01</div>
@@ -1064,62 +1098,60 @@
   </div>
 </section>
 
-<!-- Creator Section -->
+<!-- Creator Personalization Section -->
 <section class="creator-section">
-  <h3>Built For Creators</h3>
-  <p>Created with ⚡ by <span id="creatorNameDisplay" class="creator-name">Ganesh Patil</span></p>
-  <button id="editNameBtn" class="edit-name-btn">✏️ Edit Name</button>
-  <button id="resetNameBtn" class="edit-name-btn" style="background: rgba(239,68,68,0.2);">Reset to Ganesh Patil</button>
-  <p style="font-size:12px; color:var(--text-secondary); margin-top:10px;">Naam sirf aapke device par save hota hai.</p>
+  <h2>Built For Creators</h2>
+  <p>Created with ⚡ by <span id="creatorNameDisplay" class="display-name">Ganesh Patil</span></p>
+  <button id="editNameBtn">✏️ Apna Naam Set Karein</button>
 </section>
 
 <!-- Ecosystem Section (Detailed) -->
-<section class="ecosystem-section">
-  <h3>More From My Ecosystem</h3>
-  <div class="eco-card">
-    <div class="eco-icon">🚀</div>
-    <div class="eco-info">
-      <h4>Swipe Jobs India</h4>
-      <p>Jobs, Hiring & Career Opportunities</p>
+<section id="ecosystem" class="converter-section">
+  <div class="glass-card" style="text-align:center;">
+    <h2 style="font-family:var(--font-heading); font-size:24px; margin-bottom:10px;">More From My Ecosystem</h2>
+    <p style="color:var(--text-muted); margin-bottom:20px;">Useful platforms & creator tools — all in one place.</p>
+    <div style="display:grid; gap:12px;">
+      <div class="eco-card">
+        <div class="eco-icon">🚀</div>
+        <h4>Swipe Jobs India</h4>
+        <p>Jobs, Hiring & Career Opportunities</p>
+        <a href="https://swipe-jobs-ten.vercel.app/" target="_blank" rel="noopener noreferrer">Visit Swipe Jobs ↗</a>
+      </div>
+      <div class="eco-card">
+        <div class="eco-icon">🎓</div>
+        <h4>Video Course</h4>
+        <p>Learn Skills, Create & Grow</p>
+        <a href="https://anandsp999.github.io/Video-course/candidate.html" target="_blank" rel="noopener noreferrer">Explore Courses ↗</a>
+      </div>
+      <div class="eco-card">
+        <div class="eco-icon">⚡</div>
+        <h4>Gen-Z Gravity</h4>
+        <p>Freelancing, Projects & Digital Services</p>
+        <a href="https://gen-z-gravity-co.vercel.app/" target="_blank" rel="noopener noreferrer">Explore Gen-Z Gravity ↗</a>
+      </div>
     </div>
-    <a href="https://swipe-jobs-ten.vercel.app/" target="_blank" rel="noopener noreferrer" class="eco-visit">Visit ↗</a>
-  </div>
-  <div class="eco-card">
-    <div class="eco-icon">🎓</div>
-    <div class="eco-info">
-      <h4>Video Course</h4>
-      <p>Learning & Creator Skills</p>
-    </div>
-    <a href="https://anandsp999.github.io/Video-course/candidate.html" target="_blank" rel="noopener noreferrer" class="eco-visit">Visit ↗</a>
-  </div>
-  <div class="eco-card">
-    <div class="eco-icon">⚡</div>
-    <div class="eco-info">
-      <h4>Gen-Z Gravity</h4>
-      <p>Freelancing & Digital Services</p>
-    </div>
-    <a href="https://gen-z-gravity-co.vercel.app/" target="_blank" rel="noopener noreferrer" class="eco-visit">Visit ↗</a>
   </div>
 </section>
 
 <!-- Footer -->
 <footer class="footer">
   <div class="brand">🕶️ META GLASSES PRO</div>
-  <div class="created">Fast • Private • Client-Side</div>
-  <div class="created">Created with ⚡ by <span id="footerCreatorName">Ganesh Patil</span></div>
-  <a href="https://www.instagram.com/ganeshpatil_91i" target="_blank" rel="noopener noreferrer" class="insta">📸 @ganeshpatil_91i</a>
-  <div class="links">
-    <a href="#converter">Converter</a>
-    <a href="#features">Features</a>
-    <a href="#privacy">Privacy</a>
-    <a href="#">Swipe Jobs</a>
-    <a href="#">Video Course</a>
-    <a href="#">Gen-Z Gravity</a>
+  <div class="creator-name">Created with ⚡ by <span id="footerName">Ganesh Patil</span></div>
+  <a href="https://www.instagram.com/ganeshpatil_91i" target="_blank" rel="noopener noreferrer" class="insta-link">📸 @ganeshpatil_91i</a>
+  <div class="eco-links">
+    <a href="https://swipe-jobs-ten.vercel.app/" target="_blank" rel="noopener noreferrer">Swipe Jobs India</a>
+    <a href="https://anandsp999.github.io/Video-course/candidate.html" target="_blank" rel="noopener noreferrer">Video Course</a>
+    <a href="https://gen-z-gravity-co.vercel.app/" target="_blank" rel="noopener noreferrer">Gen-Z Gravity</a>
   </div>
-  <button id="footerEditName" class="edit-name-btn" style="margin-top:15px;">✏️ Edit Name</button>
+  <div>
+    <button id="resetNameBtn" class="edit-link">Reset to Ganesh Patil</button>
+  </div>
+  <div style="margin-top:10px; font-size:12px; color:var(--text-muted);">
+    Fast • Private • Client-Side
+  </div>
 </footer>
 
-<!-- Modal for Name -->
+<!-- Modal for Edit Name -->
 <div class="modal-overlay" id="nameModal">
   <div class="modal">
     <h3>Apna Naam Enter Karein</h3>
@@ -1153,104 +1185,101 @@
   const copyBtn = $('copyBtn');
   const shareInstagramBtn = $('shareInstagramBtn');
   const shareFriendsBtn = $('shareFriendsBtn');
-  const shareHeroBtn = $('shareHeroBtn');
+  const shareFriendsBtnTop = $('shareFriendsBtnTop');
   const watermarkInput = $('watermarkInput');
   const toast = $('toast');
   const scrollProgress = $('scrollProgress');
-  const creatorNameDisplay = $('creatorNameDisplay');
-  const footerCreatorName = $('footerCreatorName');
-  const editNameBtn = $('editNameBtn');
-  const resetNameBtn = $('resetNameBtn');
-  const footerEditName = $('footerEditName');
-  const nameModal = $('nameModal');
-  const nameInput = $('nameInput');
-  const saveNameBtn = $('saveNameBtn');
-  const cancelNameBtn = $('cancelNameBtn');
 
-  // ===== User Name System =====
+  // User Name System
   const DEFAULT_NAME = 'Ganesh Patil';
   const STORAGE_KEY = 'metaGlassesProUserName';
 
-  function getUserName() {
-    let saved = localStorage.getItem(STORAGE_KEY);
-    if (saved && saved.trim()) {
-      return saved.trim().slice(0, 40);
+  // Elements that display user name
+  const creatorNameDisplay = $('creatorNameDisplay');
+  const footerName = $('footerName');
+
+  function getCurrentName() {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved && saved.trim().length > 0 && saved.length <= 40) {
+      return saved.trim();
     }
     return DEFAULT_NAME;
   }
 
-  function updateUserNames() {
-    const name = getUserName();
+  function updateNameDisplay() {
+    const name = getCurrentName();
     creatorNameDisplay.textContent = name;
-    footerCreatorName.textContent = name;
-    watermarkInput.value = name;
-    previewWatermark.textContent = name;
+    footerName.textContent = name;
   }
 
-  function saveUserName(newName) {
-    newName = newName.trim();
-    if (!newName) return;
-    localStorage.setItem(STORAGE_KEY, newName.slice(0, 40));
-    updateUserNames();
-    showToast('Naam save ho gaya ✓');
-    closeModal();
-  }
+  // Modal
+  const nameModal = $('nameModal');
+  const nameInput = $('nameInput');
+  const saveNameBtn = $('saveNameBtn');
+  const cancelNameBtn = $('cancelNameBtn');
+  const editNameBtn = $('editNameBtn');
+  const resetNameBtn = $('resetNameBtn');
 
-  function resetUserName() {
-    localStorage.removeItem(STORAGE_KEY);
-    updateUserNames();
-    showToast('Default naam restore ho gaya ✓');
-  }
-
-  // Modal functions
-  function openModal() {
-    nameInput.value = getUserName();
-    nameModal.classList.add('open');
-    nameInput.focus();
-  }
-  function closeModal() {
-    nameModal.classList.remove('open');
-  }
-
-  // Event listeners for name
-  editNameBtn.addEventListener('click', openModal);
-  footerEditName.addEventListener('click', openModal);
-  resetNameBtn.addEventListener('click', resetUserName);
-  saveNameBtn.addEventListener('click', () => saveUserName(nameInput.value));
-  cancelNameBtn.addEventListener('click', closeModal);
-  nameModal.addEventListener('click', e => {
-    if (e.target === nameModal) closeModal();
+  editNameBtn.addEventListener('click', () => {
+    nameInput.value = getCurrentName();
+    nameModal.classList.add('active');
   });
 
-  // Initial load
-  updateUserNames();
+  cancelNameBtn.addEventListener('click', () => {
+    nameModal.classList.remove('active');
+  });
 
-  // Preloader hide after 1.5s
-  setTimeout(() => preloader.classList.add('hidden'), 1500);
+  saveNameBtn.addEventListener('click', () => {
+    let newName = nameInput.value.trim();
+    if (newName.length === 0) {
+      showToast('Naam khali nahi ho sakta!', 'error');
+      return;
+    }
+    if (newName.length > 40) {
+      newName = newName.slice(0, 40);
+    }
+    // Sanitize: remove HTML tags (optional)
+    newName = newName.replace(/<[^>]*>/g, '');
+    localStorage.setItem(STORAGE_KEY, newName);
+    updateNameDisplay();
+    nameModal.classList.remove('active');
+    showToast('Naam save ho gaya ✓');
+  });
 
-  // ===== Toast =====
-  function showToast(message, type = 'success') {
-    toast.textContent = message;
-    toast.style.background = type === 'error' ? 'rgba(239,68,68,0.9)' : 'rgba(16,185,129,0.9)';
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 3000);
-  }
+  resetNameBtn.addEventListener('click', () => {
+    localStorage.removeItem(STORAGE_KEY);
+    updateNameDisplay();
+    showToast('Default naam restore ho gaya ✓');
+  });
 
-  // ===== Scroll Progress =====
+  // Initialize name display
+  updateNameDisplay();
+
+  // Scroll progress
   window.addEventListener('scroll', () => {
-    const scrollTop = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const progress = (scrollTop / docHeight) * 100;
+    const scrollTop = document.documentElement.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = (scrollTop / scrollHeight) * 100;
     scrollProgress.style.width = progress + '%';
   }, { passive: true });
 
-  // ===== Converter Logic (Preserved) =====
+  // Preloader hide after 1s
+  setTimeout(() => {
+    preloader.classList.add('hidden');
+  }, 1000);
+
+  // Update watermark preview
+  watermarkInput.addEventListener('input', () => {
+    watermarkText = watermarkInput.value || 'ganeshpatil_91i';
+    previewWatermark.textContent = watermarkText;
+  });
+
   // File selection
   cameraBtn.addEventListener('click', () => cameraInput.click());
   galleryBtn.addEventListener('click', () => fileInput.click());
   dropZone.addEventListener('click', () => fileInput.click());
 
-  // Drag and drop
+  // Drag and drop (desktop)
   dropZone.addEventListener('dragover', e => {
     e.preventDefault();
     dropZone.style.borderColor = '#60a5fa';
@@ -1294,11 +1323,19 @@
     reader.readAsDataURL(file);
   }
 
-  // Core conversion functions
+  // Toast helper
+  function showToast(message, type = 'success') {
+    toast.textContent = message;
+    toast.style.background = type === 'error' ? 'rgba(239,68,68,0.9)' : 'rgba(16,185,129,0.9)';
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+  }
+
+  // ===== Core Conversion Functions (Preserved) =====
   let sourceDataUrl = null;
   let finalDataUrl = null;
   let pureBase64 = null;
-  let currentWatermark = watermarkInput.value || DEFAULT_NAME;
+  let watermarkText = watermarkInput.value || 'ganeshpatil_91i';
 
   function readOrientation(dataUrl) {
     try {
@@ -1425,7 +1462,7 @@
 
   async function convertImage() {
     const orientation = readOrientation(sourceDataUrl);
-    const corrected = await drawCorrected(sourceDataUrl, 3024, 4032, orientation, currentWatermark);
+    const corrected = await drawCorrected(sourceDataUrl, 3024, 4032, orientation, watermarkText);
     const exif = buildExif(sourceDataUrl);
     const exifBytes = piexif.dump(exif);
     finalDataUrl = piexif.insert(exifBytes, corrected);
@@ -1433,11 +1470,11 @@
     return { finalDataUrl, pureBase64 };
   }
 
-  // All-in-One Convert
+  // ===== All-in-One Convert =====
   allInOneBtn.addEventListener('click', async () => {
     if (!sourceDataUrl) return;
     allInOneBtn.disabled = true;
-    allInOneBtn.textContent = '⏳ Processing...';
+    allInOneBtn.textContent = '⏳ PROCESSING...';
     showToast('Processing Shuru Ho Rahi Hai...', 'success');
 
     try {
@@ -1446,7 +1483,7 @@
       // Update preview
       preview.src = converted;
       previewTag.textContent = '3024×4032 Ready';
-      previewWatermark.textContent = currentWatermark;
+      previewWatermark.textContent = watermarkText;
 
       // Copy Base64
       let copied = false;
@@ -1490,67 +1527,40 @@
     showToast('Share sheet opened — choose Instagram!', 'success');
   });
 
-  // ===== Share Website =====
+  // Share friends buttons
   async function shareWebsite() {
     const url = window.location.href;
-    const shareData = {
-      title: 'Meta Glasses Pro',
-      text: 'Meta Glasses Pro — Premium Photo Converter. Try it!',
-      url: url
-    };
     if (navigator.share) {
       try {
-        await navigator.share(shareData);
+        await navigator.share({
+          title: 'Meta Glasses Pro',
+          text: 'Meta Glasses Pro — Premium Photo Converter. Try it!',
+          url: url
+        });
       } catch (err) {
-        if (err.name === 'AbortError') return;
         // fallback copy
         await copyText(url);
-        showToast('Link Copy Ho Gaya ✓', 'success');
+        showToast('Link Copy Ho Gaya ✓');
       }
     } else {
       await copyText(url);
-      showToast('Link Copy Ho Gaya ✓', 'success');
+      showToast('Link Copy Ho Gaya ✓');
     }
   }
 
-  shareHeroBtn.addEventListener('click', shareWebsite);
   shareFriendsBtn.addEventListener('click', shareWebsite);
+  shareFriendsBtnTop.addEventListener('click', shareWebsite);
 
-  // ===== Watermark Input update =====
-  watermarkInput.addEventListener('input', () => {
-    currentWatermark = watermarkInput.value || DEFAULT_NAME;
-    previewWatermark.textContent = currentWatermark;
-  });
-
-  // ===== IntersectionObserver for scroll animations =====
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
-      }
-    });
-  }, { threshold: 0.1 });
-
-  // Add class to elements we want to animate
-  document.querySelectorAll('.feature-card, .timeline-step, .eco-card, .privacy-section, .creator-section').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(20px)';
-    el.style.transition = 'opacity 0.6s, transform 0.6s';
-    observer.observe(el);
-  });
-
-  // Prevent modal from closing on inner click
-  nameModal.addEventListener('click', e => {
-    if (e.target === nameModal) closeModal();
-  });
-
-  // Keyboard: ESC closes modal
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && nameModal.classList.contains('open')) {
-      closeModal();
+  // Auto-scroll ecosystem bar
+  const ecoScroll = $('ecoScroll');
+  let ecoIndex = 0;
+  setInterval(() => {
+    const cards = ecoScroll.children;
+    if (cards.length > 0) {
+      ecoIndex = (ecoIndex + 1) % cards.length;
+      cards[ecoIndex].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
     }
-  });
+  }, 3000);
 </script>
 </body>
 </html>
