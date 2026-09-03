@@ -9,19 +9,18 @@
 <meta name="apple-mobile-web-app-title" content="Meta Glasses Pro">
 <title>Meta Glasses Pro – Premium Photo Converter</title>
 <meta name="description" content="Meta Glasses Pro lets you prepare photos with high-resolution output, EXIF metadata and custom watermarking through client-side processing.">
-<meta property="og:title" content="Meta Glasses Pro – Premium Photo Converter">
+<meta property="og:title" content="Meta Glasses Pro">
 <meta property="og:description" content="Apni photo ko Meta Glasses style mein convert karein. 3024×4032, EXIF, watermark – 100% client-side.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://anandsp999.github.io/Meta-Test/">
 <meta property="og:image" content="https://anandsp999.github.io/Meta-Test/icon.png">
-<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕶️</text></svg>">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+Devanagari:wght@400;600&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/piexifjs/1.0.6/piexif.js"></script>
 <style>
   /* ===== CSS Variables ===== */
   :root {
-    --bg: #070a12;
+    --bg: #0a0d16;
     --card-bg: rgba(18, 24, 38, 0.75);
     --card-border: rgba(255, 255, 255, 0.12);
     --accent: #3b82f6;
@@ -31,7 +30,7 @@
     --text-muted: #94a3b8;
     --ok: #10b981;
     --danger: #ef4444;
-    --glass: rgba(15, 20, 32, 0.7);
+    --glass: rgba(15, 20, 32, 0.6);
     --glass-border: rgba(255, 255, 255, 0.15);
     --shadow: 0 10px 40px rgba(0,0,0,0.6);
     --gradient: linear-gradient(135deg, var(--accent), var(--accent2), var(--accent3));
@@ -63,7 +62,7 @@
     background: radial-gradient(circle at 20% 20%, rgba(59,130,246,0.15), transparent 40%),
                 radial-gradient(circle at 80% 80%, rgba(236,72,153,0.15), transparent 40%),
                 radial-gradient(circle at 50% 50%, rgba(139,92,246,0.1), transparent 60%),
-                #070a12;
+                #0a0d16;
   }
   .bg-blobs {
     position: fixed; width: 100%; height: 100%;
@@ -139,7 +138,7 @@
   .nav-logo {
     font-family: var(--font-heading);
     font-weight: 800;
-    font-size: 18px;
+    font-size: 20px;
     color: #fff;
     display: flex;
     align-items: center;
@@ -147,13 +146,13 @@
   }
   .nav-menu {
     display: flex;
-    gap: 14px;
+    gap: 18px;
     align-items: center;
   }
   .nav-menu a {
     color: var(--text-muted);
     text-decoration: none;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
     transition: color 0.2s;
   }
@@ -165,37 +164,31 @@
     color: #fff;
     font-weight: 800;
     text-decoration: none;
-    font-size: 13px;
+    font-size: 14px;
     box-shadow: 0 4px 15px rgba(59,130,246,0.4);
   }
   .nav-cta:active { transform: scale(0.95); }
 
-  /* Scroll progress bar */
-  .scroll-progress {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 3px;
-    background: var(--gradient);
-    z-index: 1001;
-    width: 0%;
-    transition: width 0.1s linear;
-  }
-
-  /* ===== Top Ecosystem Bar ===== */
-  .eco-bar {
-    background: linear-gradient(90deg, rgba(59,130,246,0.1), rgba(236,72,153,0.1));
+  /* ===== Top Ecosystem Section ===== */
+  .ecosystem-top {
+    background: rgba(0,0,0,0.4);
     border-bottom: 1px solid var(--glass-border);
-    padding: 16px 0;
+    padding: 20px 0;
     overflow: hidden;
   }
-  .eco-header {
+  .eco-heading {
     text-align: center;
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 800;
     color: #fff;
-    letter-spacing: 1px;
     margin-bottom: 10px;
+    letter-spacing: 1px;
+  }
+  .eco-sub {
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 14px;
   }
   .eco-scroll {
     display: flex;
@@ -208,39 +201,67 @@
   }
   .eco-scroll::-webkit-scrollbar { display: none; }
   .eco-card {
-    min-width: 220px;
+    min-width: 230px;
     background: var(--glass);
     border: 1px solid var(--glass-border);
-    border-radius: 14px;
-    padding: 14px;
+    border-radius: 16px;
+    padding: 16px;
     scroll-snap-align: center;
     backdrop-filter: blur(10px);
-    transition: transform 0.3s;
+    transition: transform 0.3s, box-shadow 0.3s;
     flex-shrink: 0;
-    text-align: center;
   }
   .eco-card:active { transform: scale(0.97); }
-  .eco-card .eco-icon { font-size: 32px; margin-bottom: 6px; }
-  .eco-card h4 { font-size: 16px; margin-bottom: 4px; color: #fff; }
-  .eco-card p { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; }
+  .eco-card h4 {
+    font-size: 16px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .eco-card p {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
   .eco-card a {
     display: inline-block;
     background: rgba(59,130,246,0.2);
     border: 1px solid rgba(59,130,246,0.4);
     color: #60a5fa;
-    padding: 4px 14px;
+    padding: 6px 16px;
     border-radius: 20px;
     text-decoration: none;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 700;
   }
 
-  /* ===== Hero Section ===== */
+  /* ===== Share Website Button ===== */
+  .share-site-btn {
+    display: block;
+    width: 90%;
+    max-width: 400px;
+    margin: 20px auto;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid var(--glass-border);
+    border-radius: 50px;
+    padding: 14px;
+    text-align: center;
+    color: #fff;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: transform 0.2s;
+  }
+  .share-site-btn:active { transform: scale(0.96); }
+
+  /* ===== Hero ===== */
   .hero {
     padding: 60px 20px 40px;
     text-align: center;
     position: relative;
-    min-height: 80vh;
+    min-height: 70vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -261,7 +282,7 @@
   }
   .hero h1 {
     font-family: var(--font-heading);
-    font-size: 40px;
+    font-size: 44px;
     line-height: 1.2;
     font-weight: 800;
     background: linear-gradient(135deg, #fff, #cbd5e1);
@@ -292,8 +313,6 @@
     cursor: pointer;
     box-shadow: 0 8px 30px rgba(59,130,246,0.5);
     transition: transform 0.2s, box-shadow 0.2s;
-    text-decoration: none;
-    display: inline-block;
   }
   .btn-primary:active { transform: scale(0.96); }
   .btn-secondary {
@@ -306,33 +325,8 @@
     font-size: 16px;
     cursor: pointer;
     backdrop-filter: blur(10px);
-    text-decoration: none;
-    display: inline-block;
   }
   .btn-secondary:active { transform: scale(0.96); }
-  .hero-share {
-    margin-top: 20px;
-  }
-
-  /* Glasses animation */
-  .hero-glasses {
-    width: 200px;
-    height: 150px;
-    margin: 20px auto;
-    position: relative;
-    animation: glassesFloat 6s ease-in-out infinite;
-    transform: rotateX(10deg) rotateY(-10deg);
-    transform-style: preserve-3d;
-  }
-  @keyframes glassesFloat {
-    0%, 100% { transform: translateY(0) rotateX(10deg) rotateY(-10deg); }
-    50% { transform: translateY(-20px) rotateX(5deg) rotateY(10deg); }
-  }
-  .glasses-svg {
-    width: 100%;
-    height: 100%;
-    filter: drop-shadow(0 0 20px rgba(59,130,246,0.5));
-  }
 
   /* ===== Converter Section ===== */
   .converter-section {
@@ -357,7 +351,6 @@
     gap: 6px;
     font-size: 12px;
     font-weight: 700;
-    color: var(--ok);
   }
   .status-badge .dot {
     width: 8px;
@@ -367,16 +360,6 @@
     animation: blink 1s infinite;
   }
   @keyframes blink { 50% { opacity: 0.4; } }
-
-  .glass-card {
-    background: var(--card-bg);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid var(--card-border);
-    border-radius: 24px;
-    box-shadow: var(--shadow);
-    padding: 24px;
-  }
 
   /* Watermark input */
   .watermark-input-group {
@@ -405,7 +388,7 @@
     box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
   }
 
-  /* Upload area */
+  /* Upload Area */
   .upload-area {
     border: 2px dashed rgba(59,130,246,0.5);
     border-radius: 20px;
@@ -438,26 +421,6 @@
     color: var(--text-muted);
     font-size: 14px;
   }
-  .source-buttons {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-  }
-  .btn-source {
-    flex: 1;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid var(--card-border);
-    border-radius: 12px;
-    padding: 12px;
-    color: #e2e8f0;
-    font-weight: 600;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  .btn-source:active {
-    background: rgba(59,130,246,0.2);
-  }
 
   /* Preview */
   .preview-container {
@@ -466,7 +429,7 @@
     border-radius: 20px;
     overflow: hidden;
     background: #000;
-    border: 1px solid var(--card-border);
+    border: 1px solid var(--glass-border);
     margin-bottom: 16px;
   }
   .preview-container.visible {
@@ -509,7 +472,7 @@
     color: #e2e8f0;
   }
 
-  /* Convert button */
+  /* Convert Button */
   .convert-btn {
     width: 100%;
     background: var(--gradient);
@@ -537,12 +500,8 @@
     transition: left 0.5s;
   }
   .convert-btn:hover::before { left: 100%; }
-  .convert-btn:disabled {
-    opacity: 0.5;
-    filter: grayscale(0.5);
-  }
 
-  /* Sub actions */
+  /* Secondary actions */
   .sub-actions {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -551,7 +510,7 @@
   }
   .btn-secondary-small {
     background: rgba(255,255,255,0.1);
-    border: 1px solid var(--card-border);
+    border: 1px solid var(--glass-border);
     border-radius: 12px;
     padding: 14px;
     color: #fff;
@@ -562,47 +521,6 @@
   }
   .btn-secondary-small:active { background: rgba(255,255,255,0.2); }
 
-  /* Share friends button */
-  .share-friends-btn {
-    width: 100%;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 16px;
-    padding: 16px;
-    color: #fff;
-    font-weight: 700;
-    font-size: 16px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    backdrop-filter: blur(10px);
-    margin-bottom: 16px;
-  }
-  .share-friends-btn:active { transform: scale(0.97); }
-
-  /* How to use guide */
-  .how-to-use {
-    margin-top: 24px;
-    padding: 16px;
-    background: rgba(255,255,255,0.05);
-    border-radius: 16px;
-  }
-  .how-to-use h3 {
-    font-size: 16px;
-    font-weight: 800;
-    margin-bottom: 12px;
-  }
-  .how-to-use ol {
-    padding-left: 20px;
-  }
-  .how-to-use li {
-    font-size: 14px;
-    margin-bottom: 8px;
-    color: #e2e8f0;
-  }
-
   /* Toast */
   .toast {
     position: fixed;
@@ -610,7 +528,7 @@
     left: 50%;
     transform: translateX(-50%);
     background: rgba(20,24,40,0.95);
-    border: 1px solid var(--card-border);
+    border: 1px solid var(--glass-border);
     color: #fff;
     padding: 14px 24px;
     border-radius: 50px;
@@ -628,16 +546,16 @@
     transform: translateX(-50%) translateY(-10px);
   }
 
-  /* Feature cards */
+  /* ===== Features Section ===== */
   .features-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 16px;
     margin: 40px 20px;
   }
   .feature-card {
     background: var(--glass);
-    border: 1px solid var(--card-border);
+    border: 1px solid var(--glass-border);
     border-radius: 20px;
     padding: 24px;
     text-align: center;
@@ -662,7 +580,7 @@
     color: var(--text-muted);
   }
 
-  /* Timeline */
+  /* ===== How It Works ===== */
   .timeline {
     max-width: 600px;
     margin: 40px auto;
@@ -708,13 +626,13 @@
     color: var(--text-muted);
   }
 
-  /* Privacy section */
+  /* ===== Privacy ===== */
   .privacy-section {
     text-align: center;
     padding: 50px 20px;
     background: rgba(0,0,0,0.3);
-    border-top: 1px solid var(--card-border);
-    border-bottom: 1px solid var(--card-border);
+    border-top: 1px solid var(--glass-border);
+    border-bottom: 1px solid var(--glass-border);
   }
   .privacy-shield {
     font-size: 60px;
@@ -750,82 +668,191 @@
     letter-spacing: 1px;
   }
 
-  /* Creator Personalization */
+  /* ===== Creator Personalization ===== */
   .creator-section {
     text-align: center;
     padding: 30px 20px;
-    border-bottom: 1px solid var(--card-border);
+    background: rgba(255,255,255,0.03);
+    border-top: 1px solid var(--glass-border);
   }
-  .creator-section h2 {
-    font-size: 24px;
+  .creator-section h3 {
+    font-size: 22px;
     font-weight: 800;
     margin-bottom: 10px;
   }
-  .creator-section .display-name {
+  .creator-section .creator-name {
     font-size: 18px;
     font-weight: 700;
     color: #60a5fa;
+    margin-bottom: 10px;
   }
-  .creator-section button {
-    background: rgba(255,255,255,0.1);
-    border: 1px solid var(--card-border);
+  .creator-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .btn-edit-name {
+    background: rgba(59,130,246,0.2);
+    border: 1px solid rgba(59,130,246,0.4);
+    color: #60a5fa;
+    padding: 8px 18px;
     border-radius: 30px;
-    padding: 10px 20px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .btn-reset-name {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid var(--glass-border);
+    color: #e2e8f0;
+    padding: 8px 18px;
+    border-radius: 30px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  /* ===== Ecosystem Detailed Section ===== */
+  .ecosystem-detail {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+  }
+  .eco-detail-heading {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 20px;
+  }
+  .eco-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+  }
+  .eco-detail-card {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .eco-detail-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+  }
+  .eco-detail-card .icon {
+    font-size: 40px;
+    margin-bottom: 10px;
+  }
+  .eco-detail-card h4 {
+    font-size: 18px;
+    margin-bottom: 6px;
+  }
+  .eco-detail-card p {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+  .eco-detail-card a {
+    display: inline-block;
+    background: var(--gradient);
     color: #fff;
+    padding: 8px 20px;
+    border-radius: 30px;
+    text-decoration: none;
     font-weight: 700;
     font-size: 14px;
-    cursor: pointer;
-    margin-top: 10px;
   }
-  .creator-section button:active { background: rgba(255,255,255,0.2); }
 
-  /* Modal (Edit Name) */
+  /* ===== Footer ===== */
+  .footer {
+    padding: 30px 20px;
+    text-align: center;
+    border-top: 1px solid var(--glass-border);
+    background: rgba(0,0,0,0.4);
+  }
+  .footer .brand {
+    font-family: var(--font-heading);
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+  .footer .tagline {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+  .footer .creator {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .footer .insta-link {
+    color: #60a5fa;
+    text-decoration: none;
+    font-weight: 700;
+  }
+  .footer-links {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+  }
+  .footer-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 13px;
+  }
+  .footer-links a:hover { color: #fff; }
+
+  /* ===== Modal ===== */
   .modal-overlay {
     position: fixed;
-    top:0; left:0; width:100%; height:100%;
-    background: rgba(0,0,0,0.7);
-    z-index: 2000;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
     display: none;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    z-index: 5000;
+    backdrop-filter: blur(5px);
   }
-  .modal-overlay.active {
-    display: flex;
-  }
-  .modal {
+  .modal-overlay.active { display: flex; }
+  .modal-content {
     background: var(--card-bg);
-    border: 1px solid var(--card-border);
+    border: 1px solid var(--glass-border);
     border-radius: 20px;
     padding: 24px;
-    width: 90%;
     max-width: 350px;
-    backdrop-filter: blur(20px);
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
   }
-  .modal h3 {
+  .modal-content h3 {
     font-size: 20px;
     font-weight: 800;
     margin-bottom: 16px;
   }
-  .modal input {
+  .modal-content input {
     width: 100%;
     padding: 12px 16px;
     border-radius: 12px;
-    border: 1px solid var(--card-border);
+    border: 1px solid var(--glass-border);
     background: rgba(0,0,0,0.3);
     color: #fff;
     font-size: 16px;
     margin-bottom: 16px;
+    outline: none;
   }
   .modal-buttons {
     display: flex;
     gap: 10px;
+    justify-content: flex-end;
   }
   .modal-buttons button {
-    flex:1;
-    padding: 12px;
-    border-radius: 12px;
-    border: none;
+    padding: 10px 20px;
+    border-radius: 30px;
     font-weight: 700;
+    border: none;
     cursor: pointer;
   }
   .modal-save {
@@ -837,61 +864,25 @@
     color: #fff;
   }
 
-  /* Footer */
-  .footer {
-    padding: 30px 20px;
-    text-align: center;
-    border-top: 1px solid var(--card-border);
-    background: rgba(0,0,0,0.4);
-  }
-  .footer .brand {
-    font-family: var(--font-heading);
-    font-size: 20px;
-    font-weight: 800;
-    margin-bottom: 10px;
-  }
-  .footer .creator-name {
-    font-size: 16px;
-    font-weight: 700;
-    color: #60a5fa;
-  }
-  .footer .insta-link {
-    color: #60a5fa;
-    text-decoration: none;
-    font-weight: 700;
-  }
-  .footer .eco-links {
-    margin: 20px 0;
-  }
-  .footer .eco-links a {
-    display: inline-block;
-    margin: 4px 8px;
-    color: #94a3b8;
-    text-decoration: none;
-    font-size: 13px;
-  }
-  .footer .edit-link {
-    background: none;
-    border: none;
-    color: #60a5fa;
-    font-weight: 700;
-    cursor: pointer;
-    text-decoration: underline;
-  }
-
-  /* Responsive */
+  /* ===== Responsive ===== */
   @media (max-width: 480px) {
-    .hero h1 { font-size: 32px; }
+    .hero h1 { font-size: 36px; }
     .nav-menu { display: none; }
     .features-grid { grid-template-columns: 1fr 1fr; }
-    .btn-primary, .btn-secondary { padding: 14px 20px; font-size: 14px; }
+    .eco-card { min-width: 200px; }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
   }
 </style>
 </head>
 <body>
-
-<!-- Scroll Progress -->
-<div class="scroll-progress" id="scrollProgress"></div>
 
 <!-- Animated Background -->
 <div class="bg-blobs">
@@ -914,68 +905,50 @@
     <a href="#converter">Converter</a>
     <a href="#features">Features</a>
     <a href="#privacy">Privacy</a>
-    <a href="#ecosystem">Ecosystem</a>
   </div>
   <a href="#converter" class="nav-cta">Convert Photo</a>
 </nav>
 
-<!-- Top Ecosystem Bar -->
-<section class="eco-bar">
-  <div class="eco-header">✨ Explore My Ecosystem ✨</div>
-  <div class="eco-scroll" id="ecoScroll">
+<!-- Top Ecosystem Section -->
+<section class="ecosystem-top">
+  <div class="eco-heading">🌟 Explore My Ecosystem</div>
+  <div class="eco-sub">Useful platforms & creator tools — all in one place.</div>
+  <div class="eco-scroll">
     <div class="eco-card">
-      <div class="eco-icon">🚀</div>
-      <h4>Swipe Jobs India</h4>
+      <h4>🚀 Swipe Jobs India</h4>
       <p>Jobs, Hiring & Career Opportunities</p>
-      <a href="https://swipe-jobs-ten.vercel.app/" target="_blank" rel="noopener noreferrer">Visit ↗</a>
+      <a href="https://swipe-jobs-ten.vercel.app/" target="_blank" rel="noopener noreferrer">Visit Swipe Jobs ↗</a>
     </div>
     <div class="eco-card">
-      <div class="eco-icon">🎓</div>
-      <h4>Video Course</h4>
+      <h4>🎓 Video Course</h4>
       <p>Learn Skills, Create & Grow</p>
-      <a href="https://anandsp999.github.io/Video-course/candidate.html" target="_blank" rel="noopener noreferrer">Explore ↗</a>
+      <a href="https://anandsp999.github.io/Video-course/candidate.html" target="_blank" rel="noopener noreferrer">Explore Courses ↗</a>
     </div>
     <div class="eco-card">
-      <div class="eco-icon">⚡</div>
-      <h4>Gen-Z Gravity</h4>
+      <h4>⚡ Gen-Z Gravity</h4>
       <p>Freelancing, Projects & Digital Services</p>
-      <a href="https://gen-z-gravity-co.vercel.app/" target="_blank" rel="noopener noreferrer">Explore ↗</a>
+      <a href="https://gen-z-gravity-co.vercel.app/" target="_blank" rel="noopener noreferrer">Explore Gen-Z Gravity ↗</a>
     </div>
   </div>
 </section>
+
+<!-- Share Website Button -->
+<button class="share-site-btn" id="shareSiteBtn">🔗 Friend Ko Share Karein</button>
 
 <!-- Hero -->
 <section class="hero">
   <div class="hero-badge">NEXT-GEN PHOTO CONVERTER</div>
   <h1>Apni Photo Ko<br>Meta Glasses Experience Dein.</h1>
   <p>Ek tap mein photo ko 3024×4032 resolution, EXIF metadata aur custom watermark ke saath ready karein.</p>
-  <div class="hero-glasses">
-    <svg class="glasses-svg" viewBox="0 0 200 150">
-      <defs>
-        <linearGradient id="glassGrad" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.8"/>
-          <stop offset="100%" stop-color="#ec4899" stop-opacity="0.8"/>
-        </linearGradient>
-      </defs>
-      <rect x="0" y="30" width="80" height="60" rx="20" fill="url(#glassGrad)" opacity="0.5"/>
-      <rect x="120" y="30" width="80" height="60" rx="20" fill="url(#glassGrad)" opacity="0.5"/>
-      <path d="M80 50 Q100 30 120 50" stroke="#fff" stroke-width="4" fill="none"/>
-      <path d="M0 40 L-20 20" stroke="#fff" stroke-width="4"/>
-      <path d="M200 40 L220 20" stroke="#fff" stroke-width="4"/>
-    </svg>
-  </div>
   <div class="hero-buttons">
     <a href="#converter" class="btn-primary">⚡ Photo Convert Karein</a>
     <a href="#converter" class="btn-secondary">📸 Camera Se Photo Lein</a>
-  </div>
-  <div class="hero-share">
-    <button id="shareFriendsBtnTop" class="btn-secondary">🔗 Friend Ko Share Karein</button>
   </div>
 </section>
 
 <!-- Converter -->
 <section id="converter" class="converter-section">
-  <div class="glass-card">
+  <div class="glass-card" style="background: var(--glass); border:1px solid var(--glass-border); border-radius:24px; padding:24px;">
     <div class="converter-header">
       <h2>PHOTO CONVERTER</h2>
       <div class="status-badge"><span class="dot"></span> READY TO CONVERT</div>
@@ -983,7 +956,7 @@
 
     <!-- Watermark Input -->
     <div class="watermark-input-group">
-      <label class="watermark-label">Watermark Text (Custom Name)</label>
+      <label class="watermark-label">Watermark Text (Apna Naam)</label>
       <input type="text" id="watermarkInput" class="watermark-input" value="ganeshpatil_91i" placeholder="Apna naam likhein">
     </div>
 
@@ -997,9 +970,9 @@
     </div>
 
     <!-- Source buttons (Camera/Gallery) -->
-    <div class="source-buttons">
-      <button id="cameraBtn" class="btn-source">📸 Camera</button>
-      <button id="galleryBtn" class="btn-source">🖼️ Gallery</button>
+    <div style="display:flex; gap:10px; margin-top:16px;">
+      <button id="cameraBtn" class="btn-secondary-small" style="flex:1;">📸 Camera</button>
+      <button id="galleryBtn" class="btn-secondary-small" style="flex:1;">🖼️ Gallery</button>
     </div>
 
     <!-- Preview -->
@@ -1021,23 +994,21 @@
       <button id="copyBtn" class="btn-secondary-small" disabled>📋 Copy Base64</button>
       <button id="shareInstagramBtn" class="btn-secondary-small" disabled>📲 Instagram</button>
     </div>
+  </div>
+</section>
 
-    <!-- Share with Friends -->
-    <button id="shareFriendsBtn" class="share-friends-btn">
-      👥 Dost Ko Share Karein
-    </button>
-
-    <!-- How to use guide -->
-    <div class="how-to-use">
-      <h3>📝 Kaise Use Karein?</h3>
-      <ol>
-        <li>Photo select karein (Camera ya Gallery se).</li>
-        <li>Watermark text apne naam se change karein (optional).</li>
-        <li>"ALL-IN-ONE CONVERT" par tap karein.</li>
-        <li>Processing complete hone ke baad photo save ya share karein.</li>
-        <li>Base64 copy karke kahin bhi paste kar sakte hain.</li>
-        <li>Instagram par share karne ke liye "Instagram" button dabayein.</li>
-      </ol>
+<!-- How to Use (Quick Steps) -->
+<section style="max-width:600px; margin:40px auto; padding:0 20px; text-align:center;">
+  <h2 style="font-size:24px; font-weight:800; margin-bottom:20px;">Kaise Use Karein?</h2>
+  <div style="display:flex; flex-direction:column; gap:12px;">
+    <div style="background:var(--glass); border-radius:16px; padding:14px; border:1px solid var(--glass-border);">
+      <strong>Step 1:</strong> Camera ya Gallery se photo select karein.
+    </div>
+    <div style="background:var(--glass); border-radius:16px; padding:14px; border:1px solid var(--glass-border);">
+      <strong>Step 2:</strong> "ALL-IN-ONE CONVERT" par tap karein.
+    </div>
+    <div style="background:var(--glass); border-radius:16px; padding:14px; border:1px solid var(--glass-border);">
+      <strong>Step 3:</strong> Converted photo ko save karein ya Instagram par share karein.
     </div>
   </div>
 </section>
@@ -1061,7 +1032,7 @@
   </div>
   <div class="feature-card">
     <div class="feature-icon">🔒</div>
-    <div class="feature-title">100% Client-Side</div>
+    <div class="feature-title">Client-Side Processing</div>
     <div class="feature-desc">Photo processing aapke device/browser par hoti hai.</div>
   </div>
 </section>
@@ -1098,37 +1069,38 @@
   </div>
 </section>
 
-<!-- Creator Personalization Section -->
+<!-- Creator Personalization -->
 <section class="creator-section">
-  <h2>Built For Creators</h2>
-  <p>Created with ⚡ by <span id="creatorNameDisplay" class="display-name">Ganesh Patil</span></p>
-  <button id="editNameBtn">✏️ Apna Naam Set Karein</button>
+  <h3>Built For Creators</h3>
+  <p id="creatorLine">Created with ⚡ by <span class="creator-name" id="creatorNameDisplay">Ganesh Patil</span></p>
+  <div class="creator-actions">
+    <button class="btn-edit-name" id="editNameBtn">✏️ Apna Naam Set Karein</button>
+    <button class="btn-reset-name" id="resetNameBtn" style="display:none;">↺ Reset Name</button>
+  </div>
+  <p style="color:var(--text-muted); font-size:12px; margin-top:10px;">Naam sirf aapke device par save hota hai (localStorage).</p>
 </section>
 
-<!-- Ecosystem Section (Detailed) -->
-<section id="ecosystem" class="converter-section">
-  <div class="glass-card" style="text-align:center;">
-    <h2 style="font-family:var(--font-heading); font-size:24px; margin-bottom:10px;">More From My Ecosystem</h2>
-    <p style="color:var(--text-muted); margin-bottom:20px;">Useful platforms & creator tools — all in one place.</p>
-    <div style="display:grid; gap:12px;">
-      <div class="eco-card">
-        <div class="eco-icon">🚀</div>
-        <h4>Swipe Jobs India</h4>
-        <p>Jobs, Hiring & Career Opportunities</p>
-        <a href="https://swipe-jobs-ten.vercel.app/" target="_blank" rel="noopener noreferrer">Visit Swipe Jobs ↗</a>
-      </div>
-      <div class="eco-card">
-        <div class="eco-icon">🎓</div>
-        <h4>Video Course</h4>
-        <p>Learn Skills, Create & Grow</p>
-        <a href="https://anandsp999.github.io/Video-course/candidate.html" target="_blank" rel="noopener noreferrer">Explore Courses ↗</a>
-      </div>
-      <div class="eco-card">
-        <div class="eco-icon">⚡</div>
-        <h4>Gen-Z Gravity</h4>
-        <p>Freelancing, Projects & Digital Services</p>
-        <a href="https://gen-z-gravity-co.vercel.app/" target="_blank" rel="noopener noreferrer">Explore Gen-Z Gravity ↗</a>
-      </div>
+<!-- Detailed Ecosystem -->
+<section class="ecosystem-detail">
+  <h2 class="eco-detail-heading">More From My Ecosystem</h2>
+  <div class="eco-detail-grid">
+    <div class="eco-detail-card">
+      <div class="icon">🚀</div>
+      <h4>Swipe Jobs India</h4>
+      <p>Jobs, Hiring & Career Opportunities</p>
+      <a href="https://swipe-jobs-ten.vercel.app/" target="_blank" rel="noopener noreferrer">Visit ↗</a>
+    </div>
+    <div class="eco-detail-card">
+      <div class="icon">🎓</div>
+      <h4>Video Course</h4>
+      <p>Learning & Creator Skills</p>
+      <a href="https://anandsp999.github.io/Video-course/candidate.html" target="_blank" rel="noopener noreferrer">Visit ↗</a>
+    </div>
+    <div class="eco-detail-card">
+      <div class="icon">⚡</div>
+      <h4>Gen-Z Gravity</h4>
+      <p>Freelancing & Digital Services</p>
+      <a href="https://gen-z-gravity-co.vercel.app/" target="_blank" rel="noopener noreferrer">Visit ↗</a>
     </div>
   </div>
 </section>
@@ -1136,35 +1108,32 @@
 <!-- Footer -->
 <footer class="footer">
   <div class="brand">🕶️ META GLASSES PRO</div>
-  <div class="creator-name">Created with ⚡ by <span id="footerName">Ganesh Patil</span></div>
+  <div class="tagline">Fast • Private • Client-Side</div>
+  <div class="creator">Created with ⚡ by <span id="footerCreatorName">Ganesh Patil</span></div>
   <a href="https://www.instagram.com/ganeshpatil_91i" target="_blank" rel="noopener noreferrer" class="insta-link">📸 @ganeshpatil_91i</a>
-  <div class="eco-links">
-    <a href="https://swipe-jobs-ten.vercel.app/" target="_blank" rel="noopener noreferrer">Swipe Jobs India</a>
-    <a href="https://anandsp999.github.io/Video-course/candidate.html" target="_blank" rel="noopener noreferrer">Video Course</a>
-    <a href="https://gen-z-gravity-co.vercel.app/" target="_blank" rel="noopener noreferrer">Gen-Z Gravity</a>
-  </div>
-  <div>
-    <button id="resetNameBtn" class="edit-link">Reset to Ganesh Patil</button>
-  </div>
-  <div style="margin-top:10px; font-size:12px; color:var(--text-muted);">
-    Fast • Private • Client-Side
+  <div class="footer-links">
+    <a href="#converter">Converter</a>
+    <a href="#features">Features</a>
+    <a href="#privacy">Privacy</a>
+    <a href="#converter">How It Works</a>
+    <a href="#" id="footerEditNameBtn">Edit Name</a>
   </div>
 </footer>
 
-<!-- Modal for Edit Name -->
+<!-- Toast -->
+<div id="toast" class="toast"></div>
+
+<!-- Modal (Name Edit) -->
 <div class="modal-overlay" id="nameModal">
-  <div class="modal">
+  <div class="modal-content">
     <h3>Apna Naam Enter Karein</h3>
     <input type="text" id="nameInput" maxlength="40" placeholder="Your Name">
     <div class="modal-buttons">
-      <button id="saveNameBtn" class="modal-save">Save Name</button>
-      <button id="cancelNameBtn" class="modal-cancel">Cancel</button>
+      <button class="modal-cancel" id="modalCancel">Cancel</button>
+      <button class="modal-save" id="modalSave">Save Name</button>
     </div>
   </div>
 </div>
-
-<!-- Toast -->
-<div id="toast" class="toast"></div>
 
 <script>
   // ===== Elements =====
@@ -1184,102 +1153,134 @@
   const allInOneBtn = $('allInOneBtn');
   const copyBtn = $('copyBtn');
   const shareInstagramBtn = $('shareInstagramBtn');
-  const shareFriendsBtn = $('shareFriendsBtn');
-  const shareFriendsBtnTop = $('shareFriendsBtnTop');
   const watermarkInput = $('watermarkInput');
   const toast = $('toast');
-  const scrollProgress = $('scrollProgress');
-
-  // User Name System
-  const DEFAULT_NAME = 'Ganesh Patil';
-  const STORAGE_KEY = 'metaGlassesProUserName';
-
-  // Elements that display user name
   const creatorNameDisplay = $('creatorNameDisplay');
-  const footerName = $('footerName');
+  const footerCreatorName = $('footerCreatorName');
+  const editNameBtn = $('editNameBtn');
+  const resetNameBtn = $('resetNameBtn');
+  const nameModal = $('nameModal');
+  const nameInput = $('nameInput');
+  const modalSave = $('modalSave');
+  const modalCancel = $('modalCancel');
+  const footerEditNameBtn = $('footerEditNameBtn');
+  const shareSiteBtn = $('shareSiteBtn');
 
-  function getCurrentName() {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved && saved.trim().length > 0 && saved.length <= 40) {
-      return saved.trim();
+  // ===== User Name System =====
+  const DEFAULT_NAME = "Ganesh Patil";
+  const STORAGE_KEY = "metaGlassesProUserName";
+
+  function getUserName() {
+    let saved = null;
+    try { saved = localStorage.getItem(STORAGE_KEY); } catch(e) {}
+    if (saved && saved.trim().length > 0) {
+      return saved.trim().substring(0, 40);
     }
     return DEFAULT_NAME;
   }
 
-  function updateNameDisplay() {
-    const name = getCurrentName();
-    creatorNameDisplay.textContent = name;
-    footerName.textContent = name;
+  function setUserName(name) {
+    if (name && name.trim().length > 0) {
+      try { localStorage.setItem(STORAGE_KEY, name.trim().substring(0, 40)); } catch(e) {}
+    }
+    updateUserNameDisplay();
   }
 
-  // Modal
-  const nameModal = $('nameModal');
-  const nameInput = $('nameInput');
-  const saveNameBtn = $('saveNameBtn');
-  const cancelNameBtn = $('cancelNameBtn');
-  const editNameBtn = $('editNameBtn');
-  const resetNameBtn = $('resetNameBtn');
+  function resetUserName() {
+    try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
+    updateUserNameDisplay();
+  }
 
-  editNameBtn.addEventListener('click', () => {
-    nameInput.value = getCurrentName();
+  function updateUserNameDisplay() {
+    const name = getUserName();
+    creatorNameDisplay.textContent = name;
+    footerCreatorName.textContent = name;
+    // Also update watermark input default? Not automatically, but we can if it's still default.
+    if (watermarkInput.value === DEFAULT_NAME || watermarkInput.value === "ganeshpatil_91i") {
+      watermarkInput.value = name;
+      previewWatermark.textContent = name;
+    }
+    resetNameBtn.style.display = (name === DEFAULT_NAME) ? "none" : "inline-block";
+  }
+
+  // Init
+  updateUserNameDisplay();
+
+  // Modal handlers
+  function openNameModal() {
+    nameInput.value = getUserName();
     nameModal.classList.add('active');
-  });
-
-  cancelNameBtn.addEventListener('click', () => {
+    nameInput.focus();
+  }
+  function closeNameModal() {
     nameModal.classList.remove('active');
-  });
-
-  saveNameBtn.addEventListener('click', () => {
-    let newName = nameInput.value.trim();
+  }
+  editNameBtn.addEventListener('click', openNameModal);
+  footerEditNameBtn.addEventListener('click', openNameModal);
+  modalCancel.addEventListener('click', closeNameModal);
+  modalSave.addEventListener('click', () => {
+    const newName = nameInput.value.trim();
     if (newName.length === 0) {
-      showToast('Naam khali nahi ho sakta!', 'error');
+      showToast("Naam khali nahi ho sakta!", "error");
       return;
     }
-    if (newName.length > 40) {
-      newName = newName.slice(0, 40);
-    }
-    // Sanitize: remove HTML tags (optional)
-    newName = newName.replace(/<[^>]*>/g, '');
-    localStorage.setItem(STORAGE_KEY, newName);
-    updateNameDisplay();
-    nameModal.classList.remove('active');
-    showToast('Naam save ho gaya ✓');
+    setUserName(newName);
+    closeNameModal();
+    showToast("Naam save ho gaya ✓", "success");
   });
-
   resetNameBtn.addEventListener('click', () => {
-    localStorage.removeItem(STORAGE_KEY);
-    updateNameDisplay();
-    showToast('Default naam restore ho gaya ✓');
+    resetUserName();
+    showToast("Default naam restore ho gaya ✓", "success");
+  });
+  // Close modal on overlay click
+  nameModal.addEventListener('click', e => {
+    if (e.target === nameModal) closeNameModal();
   });
 
-  // Initialize name display
-  updateNameDisplay();
+  // ===== Share Website =====
+  shareSiteBtn.addEventListener('click', async () => {
+    const url = window.location.href;
+    const text = "Meta Glasses Pro — Premium Photo Converter. Try it!";
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: "Meta Glasses Pro", text: text, url: url });
+      } catch (err) {
+        if (err.name !== "AbortError") {
+          // fallback copy
+          await copyText(url);
+          showToast("Link Copy Ho Gaya ✓", "success");
+        }
+      }
+    } else {
+      await copyText(url);
+      showToast("Link Copy Ho Gaya ✓", "success");
+    }
+  });
 
-  // Scroll progress
-  window.addEventListener('scroll', () => {
-    const scrollTop = document.documentElement.scrollTop;
-    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const progress = (scrollTop / scrollHeight) * 100;
-    scrollProgress.style.width = progress + '%';
-  }, { passive: true });
-
-  // Preloader hide after 1s
+  // ===== Preloader =====
   setTimeout(() => {
     preloader.classList.add('hidden');
-  }, 1000);
+  }, 1500);
 
-  // Update watermark preview
+  // ===== Toast =====
+  function showToast(message, type = 'success') {
+    toast.textContent = message;
+    toast.style.background = type === 'error' ? 'rgba(239,68,68,0.9)' : 'rgba(16,185,129,0.9)';
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+  }
+
+  // ===== Watermark Input =====
   watermarkInput.addEventListener('input', () => {
-    watermarkText = watermarkInput.value || 'ganeshpatil_91i';
-    previewWatermark.textContent = watermarkText;
+    previewWatermark.textContent = watermarkInput.value || 'ganeshpatil_91i';
   });
 
-  // File selection
+  // ===== File selection =====
   cameraBtn.addEventListener('click', () => cameraInput.click());
   galleryBtn.addEventListener('click', () => fileInput.click());
   dropZone.addEventListener('click', () => fileInput.click());
 
-  // Drag and drop (desktop)
+  // Drag and drop
   dropZone.addEventListener('dragover', e => {
     e.preventDefault();
     dropZone.style.borderColor = '#60a5fa';
@@ -1297,14 +1298,13 @@
   fileInput.addEventListener('change', () => {
     if (fileInput.files?.[0]) handleFile(fileInput.files[0]);
   });
-
   cameraInput.addEventListener('change', () => {
     if (cameraInput.files?.[0]) handleFile(cameraInput.files[0]);
   });
 
   function handleFile(file) {
     if (file.type !== 'image/jpeg' && !/\.jpe?g$/i.test(file.name)) {
-      showToast('Please select a JPG/JPEG image.', 'error');
+      showToast("Please select a JPG/JPEG image.", "error");
       return;
     }
     const reader = new FileReader();
@@ -1318,24 +1318,15 @@
       allInOneBtn.disabled = false;
       copyBtn.disabled = true;
       shareInstagramBtn.disabled = true;
-      showToast('Photo Ready Hai ✓');
+      showToast("Photo Ready Hai ✓", "success");
     };
     reader.readAsDataURL(file);
   }
 
-  // Toast helper
-  function showToast(message, type = 'success') {
-    toast.textContent = message;
-    toast.style.background = type === 'error' ? 'rgba(239,68,68,0.9)' : 'rgba(16,185,129,0.9)';
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 3000);
-  }
-
-  // ===== Core Conversion Functions (Preserved) =====
+  // ===== Conversion Logic (Preserved from Original) =====
   let sourceDataUrl = null;
   let finalDataUrl = null;
   let pureBase64 = null;
-  let watermarkText = watermarkInput.value || 'ganeshpatil_91i';
 
   function readOrientation(dataUrl) {
     try {
@@ -1368,7 +1359,7 @@
         }
         ctx.drawImage(img, 0, 0, targetW, targetH);
 
-        // Draw watermark
+        // Watermark
         if (watermark) {
           ctx.save();
           ctx.globalAlpha = 0.85;
@@ -1462,7 +1453,7 @@
 
   async function convertImage() {
     const orientation = readOrientation(sourceDataUrl);
-    const corrected = await drawCorrected(sourceDataUrl, 3024, 4032, orientation, watermarkText);
+    const corrected = await drawCorrected(sourceDataUrl, 3024, 4032, orientation, watermarkInput.value || 'ganeshpatil_91i');
     const exif = buildExif(sourceDataUrl);
     const exifBytes = piexif.dump(exif);
     finalDataUrl = piexif.insert(exifBytes, corrected);
@@ -1474,7 +1465,7 @@
   allInOneBtn.addEventListener('click', async () => {
     if (!sourceDataUrl) return;
     allInOneBtn.disabled = true;
-    allInOneBtn.textContent = '⏳ PROCESSING...';
+    allInOneBtn.textContent = '⏳ Processing...';
     showToast('Processing Shuru Ho Rahi Hai...', 'success');
 
     try {
@@ -1483,7 +1474,7 @@
       // Update preview
       preview.src = converted;
       previewTag.textContent = '3024×4032 Ready';
-      previewWatermark.textContent = watermarkText;
+      previewWatermark.textContent = watermarkInput.value;
 
       // Copy Base64
       let copied = false;
@@ -1520,45 +1511,20 @@
     }
   });
 
-  // Share to Instagram (explicit)
+  // Share to Instagram
   shareInstagramBtn.addEventListener('click', async () => {
     if (!finalDataUrl) return;
     const result = await shareImage(finalDataUrl, 'meta-glasses-photo.jpg');
     showToast('Share sheet opened — choose Instagram!', 'success');
   });
 
-  // Share friends buttons
-  async function shareWebsite() {
-    const url = window.location.href;
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: 'Meta Glasses Pro',
-          text: 'Meta Glasses Pro — Premium Photo Converter. Try it!',
-          url: url
-        });
-      } catch (err) {
-        // fallback copy
-        await copyText(url);
-        showToast('Link Copy Ho Gaya ✓');
-      }
-    } else {
-      await copyText(url);
-      showToast('Link Copy Ho Gaya ✓');
-    }
-  }
-
-  shareFriendsBtn.addEventListener('click', shareWebsite);
-  shareFriendsBtnTop.addEventListener('click', shareWebsite);
-
-  // Auto-scroll ecosystem bar
-  const ecoScroll = $('ecoScroll');
+  // Auto-scroll ecosystem top cards
+  const ecoScroll = document.querySelector('.eco-scroll');
   let ecoIndex = 0;
   setInterval(() => {
-    const cards = ecoScroll.children;
-    if (cards.length > 0) {
-      ecoIndex = (ecoIndex + 1) % cards.length;
-      cards[ecoIndex].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    if (ecoScroll && ecoScroll.children.length > 0) {
+      ecoIndex = (ecoIndex + 1) % ecoScroll.children.length;
+      ecoScroll.children[ecoIndex].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
     }
   }, 3000);
 </script>
