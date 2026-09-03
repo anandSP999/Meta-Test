@@ -7,18 +7,14 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Meta Glasses Pro">
-<title>Meta Glasses Pro – Premium Photo Converter</title>
-<meta name="description" content="Meta Glasses Pro lets you prepare photos with high-resolution output, EXIF metadata and custom watermarking through client-side processing.">
+<title>Meta Glasses Pro – Premium Photo Converter (iPhone Fix)</title>
+<meta name="description" content="Meta Glasses Pro lets you prepare photos with high-resolution output, EXIF metadata and custom watermarking through client-side processing. iPhone optimized.">
 <meta property="og:title" content="Meta Glasses Pro">
 <meta property="og:description" content="Apni photo ko Meta Glasses style mein convert karein. 3024×4032, EXIF, watermark – 100% client-side.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://anandsp999.github.io/Meta-Test/">
-<meta property="og:image" content="https://anandsp999.github.io/Meta-Test/icon.png">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕶️</text></svg>">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+Devanagari:wght@400;600&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/piexifjs/1.0.6/piexif.js"></script>
 <style>
-  /* ===== CSS Variables ===== */
   :root {
     --bg: #0a0d16;
     --card-bg: rgba(18, 24, 38, 0.75);
@@ -30,14 +26,16 @@
     --text-muted: #94a3b8;
     --ok: #10b981;
     --danger: #ef4444;
-    --glass: rgba(15, 20, 32, 0.7);
+    --glass: rgba(15, 20, 32, 0.6);
     --glass-border: rgba(255, 255, 255, 0.15);
     --shadow: 0 10px 40px rgba(0,0,0,0.6);
     --gradient: linear-gradient(135deg, var(--accent), var(--accent2), var(--accent3));
     --font-main: 'Inter', 'Noto Sans Devanagari', sans-serif;
     --font-heading: 'Space Grotesk', 'Inter', sans-serif;
   }
+
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; user-select: none; }
+
   body {
     font-family: var(--font-main);
     background: var(--bg);
@@ -207,17 +205,21 @@
 </head>
 <body>
 
+<!-- BG -->
 <div class="bg-blobs"><div class="blob blob1"></div><div class="blob blob2"></div><div class="blob blob3"></div></div>
 <div class="bg-animated"></div>
 
+<!-- Preloader -->
 <div id="preloader"><div class="preloader-glasses">🕶️</div><div class="preloader-text">INITIALIZING META GLASSES PRO...</div></div>
 
+<!-- Navigation -->
 <nav class="nav">
   <div class="nav-logo">🕶️ META GLASSES PRO</div>
   <div class="nav-menu"><a href="#converter">Converter</a><a href="#features">Features</a><a href="#privacy">Privacy</a></div>
   <a href="#converter" class="nav-cta">Convert Photo</a>
 </nav>
 
+<!-- Ecosystem Top -->
 <section class="ecosystem-top">
   <div class="eco-heading">🌟 Explore My Ecosystem</div>
   <div class="eco-sub">Useful platforms & creator tools — all in one place.</div>
@@ -240,8 +242,10 @@
   </div>
 </section>
 
+<!-- Share -->
 <button class="share-site-btn" id="shareSiteBtn">🔗 Friend Ko Share Karein</button>
 
+<!-- Hero -->
 <section class="hero">
   <div class="hero-badge">NEXT-GEN PHOTO CONVERTER</div>
   <h1>Apni Photo Ko<br>Meta Glasses Experience Dein.</h1>
@@ -252,6 +256,7 @@
   </div>
 </section>
 
+<!-- Converter -->
 <section id="converter" class="converter-section">
   <div style="background: var(--glass); border:1px solid var(--glass-border); border-radius:24px; padding:24px;">
     <div class="converter-header">
@@ -290,6 +295,7 @@
   </div>
 </section>
 
+<!-- How to Use -->
 <section style="max-width:600px; margin:40px auto; padding:0 20px; text-align:center;">
   <h2 style="font-size:24px; font-weight:800; margin-bottom:20px;">Kaise Use Karein?</h2>
   <div style="display:flex; flex-direction:column; gap:12px;">
@@ -299,6 +305,7 @@
   </div>
 </section>
 
+<!-- Features -->
 <section id="features" class="features-grid">
   <div class="feature-card"><div class="feature-icon">⚡</div><div class="feature-title">One-Tap Conversion</div><div class="feature-desc">Ek simple tap mein photo conversion complete karein.</div></div>
   <div class="feature-card"><div class="feature-icon">📐</div><div class="feature-title">3024 × 4032</div><div class="feature-desc">High-resolution output ke saath photo ready karein.</div></div>
@@ -306,6 +313,7 @@
   <div class="feature-card"><div class="feature-icon">🔒</div><div class="feature-title">Client-Side</div><div class="feature-desc">Photo processing aapke device/browser par hoti hai.</div></div>
 </section>
 
+<!-- How It Works -->
 <section class="timeline">
   <h2 style="text-align:center; margin-bottom:40px; font-family:var(--font-heading); font-size:28px;">Kaise Kaam Karta Hai?</h2>
   <div class="timeline-step"><div class="timeline-num">01</div><h4>Photo Select Karein</h4><p>Camera ya Gallery se photo choose karein.</p></div>
@@ -313,6 +321,7 @@
   <div class="timeline-step"><div class="timeline-num">03</div><h4>Save / Share</h4><p>Ready photo save karein ya share karein.</p></div>
 </section>
 
+<!-- Privacy -->
 <section id="privacy" class="privacy-section">
   <div class="privacy-shield">🔒</div>
   <h2>Privacy Aapki Priority Hai.</h2>
@@ -320,6 +329,7 @@
   <div class="privacy-badges"><span class="privacy-badge">PRIVATE</span><span class="privacy-badge">FAST</span><span class="privacy-badge">CLIENT-SIDE</span></div>
 </section>
 
+<!-- Creator -->
 <section class="creator-section">
   <h3>Built For Creators</h3>
   <p>Created with ⚡ by <span class="creator-name" id="creatorNameDisplay">Ganesh Patil</span></p>
@@ -329,6 +339,7 @@
   </div>
 </section>
 
+<!-- Ecosystem Detail -->
 <section class="ecosystem-detail">
   <h2 class="eco-detail-heading">More From My Ecosystem</h2>
   <div class="eco-detail-grid">
@@ -338,6 +349,7 @@
   </div>
 </section>
 
+<!-- Footer -->
 <footer class="footer">
   <div class="brand">🕶️ META GLASSES PRO</div>
   <div class="tagline">Fast • Private • Client-Side</div>
@@ -345,8 +357,10 @@
   <a href="https://www.instagram.com/ganeshpatil_91i" target="_blank" rel="noopener noreferrer" class="insta-link">📸 @ganeshpatil_91i</a>
 </footer>
 
+<!-- Toast -->
 <div id="toast" class="toast"></div>
 
+<!-- Modal -->
 <div class="modal-overlay" id="nameModal">
   <div class="modal-content">
     <h3>Apna Naam Enter Karein</h3>
@@ -388,7 +402,7 @@
   const shareSiteBtn = $('shareSiteBtn');
   const ecoScroll = $('ecoScroll');
 
-  // ===== User Name System =====
+  // ===== User Name System (localStorage) =====
   const DEFAULT_NAME = "Ganesh Patil";
   const STORAGE_KEY = "metaGlassesProUserName";
 
@@ -488,119 +502,61 @@
     reader.readAsDataURL(file);
   }
 
-  // ===== Robust Conversion with Orientation Handling =====
+  // ===== iPhone Safe Conversion Logic (based on reference code) =====
   let sourceDataUrl = null;
   let finalDataUrl = null;
   let pureBase64 = null;
 
-  // Load image for canvas, handle orientation using createImageBitmap if available
-  async function loadImageForCanvas(dataUrl) {
-    // Try createImageBitmap (iOS 15+ supports EXIF orientation via imageOrientation)
-    if ('createImageBitmap' in window) {
-      try {
-        const blob = await (await fetch(dataUrl)).blob();
-        const bitmap = await createImageBitmap(blob, { imageOrientation: 'from-image' });
-        return { source: bitmap, isBitmap: true };
-      } catch (e) {
-        console.warn('createImageBitmap failed, falling back to Image()', e);
-      }
-    }
-    // Fallback: use Image element
+  // Helper: resize and correct orientation (from the Spanish code)
+  function resizeAndCorrectImage(dataUrl, targetWidth, targetHeight, orientation, watermark) {
     return new Promise((resolve, reject) => {
       const img = new Image();
-      img.onload = () => resolve({ source: img, isBitmap: false });
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Set canvas dimensions based on orientation
+        if (orientation > 4 && orientation < 9) {
+          canvas.width = targetHeight;
+          canvas.height = targetWidth;
+        } else {
+          canvas.width = targetWidth;
+          canvas.height = targetHeight;
+        }
+
+        // Apply orientation transform
+        switch (orientation) {
+          case 2: ctx.transform(-1, 0, 0, 1, targetWidth, 0); break;
+          case 3: ctx.transform(-1, 0, 0, -1, targetWidth, targetHeight); break;
+          case 4: ctx.transform(1, 0, 0, -1, 0, targetHeight); break;
+          case 5: ctx.transform(0, 1, 1, 0, 0, 0); break;
+          case 6: ctx.transform(0, 1, -1, 0, targetHeight, 0); break;
+          case 7: ctx.transform(0, -1, -1, 0, targetHeight, targetWidth); break;
+          case 8: ctx.transform(0, -1, 1, 0, 0, targetWidth); break;
+          default: ctx.transform(1, 0, 0, 1, 0, 0);
+        }
+
+        // Draw image
+        ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
+
+        // Add watermark if provided
+        if (watermark) {
+          // Reset transform for text?
+          ctx.setTransform(1, 0, 0, 1, 0, 0);
+          ctx.globalAlpha = 0.85;
+          ctx.fillStyle = '#ffffff';
+          ctx.shadowColor = 'rgba(0,0,0,0.5)';
+          ctx.shadowBlur = 6;
+          ctx.font = `bold ${Math.min(targetWidth, targetHeight) * 0.06}px Arial`;
+          ctx.textAlign = 'center';
+          ctx.fillText(watermark, targetWidth / 2, targetHeight - 40);
+        }
+
+        resolve(canvas.toDataURL('image/jpeg', 0.95));
+      };
       img.onerror = reject;
       img.src = dataUrl;
     });
-  }
-
-  // Draw image to canvas with correct orientation and target dimensions
-  async function drawCorrected(dataUrl, targetW, targetH, watermark) {
-    const { source: imgSource, isBitmap } = await loadImageForCanvas(dataUrl);
-    // If Image fallback is used, we need to manually handle orientation using EXIF
-    let orientation = 1;
-    if (!isBitmap) {
-      try {
-        const exif = piexif.load(dataUrl);
-        orientation = exif['0th'][piexif.ImageIFD.Orientation] || 1;
-      } catch (e) {
-        console.warn('Could not read EXIF orientation, assuming 1', e);
-      }
-    }
-
-    const canvas = document.createElement('canvas');
-    canvas.width = targetW;
-    canvas.height = targetH;
-    const ctx = canvas.getContext('2d');
-
-    // For bitmap, orientation is already applied, so just draw scaling to target (stretch)
-    if (isBitmap) {
-      ctx.drawImage(imgSource, 0, 0, targetW, targetH);
-    } else {
-      // Manual orientation handling (similar to original code)
-      const img = imgSource;
-      switch (orientation) {
-        case 2: // flip horizontal
-          ctx.setTransform(-1, 0, 0, 1, targetW, 0);
-          break;
-        case 3: // rotate 180
-          ctx.setTransform(-1, 0, 0, -1, targetW, targetH);
-          break;
-        case 4: // flip vertical
-          ctx.setTransform(1, 0, 0, -1, 0, targetH);
-          break;
-        case 5: // flip horizontal + rotate 90 CW
-          ctx.setTransform(0, 1, 1, 0, 0, 0);
-          break;
-        case 6: // rotate 90 CW
-          ctx.setTransform(0, 1, -1, 0, targetH, 0);
-          break;
-        case 7: // flip horizontal + rotate 90 CCW
-          ctx.setTransform(0, -1, -1, 0, targetH, targetW);
-          break;
-        case 8: // rotate 90 CCW
-          ctx.setTransform(0, -1, 1, 0, 0, targetW);
-          break;
-        default: // orientation 1 or unknown
-          ctx.setTransform(1, 0, 0, 1, 0, 0);
-      }
-      // Draw the image with the given transform to fill the canvas
-      ctx.drawImage(img, 0, 0, targetW, targetH);
-      // Reset transform
-      ctx.setTransform(1, 0, 0, 1, 0, 0);
-    }
-
-    // Add watermark (always draw after resetting transform)
-    if (watermark) {
-      ctx.save();
-      ctx.globalAlpha = 0.85;
-      ctx.fillStyle = '#ffffff';
-      ctx.shadowColor = 'rgba(0,0,0,0.5)';
-      ctx.shadowBlur = 6;
-      ctx.font = `bold ${Math.min(targetW, targetH) * 0.06}px Arial`;
-      ctx.textAlign = 'center';
-      ctx.fillText(watermark, targetW / 2, targetH - 40);
-      ctx.restore();
-    }
-
-    // Ensure canvas is not blank (check if any pixel is non-black)
-    try {
-      const imgData = ctx.getImageData(0, 0, targetW, targetH);
-      let hasNonZero = false;
-      for (let i = 0; i < imgData.data.length; i += 4) {
-        if (imgData.data[i] !== 0 || imgData.data[i+1] !== 0 || imgData.data[i+2] !== 0) {
-          hasNonZero = true;
-          break;
-        }
-      }
-      if (!hasNonZero) {
-        throw new Error('Canvas is blank');
-      }
-    } catch (e) {
-      throw new Error('Could not read canvas pixels: ' + e.message);
-    }
-
-    return canvas.toDataURL('image/jpeg', 0.95);
   }
 
   function buildExif(dataUrl) {
@@ -663,10 +619,12 @@
   }
 
   async function convertImage() {
-    const corrected = await drawCorrected(sourceDataUrl, 3024, 4032, watermarkInput.value || 'ganeshpatil_91i');
+    const exifObj = piexif.load(sourceDataUrl);
+    const orientation = exifObj["0th"][piexif.ImageIFD.Orientation] || 1;
+    const correctedDataUrl = await resizeAndCorrectImage(sourceDataUrl, 3024, 4032, orientation, watermarkInput.value || 'ganeshpatil_91i');
     const exif = buildExif(sourceDataUrl);
     const exifBytes = piexif.dump(exif);
-    finalDataUrl = piexif.insert(exifBytes, corrected);
+    finalDataUrl = piexif.insert(exifBytes, correctedDataUrl);
     pureBase64 = finalDataUrl.split(',')[1];
     return { finalDataUrl, pureBase64 };
   }
@@ -690,8 +648,8 @@
       if (result === 'share') showToast('✅ Base64 copied & Share sheet opened (select Instagram to post).', 'success');
       else showToast('✅ Success! Base64 copied & image saved.', 'success');
     } catch (err) {
-      console.error('Conversion error:', err);
-      showToast('Conversion failed: ' + err.message, 'error');
+      console.error(err);
+      showToast('Conversion failed. Try another JPG.', 'error');
     } finally {
       allInOneBtn.disabled = false;
       allInOneBtn.textContent = '⚡ ALL-IN-ONE CONVERT';
@@ -710,7 +668,7 @@
     showToast('Share sheet opened — choose Instagram!', 'success');
   });
 
-  // Auto-scroll ecosystem (fixed to horizontal only)
+  // Auto-scroll ecosystem (Horizontal only, IntersectionObserver)
   let autoScrollInterval = null;
   let ecoIndex = 0;
   let isEcoVisible = false;
