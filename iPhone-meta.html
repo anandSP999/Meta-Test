@@ -220,4 +220,490 @@
 
 <!-- Ecosystem Top -->
 <section class="ecosystem-top">
-  <div class="eco-heading">🌟 E
+  <div class="eco-heading">🌟 Explore My Ecosystem</div>
+  <div class="eco-sub">Useful platforms & creator tools — all in one place.</div>
+  <div class="eco-scroll" id="ecoScroll">
+    <div class="eco-card">
+      <h4>🚀 Swipe Jobs India</h4>
+      <p>Jobs, Hiring & Career Opportunities</p>
+      <a href="https://swipe-jobs-ten.vercel.app/" target="_blank" rel="noopener noreferrer">Visit Swipe Jobs ↗</a>
+    </div>
+    <div class="eco-card">
+      <h4>🎓 Video Course</h4>
+      <p>Learn Skills, Create & Grow</p>
+      <a href="https://anandsp999.github.io/Video-course/candidate.html" target="_blank" rel="noopener noreferrer">Explore Courses ↗</a>
+    </div>
+    <div class="eco-card">
+      <h4>⚡ Gen-Z Gravity</h4>
+      <p>Freelancing, Projects & Digital Services</p>
+      <a href="https://gen-z-gravity-co.vercel.app/" target="_blank" rel="noopener noreferrer">Explore Gen-Z Gravity ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- Share -->
+<button class="share-site-btn" id="shareSiteBtn">🔗 Friend Ko Share Karein</button>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-badge">NEXT-GEN PHOTO CONVERTER</div>
+  <h1>Apni Photo Ko<br>Meta Glasses Experience Dein.</h1>
+  <p>Ek tap mein photo ko 3024×4032 resolution, EXIF metadata aur custom watermark ke saath ready karein.</p>
+  <div class="hero-buttons">
+    <a href="#converter" class="btn-primary">⚡ Photo Convert Karein</a>
+    <a href="#converter" class="btn-secondary">📸 Camera Se Photo Lein</a>
+  </div>
+</section>
+
+<!-- Converter -->
+<section id="converter" class="converter-section">
+  <div style="background: var(--glass); border:1px solid var(--glass-border); border-radius:24px; padding:24px;">
+    <div class="converter-header">
+      <h2>PHOTO CONVERTER</h2>
+      <div class="status-badge"><span class="dot"></span> READY TO CONVERT</div>
+    </div>
+    <div class="watermark-input-group">
+      <label class="watermark-label">Watermark Text (Apna Naam)</label>
+      <input type="text" id="watermarkInput" class="watermark-input" value="ganeshpatil_91i" placeholder="Apna naam likhein">
+    </div>
+    <div class="upload-area" id="dropZone">
+      <div class="upload-icon">📷</div>
+      <div class="upload-title" id="uploadTitle">Photo Select Karein</div>
+      <div class="upload-sub" id="uploadSub">JPG / JPEG supported</div>
+      <input type="file" id="fileInput" accept="image/jpeg,.jpg,.jpeg" hidden>
+      <input type="file" id="cameraInput" accept="image/jpeg,.jpg,.jpeg" capture="environment" hidden>
+    </div>
+    <div style="display:flex; gap:10px; margin-top:16px;">
+      <button id="cameraBtn" class="btn-secondary-small" style="flex:1;">📸 Camera</button>
+      <button id="galleryBtn" class="btn-secondary-small" style="flex:1;">🖼️ Gallery</button>
+    </div>
+    <div id="previewContainer" class="preview-container">
+      <img id="preview" class="preview-img" alt="Preview">
+      <div class="preview-tag" id="previewTag">Source Ready</div>
+      <div class="preview-info">
+        <span>📐 3024×4032</span>
+        <span>🧬 EXIF Meta</span>
+        <span>💧 Watermark: <span id="previewWatermark">ganeshpatil_91i</span></span>
+      </div>
+    </div>
+    <button id="allInOneBtn" class="convert-btn" disabled>⚡ ALL-IN-ONE CONVERT</button>
+    <div class="sub-actions">
+      <button id="copyBtn" class="btn-secondary-small" disabled>📋 Copy Base64</button>
+      <button id="shareInstagramBtn" class="btn-secondary-small" disabled>📲 Instagram</button>
+    </div>
+  </div>
+</section>
+
+<!-- How to Use -->
+<section style="max-width:600px; margin:40px auto; padding:0 20px; text-align:center;">
+  <h2 style="font-size:24px; font-weight:800; margin-bottom:20px;">Kaise Use Karein?</h2>
+  <div style="display:flex; flex-direction:column; gap:12px;">
+    <div style="background:var(--glass); border-radius:16px; padding:14px; border:1px solid var(--glass-border);"><strong>Step 1:</strong> Camera ya Gallery se photo select karein.</div>
+    <div style="background:var(--glass); border-radius:16px; padding:14px; border:1px solid var(--glass-border);"><strong>Step 2:</strong> "ALL-IN-ONE CONVERT" par tap karein.</div>
+    <div style="background:var(--glass); border-radius:16px; padding:14px; border:1px solid var(--glass-border);"><strong>Step 3:</strong> Converted photo ko save karein ya Instagram par share karein.</div>
+  </div>
+</section>
+
+<!-- Features -->
+<section id="features" class="features-grid">
+  <div class="feature-card"><div class="feature-icon">⚡</div><div class="feature-title">One-Tap Conversion</div><div class="feature-desc">Ek simple tap mein photo conversion complete karein.</div></div>
+  <div class="feature-card"><div class="feature-icon">📐</div><div class="feature-title">3024 × 4032</div><div class="feature-desc">High-resolution output ke saath photo ready karein.</div></div>
+  <div class="feature-card"><div class="feature-icon">🧬</div><div class="feature-title">EXIF Injection</div><div class="feature-desc">Required metadata ko photo mein intelligently add karein.</div></div>
+  <div class="feature-card"><div class="feature-icon">🔒</div><div class="feature-title">Client-Side</div><div class="feature-desc">Photo processing aapke device/browser par hoti hai.</div></div>
+</section>
+
+<!-- How It Works -->
+<section class="timeline">
+  <h2 style="text-align:center; margin-bottom:40px; font-family:var(--font-heading); font-size:28px;">Kaise Kaam Karta Hai?</h2>
+  <div class="timeline-step"><div class="timeline-num">01</div><h4>Photo Select Karein</h4><p>Camera ya Gallery se photo choose karein.</p></div>
+  <div class="timeline-step"><div class="timeline-num">02</div><h4>Convert Karein</h4><p>ALL-IN-ONE CONVERT par tap karein.</p></div>
+  <div class="timeline-step"><div class="timeline-num">03</div><h4>Save / Share</h4><p>Ready photo save karein ya share karein.</p></div>
+</section>
+
+<!-- Privacy -->
+<section id="privacy" class="privacy-section">
+  <div class="privacy-shield">🔒</div>
+  <h2>Privacy Aapki Priority Hai.</h2>
+  <p>100% Client-Side Processing. Photo kisi server par upload karne ki zarurat nahi.</p>
+  <div class="privacy-badges"><span class="privacy-badge">PRIVATE</span><span class="privacy-badge">FAST</span><span class="privacy-badge">CLIENT-SIDE</span></div>
+</section>
+
+<!-- Creator -->
+<section class="creator-section">
+  <h3>Built For Creators</h3>
+  <p>Created with ⚡ by <span class="creator-name" id="creatorNameDisplay">Ganesh Patil</span></p>
+  <div class="creator-actions">
+    <button class="btn-edit-name" id="editNameBtn">✏️ Apna Naam Set Karein</button>
+    <button class="btn-reset-name" id="resetNameBtn" style="display:none;">↺ Reset Name</button>
+  </div>
+</section>
+
+<!-- Ecosystem Detail -->
+<section class="ecosystem-detail">
+  <h2 class="eco-detail-heading">More From My Ecosystem</h2>
+  <div class="eco-detail-grid">
+    <div class="eco-detail-card"><div class="icon">🚀</div><h4>Swipe Jobs India</h4><p>Jobs, Hiring & Career Opportunities</p><a href="https://swipe-jobs-ten.vercel.app/" target="_blank" rel="noopener noreferrer">Visit ↗</a></div>
+    <div class="eco-detail-card"><div class="icon">🎓</div><h4>Video Course</h4><p>Learning & Creator Skills</p><a href="https://anandsp999.github.io/Video-course/candidate.html" target="_blank" rel="noopener noreferrer">Visit ↗</a></div>
+    <div class="eco-detail-card"><div class="icon">⚡</div><h4>Gen-Z Gravity</h4><p>Freelancing & Digital Services</p><a href="https://gen-z-gravity-co.vercel.app/" target="_blank" rel="noopener noreferrer">Visit ↗</a></div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="brand">🕶️ META GLASSES PRO</div>
+  <div class="tagline">Fast • Private • Client-Side</div>
+  <div class="creator">Created with ⚡ by <span id="footerCreatorName">Ganesh Patil</span></div>
+  <a href="https://www.instagram.com/ganeshpatil_91i" target="_blank" rel="noopener noreferrer" class="insta-link">📸 @ganeshpatil_91i</a>
+</footer>
+
+<!-- Toast -->
+<div id="toast" class="toast"></div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="nameModal">
+  <div class="modal-content">
+    <h3>Apna Naam Enter Karein</h3>
+    <input type="text" id="nameInput" maxlength="40" placeholder="Your Name">
+    <div class="modal-buttons">
+      <button class="modal-cancel" id="modalCancel">Cancel</button>
+      <button class="modal-save" id="modalSave">Save Name</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const $ = id => document.getElementById(id);
+  const preloader = $('preloader');
+  const dropZone = $('dropZone');
+  const fileInput = $('fileInput');
+  const cameraInput = $('cameraInput');
+  const cameraBtn = $('cameraBtn');
+  const galleryBtn = $('galleryBtn');
+  const previewContainer = $('previewContainer');
+  const preview = $('preview');
+  const previewTag = $('previewTag');
+  const previewWatermark = $('previewWatermark');
+  const uploadTitle = $('uploadTitle');
+  const uploadSub = $('uploadSub');
+  const allInOneBtn = $('allInOneBtn');
+  const copyBtn = $('copyBtn');
+  const shareInstagramBtn = $('shareInstagramBtn');
+  const watermarkInput = $('watermarkInput');
+  const toast = $('toast');
+  const creatorNameDisplay = $('creatorNameDisplay');
+  const footerCreatorName = $('footerCreatorName');
+  const editNameBtn = $('editNameBtn');
+  const resetNameBtn = $('resetNameBtn');
+  const nameModal = $('nameModal');
+  const nameInput = $('nameInput');
+  const modalSave = $('modalSave');
+  const modalCancel = $('modalCancel');
+  const shareSiteBtn = $('shareSiteBtn');
+  const ecoScroll = $('ecoScroll');
+
+  // ===== User Name System (localStorage) =====
+  const DEFAULT_NAME = "Ganesh Patil";
+  const STORAGE_KEY = "metaGlassesProUserName";
+
+  function getUserName() {
+    let saved = null;
+    try { saved = localStorage.getItem(STORAGE_KEY); } catch(e) {}
+    if (saved && saved.trim().length > 0) return saved.trim().substring(0, 40);
+    return DEFAULT_NAME;
+  }
+  function setUserName(name) {
+    if (name && name.trim().length > 0) {
+      try { localStorage.setItem(STORAGE_KEY, name.trim().substring(0, 40)); } catch(e) {}
+    }
+    updateUserNameDisplay();
+  }
+  function resetUserName() {
+    try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
+    updateUserNameDisplay();
+  }
+  function updateUserNameDisplay() {
+    const name = getUserName();
+    creatorNameDisplay.textContent = name;
+    footerCreatorName.textContent = name;
+    if (watermarkInput.value === DEFAULT_NAME || watermarkInput.value === "ganeshpatil_91i") {
+      watermarkInput.value = name;
+      previewWatermark.textContent = name;
+    }
+    resetNameBtn.style.display = (name === DEFAULT_NAME) ? "none" : "inline-block";
+  }
+  updateUserNameDisplay();
+
+  // Modal handlers
+  function openNameModal() { nameInput.value = getUserName(); nameModal.classList.add('active'); nameInput.focus(); }
+  function closeNameModal() { nameModal.classList.remove('active'); }
+  editNameBtn.addEventListener('click', openNameModal);
+  modalCancel.addEventListener('click', closeNameModal);
+  modalSave.addEventListener('click', () => {
+    const newName = nameInput.value.trim();
+    if (newName.length === 0) { showToast("Naam khali nahi ho sakta!", "error"); return; }
+    setUserName(newName);
+    closeNameModal();
+    showToast("Naam save ho gaya ✓", "success");
+  });
+  resetNameBtn.addEventListener('click', () => { resetUserName(); showToast("Default naam restore ho gaya ✓", "success"); });
+  nameModal.addEventListener('click', e => { if (e.target === nameModal) closeNameModal(); });
+
+  // ===== Share Website =====
+  shareSiteBtn.addEventListener('click', async () => {
+    const url = window.location.href;
+    const text = "Meta Glasses Pro — Premium Photo Converter. Try it!";
+    if (navigator.share) {
+      try { await navigator.share({ title: "Meta Glasses Pro", text: text, url: url }); }
+      catch (err) { if (err.name !== "AbortError") { await copyText(url); showToast("Link Copy Ho Gaya ✓", "success"); } }
+    } else { await copyText(url); showToast("Link Copy Ho Gaya ✓", "success"); }
+  });
+
+  // ===== Preloader =====
+  setTimeout(() => preloader.classList.add('hidden'), 1500);
+
+  // ===== Toast =====
+  function showToast(message, type = 'success') {
+    toast.textContent = message;
+    toast.style.background = type === 'error' ? 'rgba(239,68,68,0.9)' : 'rgba(16,185,129,0.9)';
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+  }
+
+  // ===== Watermark =====
+  watermarkInput.addEventListener('input', () => { previewWatermark.textContent = watermarkInput.value || 'ganeshpatil_91i'; });
+
+  // ===== File selection =====
+  cameraBtn.addEventListener('click', () => cameraInput.click());
+  galleryBtn.addEventListener('click', () => fileInput.click());
+  dropZone.addEventListener('click', () => fileInput.click());
+
+  dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.style.borderColor = '#60a5fa'; });
+  dropZone.addEventListener('dragleave', () => dropZone.style.borderColor = '');
+  dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.style.borderColor = ''; const file = e.dataTransfer.files?.[0]; if (file) handleFile(file); });
+  fileInput.addEventListener('change', () => { if (fileInput.files?.[0]) handleFile(fileInput.files[0]); });
+  cameraInput.addEventListener('change', () => { if (cameraInput.files?.[0]) handleFile(cameraInput.files[0]); });
+
+  function handleFile(file) {
+    if (file.type !== 'image/jpeg' && !/\.jpe?g$/i.test(file.name)) { showToast("Please select a JPG/JPEG image.", "error"); return; }
+    const reader = new FileReader();
+    reader.onload = e => {
+      sourceDataUrl = e.target.result;
+      preview.src = sourceDataUrl;
+      previewContainer.classList.add('visible');
+      previewTag.textContent = 'Source Ready';
+      uploadTitle.textContent = file.name || 'Photo Selected';
+      uploadSub.textContent = `${(file.size / 1024).toFixed(1)} KB — Ready to convert`;
+      allInOneBtn.disabled = false;
+      copyBtn.disabled = true;
+      shareInstagramBtn.disabled = true;
+      showToast("Photo Ready Hai ✓", "success");
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // ===== iOS-Safe Image Loading & Conversion Logic =====
+  let sourceDataUrl = null;
+  let finalDataUrl = null;
+  let pureBase64 = null;
+
+  // iOS/WebKit safe image loader using createImageBitmap if available
+  async function loadImageForCanvas(dataUrl) {
+    try {
+      if ('createImageBitmap' in window) {
+        const blob = await (await fetch(dataUrl)).blob();
+        const bitmap = await createImageBitmap(blob, { imageOrientation: 'from-image' });
+        return bitmap;
+      }
+    } catch (e) { console.warn('createImageBitmap failed, falling back to Image()', e); }
+    // Fallback
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = reject;
+      img.src = dataUrl;
+    });
+  }
+
+  async function drawCorrected(dataUrl, targetW, targetH, watermark) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const img = await loadImageForCanvas(dataUrl);
+        const canvas = document.createElement('canvas');
+        canvas.width = targetW;
+        canvas.height = targetH;
+        const ctx = canvas.getContext('2d');
+
+        // If createImageBitmap used, EXIF is already applied, so we just draw to target dimensions
+        // If fallback Image is used, we check orientation manually (iOS handles EXIF differently)
+        let sx = 0, sy = 0, sw = img.width, sh = img.height;
+        // Cover logic to fill 3024x4032
+        const scale = Math.max(targetW / img.width, targetH / img.height);
+        const nw = img.width * scale;
+        const nh = img.height * scale;
+        sx = (nw - targetW) / 2;
+        sy = (nh - targetH) / 2;
+        ctx.drawImage(img, sx, sy, nw, nh, 0, 0, targetW, targetH);
+
+        if (watermark) {
+          ctx.save();
+          ctx.globalAlpha = 0.85;
+          ctx.fillStyle = '#ffffff';
+          ctx.shadowColor = 'rgba(0,0,0,0.5)';
+          ctx.shadowBlur = 6;
+          ctx.font = `bold ${Math.min(targetW, targetH) * 0.06}px Arial`;
+          ctx.textAlign = 'center';
+          ctx.fillText(watermark, targetW / 2, targetH - 40);
+          ctx.restore();
+        }
+
+        resolve(canvas.toDataURL('image/jpeg', 0.95));
+      } catch (err) {
+        reject(err);
+      }
+    });
+  }
+
+  function buildExif(dataUrl) {
+    let exif;
+    try { exif = piexif.load(dataUrl); } catch (e) { exif = { '0th': {}, 'Exif': {}, 'GPS': {}, '1st': {}, 'thumbnail': null }; }
+    exif['GPS'] = {};
+    delete exif['0th'][piexif.ImageIFD.Software];
+    delete exif['0th'][piexif.ImageIFD.HostComputer];
+    delete exif['Exif'][piexif.ExifIFD.MakerNote];
+    delete exif['Exif'][piexif.ExifIFD.LensMake];
+    delete exif['Exif'][piexif.ExifIFD.LensModel];
+    delete exif['Exif'][piexif.ExifIFD.LensSpecification];
+    exif['0th'][piexif.ImageIFD.Make] = 'Meta AI';
+    exif['0th'][piexif.ImageIFD.Model] = 'Ray-Ban Meta Smart Glasses 2';
+    exif['0th'][piexif.ImageIFD.Orientation] = 1;
+    exif['Exif'][piexif.ExifIFD.ColorSpace] = 1;
+    exif['Exif'][piexif.ExifIFD.PixelXDimension] = 3024;
+    exif['Exif'][piexif.ExifIFD.PixelYDimension] = 4032;
+    return exif;
+  }
+
+  function dataUrlToBlob(dataUrl) {
+    const arr = dataUrl.split(',');
+    const mime = arr[0].match(/:(.*?);/)[1] || 'image/jpeg';
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) u8arr[n] = bstr.charCodeAt(n);
+    return new Blob([u8arr], { type: mime });
+  }
+
+  async function copyText(text) {
+    if (navigator.clipboard?.writeText) return await navigator.clipboard.writeText(text);
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    const ok = document.execCommand('copy');
+    ta.remove();
+    return ok;
+  }
+
+  async function shareImage(dataUrl, filename) {
+    const blob = dataUrlToBlob(dataUrl);
+    const file = new File([blob], filename, { type: 'image/jpeg' });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      try {
+        await navigator.share({ files: [file], title: 'Meta Glasses Pro Photo', text: 'Photo converted with Meta Glasses Pro' });
+        return 'share';
+      } catch (err) { if (err.name === 'AbortError') return 'cancelled'; }
+    }
+    const blobUrl = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = blobUrl;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => { URL.revokeObjectURL(blobUrl); a.remove(); }, 4000);
+    return 'download';
+  }
+
+  async function convertImage() {
+    // Note: drawCorrected now handles EXIF orientation natively via createImageBitmap
+    const corrected = await drawCorrected(sourceDataUrl, 3024, 4032, watermarkInput.value || 'ganeshpatil_91i');
+    const exif = buildExif(sourceDataUrl);
+    const exifBytes = piexif.dump(exif);
+    finalDataUrl = piexif.insert(exifBytes, corrected);
+    pureBase64 = finalDataUrl.split(',')[1];
+    return { finalDataUrl, pureBase64 };
+  }
+
+  // All-in-One Convert
+  allInOneBtn.addEventListener('click', async () => {
+    if (!sourceDataUrl) return;
+    allInOneBtn.disabled = true;
+    allInOneBtn.textContent = '⏳ Processing...';
+    showToast('Processing Shuru Ho Rahi Hai...', 'success');
+    try {
+      const { finalDataUrl: converted, pureBase64: base64 } = await convertImage();
+      preview.src = converted;
+      previewTag.textContent = '3024×4032 Ready';
+      previewWatermark.textContent = watermarkInput.value;
+      let copied = false;
+      try { await copyText(base64); copied = true; } catch (e) { console.warn(e); }
+      const result = await shareImage(converted, 'meta-glasses-photo.jpg');
+      copyBtn.disabled = false;
+      shareInstagramBtn.disabled = false;
+      if (result === 'share') showToast('✅ Base64 copied & Share sheet opened (select Instagram to post).', 'success');
+      else showToast('✅ Success! Base64 copied & image saved.', 'success');
+    } catch (err) {
+      console.error(err);
+      showToast('Conversion failed. Try another JPG.', 'error');
+    } finally {
+      allInOneBtn.disabled = false;
+      allInOneBtn.textContent = '⚡ ALL-IN-ONE CONVERT';
+    }
+  });
+
+  copyBtn.addEventListener('click', async () => {
+    if (!pureBase64) return;
+    try { await copyText(pureBase64); showToast('Base64 copied to clipboard!', 'success'); }
+    catch (e) { showToast('Clipboard restricted by browser.', 'error'); }
+  });
+
+  shareInstagramBtn.addEventListener('click', async () => {
+    if (!finalDataUrl) return;
+    await shareImage(finalDataUrl, 'meta-glasses-photo.jpg');
+    showToast('Share sheet opened — choose Instagram!', 'success');
+  });
+
+  // Auto-scroll ecosystem (Horizontal only, IntersectionObserver)
+  let autoScrollInterval = null;
+  let ecoIndex = 0;
+  let isEcoVisible = false;
+  let lastInteraction = 0;
+
+  function startAutoScroll() {
+    if (autoScrollInterval) clearInterval(autoScrollInterval);
+    autoScrollInterval = setInterval(() => {
+      if (!isEcoVisible || (Date.now() - lastInteraction < 5000)) return;
+      const cards = ecoScroll.children;
+      if (cards.length === 0) return;
+      ecoIndex = (ecoIndex + 1) % cards.length;
+      const target = cards[ecoIndex];
+      const left = target.offsetLeft - ecoScroll.offsetLeft;
+      ecoScroll.scrollTo({ left: left, behavior: 'smooth' });
+    }, 3000);
+  }
+  function stopAutoScroll() { if (autoScrollInterval) { clearInterval(autoScrollInterval); autoScrollInterval = null; } }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      isEcoVisible = entry.isIntersecting;
+      if (isEcoVisible) startAutoScroll(); else stopAutoScroll();
+    });
+  }, { threshold: 0.2 });
+  observer.observe(ecoScroll);
+
+  ['touchstart', 'mousedown', 'wheel', 'scroll'].forEach(event => {
+    ecoScroll.addEventListener(event, () => { lastInteraction = Date.now(); }, { passive: true });
+  });
+
+  startAutoScroll();
+</script>
+</body>
+</html>
