@@ -3,125 +3,170 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#070a12">
+<meta name="theme-color" content="#05070d">
 <title>Meta Glasses Converter + Promotions</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/piexifjs/1.0.6/piexif.js"></script>
 <style>
 :root {
-  --bg: #070a12;
-  --card: rgba(18,24,38,0.92);
-  --border: rgba(255,255,255,0.1);
+  --bg: #05070d;
+  --glass: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.15);
   --accent: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
   --text: #f8fafc;
   --muted: #94a3b8;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; user-select: none; }
+
+/* Animated Background (iOS style moving orbs) */
 body {
   background: var(--bg);
-  background-image: radial-gradient(circle at 10% 10%, rgba(59,130,246,0.2), transparent 40%),
-                    radial-gradient(circle at 90% 90%, rgba(236,72,153,0.15), transparent 45%);
   color: var(--text);
   font-family: 'Plus Jakarta Sans', sans-serif;
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 16px 14px 60px;
+  padding: 20px 14px 60px;
+  overflow-x: hidden;
 }
-.container { max-width: 480px; width: 100%; display: flex; flex-direction: column; gap: 14px; }
+body::before, body::after {
+  content: '';
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(100px);
+  z-index: -1;
+  animation: float 12s infinite alternate ease-in-out;
+}
+body::before {
+  width: 60vw; height: 60vw;
+  background: #3b82f6;
+  top: -20%; left: -20%;
+  opacity: 0.5;
+}
+body::after {
+  width: 50vw; height: 50vw;
+  background: #ec4899;
+  bottom: -20%; right: -20%;
+  opacity: 0.5;
+  animation-delay: -6s;
+}
+@keyframes float {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(20%, 25%) scale(1.2); }
+}
+
+.container { max-width: 480px; width: 100%; display: flex; flex-direction: column; gap: 16px; }
 
 /* Preloader */
 #preloader {
   position: fixed; top:0; left:0; width:100%; height:100%;
-  background: #070a12; display:flex; flex-direction:column;
-  align-items:center; justify-content:center; z-index: 9999;
-  transition: opacity 0.4s;
+  background: rgba(5,7,13,0.9);
+  backdrop-filter: blur(20px);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; z-index: 9999;
+  transition: opacity 0.5s;
 }
 #preloader.hidden { opacity:0; pointer-events:none; }
-.loader-icon { font-size: 70px; animation: pulse 1.5s infinite; }
+.loader-icon { font-size: 80px; animation: pulse 1.5s infinite; filter: drop-shadow(0 0 20px rgba(59,130,246,0.6)); }
 @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.1); } }
-.loader-text { margin-top: 20px; font-weight: 800; font-size: 22px; background: linear-gradient(90deg, #60a5fa, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.loader-text { margin-top: 20px; font-weight: 800; font-size: 24px; letter-spacing: 1px; background: linear-gradient(90deg, #60a5fa, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
 /* Header */
-.header { text-align: center; }
-.badge { display:inline-flex; gap:6px; background: rgba(59,130,246,0.2); color:#60a5fa; border:1px solid rgba(59,130,246,0.4); padding:6px 14px; border-radius:99px; font-size:12px; font-weight:700; margin-bottom:8px; }
-h1 { font-size:26px; font-weight:800; background: linear-gradient(135deg,#fff,#cbd5e1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.header { text-align: center; padding: 10px 0; }
+.badge { display:inline-flex; gap:8px; background: rgba(255,255,255,0.1); backdrop-filter: blur(15px); color:#60a5fa; border:1px solid var(--glass-border); padding:8px 16px; border-radius:99px; font-size:12px; font-weight:700; margin-bottom:12px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+h1 { font-size:28px; font-weight:800; letter-spacing: -0.5px; background: linear-gradient(135deg,#fff,#cbd5e1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 .sub { color: var(--muted); font-size:13px; margin-top:6px; }
 
-/* Card */
-.card { background: var(--card); backdrop-filter: blur(20px); border:1px solid var(--border); border-radius:26px; padding:20px 16px; box-shadow:0 10px 40px rgba(0,0,0,0.6); display:flex; flex-direction:column; gap:16px; }
+/* Universal Glass Card */
+.card, .promo-section {
+  background: var(--glass);
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  border: 1px solid var(--glass-border);
+  border-radius: 28px;
+  padding: 20px 16px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+  display: flex; flex-direction: column; gap: 16px;
+}
+
+/* Promotion Section (Moved to TOP) */
+.promo-section { padding: 16px 0; margin-top: 0; }
+.promo-title { font-size: 14px; font-weight: 800; margin-bottom: 12px; color: #f8fafc; text-align: center; letter-spacing: 0.5px; opacity: 0.9; }
+.promo-scroll { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 0 16px 5px; scrollbar-width: none; }
+.promo-scroll::-webkit-scrollbar { display: none; }
+.promo-card {
+  min-width: 220px; background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px; padding: 16px; scroll-snap-align: center;
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+.promo-card:active { transform: scale(0.96); }
+.promo-card h4 { font-size: 15px; margin-bottom: 4px; color: #fff; }
+.promo-card p { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+.promo-card a {
+  display:inline-block; background: var(--accent); color:#fff;
+  padding: 8px 16px; border-radius: 12px; text-decoration: none; font-size: 12px; font-weight: 700;
+  box-shadow: 0 4px 15px rgba(59,130,246,0.3);
+}
 
 /* Source buttons */
-.source-selector { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-.source-btn { background:rgba(255,255,255,0.06); border:1px solid var(--border); border-radius:16px; padding:14px; text-align:center; cursor:pointer; font-weight:600; color:#e2e8f0; }
-.source-btn:active { background:rgba(59,130,246,0.2); transform:scale(0.97); }
-.source-btn .icon { font-size:24px; display:block; margin-bottom:4px; }
+.source-selector { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.source-btn { background: rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:18px; padding:16px; text-align:center; cursor:pointer; font-weight:600; color:#e2e8f0; backdrop-filter: blur(10px); transition: all 0.2s; }
+.source-btn:active { background: rgba(59,130,246,0.2); transform: scale(0.97); }
+.source-btn .icon { font-size:28px; display:block; margin-bottom:6px; }
 
 /* Dropzone */
-.drop { border:2px dashed rgba(59,130,246,0.4); background:rgba(11,17,33,0.6); border-radius:20px; padding:24px; text-align:center; cursor:pointer; }
-.drop .emoji { font-size:36px; display:block; margin-bottom:8px; }
-.drop .main { font-weight:700; font-size:16px; }
+.drop { border:2px dashed rgba(255,255,255,0.2); background: rgba(0,0,0,0.2); border-radius:24px; padding:28px; text-align:center; cursor:pointer; transition: all 0.3s; }
+.drop:active { border-color:#60a5fa; background: rgba(59,130,246,0.1); }
+.drop .emoji { font-size:44px; display:block; margin-bottom:10px; filter: drop-shadow(0 0 10px rgba(59,130,246,0.5)); }
+.drop .main { font-weight:700; font-size:16px; color:#f1f5f9; }
 .drop .sub { font-size:12px; color:var(--muted); }
 input[type="file"] { display:none; }
 
 /* Preview */
-.preview-container { display:none; position:relative; border-radius:18px; overflow:hidden; background:#040812; border:1px solid var(--border); }
+.preview-container { display:none; position:relative; border-radius:20px; overflow:hidden; background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.1); }
 .preview { width:100%; max-height:320px; object-fit:contain; display:block; user-select:auto; -webkit-user-select:auto; }
-.preview-tag { position:absolute; top:10px; right:10px; background:rgba(0,0,0,0.7); color:#60a5fa; font-size:12px; padding:4px 10px; border-radius:99px; border:1px solid rgba(255,255,255,0.2); }
-.preview-hint { position:absolute; bottom:8px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.8); color:#e2e8f0; font-size:11px; padding:4px 12px; border-radius:99px; }
+.preview-tag { position:absolute; top:10px; right:10px; background:rgba(0,0,0,0.6); backdrop-filter: blur(10px); color:#60a5fa; font-size:12px; padding:6px 12px; border-radius:99px; border:1px solid rgba(255,255,255,0.2); }
+.preview-hint { position:absolute; bottom:10px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.7); color:#e2e8f0; font-size:11px; padding:5px 14px; border-radius:99px; }
 
 /* Buttons */
-.btn-all-in-one { background: var(--accent); border:none; border-radius:16px; padding:17px; color:#fff; font-size:16px; font-weight:800; cursor:pointer; box-shadow:0 8px 30px rgba(59,130,246,0.4); display:flex; justify-content:center; align-items:center; gap:8px; width:100%; transition: transform 0.15s; }
-.btn-all-in-one:active { transform:scale(0.98); }
+.btn-all-in-one { background: var(--accent); border:none; border-radius:18px; padding:18px; color:#fff; font-size:16px; font-weight:800; cursor:pointer; box-shadow:0 10px 30px rgba(139,92,246,0.4); display:flex; justify-content:center; align-items:center; gap:8px; width:100%; transition: all 0.2s; }
+.btn-all-in-one:active { transform: scale(0.98); }
 .btn-all-in-one:disabled { opacity:0.5; }
-.sub-actions { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-.btn-secondary { background:rgba(255,255,255,0.07); border:1px solid var(--border); border-radius:14px; padding:14px; font-weight:700; color:#e2e8f0; cursor:pointer; }
+.sub-actions { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.btn-secondary { background: rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:15px; font-weight:700; color:#e2e8f0; cursor:pointer; backdrop-filter: blur(10px); transition: all 0.2s; }
+.btn-secondary:active:not(:disabled) { background: rgba(255,255,255,0.15); transform: scale(0.96); }
 .btn-secondary:disabled { opacity:0.4; }
 
 /* Status */
-.status { display:none; padding:14px; border-radius:16px; font-size:14px; font-weight:600; align-items:center; gap:10px; animation:slideUp 0.3s; }
-.status.success { background:rgba(16,185,129,0.15); color:#34d399; border:1px solid rgba(16,185,129,0.3); }
-.status.error { background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3); }
-.status.loading { background:rgba(59,130,246,0.15); color:#60a5fa; border:1px solid rgba(59,130,246,0.3); }
+.status { display:none; padding:15px; border-radius:18px; font-size:14px; font-weight:600; align-items:center; gap:10px; animation:slideUp 0.3s; }
+.status.success { background: rgba(16,185,129,0.15); backdrop-filter: blur(10px); color:#34d399; border:1px solid rgba(16,185,129,0.3); }
+.status.error { background: rgba(239,68,68,0.15); backdrop-filter: blur(10px); color:#f87171; border:1px solid rgba(239,68,68,0.3); }
+.status.loading { background: rgba(59,130,246,0.15); backdrop-filter: blur(10px); color:#60a5fa; border:1px solid rgba(59,130,246,0.3); }
 .spinner { border:2px solid currentColor; border-top-color:transparent; border-radius:50%; width:18px; height:18px; animation:spin 0.7s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 @keyframes slideUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
 
 /* Specs */
 .spec-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
-.spec-pill { background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:10px; }
+.spec-pill { background: rgba(0,0,0,0.3); backdrop-filter: blur(5px); border:1px solid rgba(255,255,255,0.05); border-radius:14px; padding:12px; }
 .spec-pill .label { color:var(--muted); font-size:11px; }
 .spec-pill .value { color:#f1f5f9; font-size:13px; font-weight:700; }
 
 /* Live Ticker */
 .ticker {
-  position: fixed; bottom: 12px; left: 12px; width: 230px; height: 40px;
-  background: rgba(0,0,0,0.8); border:1px solid rgba(59,130,246,0.4); border-radius:10px;
+  position: fixed; bottom: 16px; left: 16px; width: 240px; height: 44px;
+  background: rgba(20,20,30,0.8); backdrop-filter: blur(20px);
+  border:1px solid rgba(255,255,255,0.15); border-radius:14px;
   display:flex; align-items:center; overflow:hidden; z-index: 1000;
-  box-shadow:0 4px 12px rgba(0,0,0,0.5);
+  box-shadow:0 8px 32px rgba(0,0,0,0.5);
 }
-.ticker-content { white-space: nowrap; animation: scrollTicker 12s linear infinite; font-size:11px; color:#60a5fa; font-weight:600; padding-left:10px; }
+.ticker-content { white-space: nowrap; animation: scrollTicker 12s linear infinite; font-size:12px; color:#60a5fa; font-weight:600; padding-left:10px; }
 @keyframes scrollTicker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
-/* Promotion Section */
-.promo-section { background:var(--card); border-radius:16px; padding:14px; margin-top:10px; }
-.promo-title { font-size:14px; font-weight:800; margin-bottom:10px; color:#f8fafc; text-align:center; }
-.promo-scroll { display:flex; gap:12px; overflow-x:auto; scroll-snap-type:x mandatory; }
-.promo-card {
-  min-width: 200px; background:rgba(255,255,255,0.05); border-radius:12px; padding:16px;
-  scroll-snap-align:center; border:1px solid var(--border);
-}
-.promo-card h4 { font-size:15px; margin-bottom:6px; }
-.promo-card p { font-size:12px; color:var(--muted); margin-bottom:10px; }
-.promo-card a {
-  display:inline-block; background:rgba(59,130,246,0.3); color:#60a5fa;
-  padding:6px 14px; border-radius:20px; text-decoration:none; font-size:12px; font-weight:700;
-}
-.promo-card a:active { background:rgba(59,130,246,0.5); }
-
-/* Footer note */
-.footer-note { text-align:center; font-size:11px; color:var(--muted); padding:6px; }
+.footer-note { text-align:center; font-size:11px; color:var(--muted); padding:6px; opacity:0.8; }
 </style>
 </head>
 <body>
@@ -140,7 +185,29 @@ input[type="file"] { display:none; }
     <p class="sub">1-Tap 3024×4032 | EXIF Injection | Meta Icon Overlay</p>
   </header>
 
-  <!-- Main Card -->
+  <!-- PROMOTION SECTION (MOVED TO TOP) -->
+  <div class="promo-section">
+    <div class="promo-title">🌟 Promote Your Websites 🌟</div>
+    <div class="promo-scroll" id="promoScroll">
+      <div class="promo-card">
+        <h4>💼 Swipe Jobs India</h4>
+        <p>Job apply & hiring platform</p>
+        <a href="https://swipe-jobs-ten.vercel.app/" target="_blank" rel="noopener noreferrer">Visit</a>
+      </div>
+      <div class="promo-card">
+        <h4>🎓 Video Course</h4>
+        <p>Free & paid courses</p>
+        <a href="https://anandsp999.github.io/Video-course/candidate.html" target="_blank" rel="noopener noreferrer">Visit</a>
+      </div>
+      <div class="promo-card">
+        <h4>🚀 Gen Z Gravity</h4>
+        <p>Freelancing, projects & hiring</p>
+        <a href="https://gen-z-gravity-co.vercel.app/" target="_blank" rel="noopener noreferrer">Visit</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Card (Converter) -->
   <main class="card">
     <div class="source-selector">
       <button class="source-btn" id="cameraBtn"><span class="icon">📷</span>Take Photo</button>
@@ -178,28 +245,6 @@ input[type="file"] { display:none; }
       <div class="spec-pill"><div class="label">EXIF</div><div class="value">Meta AI / Ray-Ban 2</div></div>
     </div>
   </main>
-
-  <!-- Promotion Section (auto-scroll) -->
-  <div class="promo-section">
-    <div class="promo-title">🌟 Promote Your Websites 🌟</div>
-    <div class="promo-scroll" id="promoScroll">
-      <div class="promo-card">
-        <h4>💼 Swipe Jobs India</h4>
-        <p>Job apply & hiring platform</p>
-        <a href="https://swipe-jobs-ten.vercel.app/" target="_blank" rel="noopener noreferrer">Visit</a>
-      </div>
-      <div class="promo-card">
-        <h4>🎓 Video Course</h4>
-        <p>Free & paid courses</p>
-        <a href="https://anandsp999.github.io/Video-course/candidate.html" target="_blank" rel="noopener noreferrer">Visit</a>
-      </div>
-      <div class="promo-card">
-        <h4>🚀 Gen Z Gravity</h4>
-        <p>Freelancing, projects & hiring</p>
-        <a href="https://gen-z-gravity-co.vercel.app/" target="_blank" rel="noopener noreferrer">Visit</a>
-      </div>
-    </div>
-  </div>
 
   <p class="footer-note">🔒 100% Client-Side</p>
 </div>
@@ -324,7 +369,6 @@ function drawCorrected(dataUrl, targetW, targetH, orientation) {
       canvas.height = rotate90 ? targetW : targetH;
       const ctx = canvas.getContext("2d");
 
-      // Apply orientation transform
       switch (orientation) {
         case 2: ctx.setTransform(-1, 0, 0, 1, targetW, 0); break;
         case 3: ctx.setTransform(-1, 0, 0, -1, targetW, targetH); break;
@@ -337,10 +381,8 @@ function drawCorrected(dataUrl, targetW, targetH, orientation) {
       }
       ctx.drawImage(img, 0, 0, targetW, targetH);
 
-      // Draw Meta glasses icon (bottom-right corner)
       drawMetaIcon(ctx, targetW, targetH);
 
-      // Reset transform and create final image
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       resolve(canvas.toDataURL("image/jpeg", 0.95));
     };
@@ -350,18 +392,16 @@ function drawCorrected(dataUrl, targetW, targetH, orientation) {
 }
 
 function drawMetaIcon(ctx, w, h) {
-  // Draw a simple glasses icon at bottom-right
-  const iconSize = Math.min(w, h) * 0.15; // 15% of image size
-  const x = w - iconSize - 40; // 40px margin
+  const iconSize = Math.min(w, h) * 0.15;
+  const x = w - iconSize - 40;
   const y = h - iconSize - 40;
 
   ctx.save();
-  ctx.globalAlpha = 0.85; // semi-transparent
+  ctx.globalAlpha = 0.85;
   ctx.fillStyle = "#ffffff";
   ctx.strokeStyle = "#ffffff";
   ctx.lineWidth = 2;
 
-  // Draw glasses shape (two circles + bridge)
   const lensRadius = iconSize * 0.35;
   const centerY = y + iconSize * 0.5;
   const leftX = x + iconSize * 0.25;
@@ -378,13 +418,11 @@ function drawMetaIcon(ctx, w, h) {
   ctx.fill();
   ctx.stroke();
 
-  // Bridge
   ctx.beginPath();
   ctx.moveTo(leftX + lensRadius, centerY);
   ctx.lineTo(rightX - lensRadius, centerY);
   ctx.stroke();
 
-  // Arms
   ctx.beginPath();
   ctx.moveTo(leftX - lensRadius, centerY);
   ctx.lineTo(x, y + iconSize * 0.3);
@@ -395,7 +433,6 @@ function drawMetaIcon(ctx, w, h) {
   ctx.lineTo(x + iconSize, y + iconSize * 0.3);
   ctx.stroke();
 
-  // Text "Meta"
   ctx.fillStyle = "#ffffff";
   ctx.font = `bold ${iconSize * 0.4}px Arial`;
   ctx.textAlign = "center";
@@ -454,23 +491,14 @@ async function shareImage(dataUrl, filename) {
   const file = new File([blob], filename, { type: "image/jpeg" });
   if (navigator.canShare && navigator.canShare({ files: [file] })) {
     try {
-      await navigator.share({
-        files: [file],
-        title: "Meta Glasses Photo",
-        text: "Converted with Meta Glasses"
-      });
+      await navigator.share({ files: [file], title: "Meta Glasses Photo", text: "Converted with Meta Glasses" });
       return "share";
-    } catch (err) {
-      if (err.name === "AbortError") return "cancelled";
-    }
+    } catch (err) { if (err.name === "AbortError") return "cancelled"; }
   }
-  // Fallback download
   const blobUrl = URL.createObjectURL(blob);
   const a = document.createElement("a");
-  a.href = blobUrl;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
+  a.href = blobUrl; a.download = filename;
+  document.body.appendChild(a); a.click();
   setTimeout(() => { URL.revokeObjectURL(blobUrl); a.remove(); }, 4000);
   return "download";
 }
@@ -485,7 +513,6 @@ async function convertImage() {
   return { finalDataUrl, pureBase64 };
 }
 
-// All-in-One button
 allInOneBtn.addEventListener("click", async () => {
   if (!sourceDataUrl) { fileInput.click(); return; }
   allInOneBtn.disabled = true;
@@ -493,59 +520,40 @@ allInOneBtn.addEventListener("click", async () => {
 
   try {
     const { finalDataUrl: converted, pureBase64: base64 } = await convertImage();
-
-    // Update preview
     preview.src = converted;
     previewTag.textContent = "3024×4032 Ready";
-
-    // Copy base64
     let copied = false;
     try { await copyText(base64); copied = true; } catch(e) { console.warn(e); }
-
-    // Trigger share (Instagram will appear in share sheet)
     const result = await shareImage(converted, "meta-glasses-photo.jpg");
-
     copyBtn.disabled = false;
     shareInstagramBtn.disabled = false;
-
-    if (result === "share") {
-      showStatus("✅ Base64 copied & Share sheet opened (select Instagram to post).", "success");
-    } else {
-      showStatus("✅ Success! Base64 copied & image saved.", "success");
-    }
+    if (result === "share") showStatus("✅ Base64 copied & Share sheet opened (select Instagram to post).", "success");
+    else showStatus("✅ Success! Base64 copied & image saved.", "success");
   } catch (err) {
     console.error(err);
     showStatus("Conversion failed. Try another JPG.", "error");
-  } finally {
-    allInOneBtn.disabled = false;
-  }
+  } finally { allInOneBtn.disabled = false; }
 });
 
-// Copy Base64
 copyBtn.addEventListener("click", async () => {
   if (!pureBase64) return;
-  try {
-    await copyText(pureBase64);
-    showStatus("Base64 copied to clipboard!", "success");
-  } catch(e) {
-    showStatus("Clipboard restricted by browser.", "error");
-  }
+  try { await copyText(pureBase64); showStatus("Base64 copied to clipboard!", "success"); }
+  catch(e) { showStatus("Clipboard restricted by browser.", "error"); }
 });
 
-// Share to Instagram (explicit)
 shareInstagramBtn.addEventListener("click", async () => {
   if (!finalDataUrl) return;
   const result = await shareImage(finalDataUrl, "meta-glasses-photo.jpg");
   showStatus("Share sheet opened — choose Instagram!", "success");
 });
 
-// Auto-scroll promotion cards (optional)
+// Auto-scroll promotion cards (Top Section)
 const promoScroll = $("promoScroll");
 let promoIndex = 0;
 setInterval(() => {
   promoIndex = (promoIndex + 1) % promoScroll.children.length;
-  const card = promoScroll.children[promoIndex];
-  card.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+  const cardWidth = promoScroll.children[promoIndex].offsetWidth + 12; // width + gap
+  promoScroll.scrollTo({ left: cardWidth * promoIndex, behavior: "smooth" });
 }, 3000);
 </script>
 </body>
