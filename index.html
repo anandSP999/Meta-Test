@@ -1,736 +1,1227 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#0a0a1a">
-<title>Meta Glasses Converter — Premium Edition</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/piexifjs/1.0.6/piexif.js"></script>
-<style>
-:root {
-  --bg: #070a12;
-  --card: rgba(20, 25, 45, 0.55);
-  --border: rgba(255, 255, 255, 0.2);
-  --accent1: #3b82f6;
-  --accent2: #8b5cf6;
-  --accent3: #ec4899;
-  --text: #f8fafc;
-  --muted: #94a3b8;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; user-select: none; }
-
-body {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  min-height: 100vh;
-  background: var(--bg);
-  color: var(--text);
-  overflow-x: hidden;
-  position: relative;
-}
-
-/* Animated Background with moving blobs */
-.bg-blobs {
-  position: fixed;
-  top: 0; left: 0; width: 100%; height: 100%;
-  z-index: -1;
-  background: linear-gradient(-45deg, #0f172a, #1e1b4b, #172554, #0f0f2a);
-  background-size: 400% 400%;
-  animation: gradientShift 15s ease infinite;
-}
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-.blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.6;
-  animation: float 8s infinite ease-in-out alternate;
-}
-.blob1 { width: 400px; height: 400px; background: rgba(59,130,246,0.5); top: -10%; left: -10%; animation-duration: 10s; }
-.blob2 { width: 300px; height: 300px; background: rgba(236,72,153,0.5); bottom: -10%; right: -10%; animation-duration: 12s; }
-.blob3 { width: 250px; height: 250px; background: rgba(139,92,246,0.4); top: 30%; left: 60%; animation-duration: 14s; }
-@keyframes float {
-  from { transform: translate(0,0); }
-  to { transform: translate(30px, -30px); }
-}
-
-/* Container */
-.container {
-  max-width: 480px;
-  margin: 0 auto;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  position: relative;
-}
-
-/* Glassmorphism base */
-.glass {
-  background: var(--card);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid var(--border);
-  border-radius: 24px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-}
-
-/* Header with Instagram */
-.header {
-  text-align: center;
-  padding: 20px 16px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 24px;
-  backdrop-filter: blur(15px);
-  position: relative;
-  overflow: hidden;
-}
-.header::before {
-  content: '';
-  position: absolute;
-  top: -50%; left: -50%;
-  width: 200%; height: 200%;
-  background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(255,255,255,0.1) 100%);
-  animation: shine 6s linear infinite;
-}
-@keyframes shine {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(59,130,246,0.25);
-  border: 1px solid rgba(59,130,246,0.5);
-  padding: 6px 14px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 700;
-  margin-bottom: 8px;
-}
-h1 {
-  font-size: 28px;
-  font-weight: 800;
-  background: linear-gradient(135deg, #fff, #cbd5e1);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  letter-spacing: -0.5px;
-  margin-bottom: 6px;
-}
-.sub { color: var(--muted); font-size: 13px; }
-
-/* Instagram link */
-.insta-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 10px;
-  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-  padding: 8px 16px;
-  border-radius: 999px;
-  text-decoration: none;
-  color: #fff;
-  font-weight: 700;
-  font-size: 14px;
-  box-shadow: 0 4px 15px rgba(220, 39, 67, 0.5);
-  transition: transform 0.2s;
-}
-.insta-link:active { transform: scale(0.95); }
-
-/* Top Promotion Section */
-.promo-top {
-  padding: 14px;
-  border-radius: 20px;
-  position: relative;
-  overflow: hidden;
-}
-.promo-title {
-  text-align: center;
-  font-size: 14px;
-  font-weight: 800;
-  margin-bottom: 12px;
-  color: #fff;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.5);
-}
-.promo-scroll {
-  display: flex;
-  gap: 12px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-}
-.promo-card {
-  min-width: 200px;
-  background: rgba(255,255,255,0.08);
-  border-radius: 16px;
-  padding: 14px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,255,255,0.15);
-  scroll-snap-align: center;
-  transition: transform 0.2s;
-}
-.promo-card:active { transform: scale(0.95); }
-.promo-card h4 { font-size: 15px; margin-bottom: 6px; color: #fff; }
-.promo-card p { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
-.promo-card a {
-  display: inline-block;
-  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-  color: #fff;
-  padding: 6px 16px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 700;
-  text-decoration: none;
-}
-
-/* Card – main app */
-.card {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-/* Source buttons */
-.source-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.source-btn {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 16px;
-  padding: 14px;
-  text-align: center;
-  color: #e2e8f0;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.source-btn:active {
-  background: linear-gradient(135deg, rgba(59,130,246,0.3), rgba(139,92,246,0.3));
-  transform: scale(0.96);
-}
-.source-btn .icon { font-size: 26px; display: block; margin-bottom: 6px; }
-
-/* Drop zone */
-.drop {
-  border: 2px dashed rgba(59,130,246,0.5);
-  background: rgba(11,17,33,0.4);
-  border-radius: 20px;
-  padding: 24px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-.drop:active { background: rgba(59,130,246,0.1); border-color: #60a5fa; transform: scale(0.98); }
-.drop .emoji { font-size: 40px; display: block; margin-bottom: 8px; }
-.drop .main { font-weight: 700; font-size: 16px; }
-.drop .sub { font-size: 12px; color: var(--muted); }
-input[type="file"] { display: none; }
-
-/* Preview */
-.preview-container {
-  display: none;
-  position: relative;
-  border-radius: 18px;
-  overflow: hidden;
-  background: #040812;
-  border: 1px solid var(--border);
-  box-shadow: 0 5px 20px rgba(0,0,0,0.6);
-}
-.preview { width: 100%; max-height: 320px; object-fit: contain; display: block; user-select: auto; -webkit-user-select: auto; }
-.preview-tag {
-  position: absolute; top: 10px; right: 10px;
-  background: rgba(0,0,0,0.7); color: #60a5fa;
-  font-size: 12px; padding: 4px 10px; border-radius: 99px;
-  border: 1px solid rgba(255,255,255,0.2);
-  backdrop-filter: blur(4px);
-}
-.preview-hint {
-  position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
-  background: rgba(0,0,0,0.8); color: #e2e8f0;
-  font-size: 11px; padding: 4px 12px; border-radius: 99px;
-}
-
-/* Buttons */
-.btn-all-in-one {
-  background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
-  border: none; border-radius: 16px; padding: 17px;
-  color: #fff; font-size: 16px; font-weight: 800;
-  cursor: pointer; box-shadow: 0 8px 30px rgba(59,130,246,0.4);
-  display: flex; justify-content: center; align-items: center; gap: 8px;
-  width: 100%; transition: transform 0.2s, box-shadow 0.2s;
-}
-.btn-all-in-one:active { transform: scale(0.97); box-shadow: 0 4px 15px rgba(59,130,246,0.3); }
-.btn-all-in-one:disabled { opacity: 0.5; filter: grayscale(0.5); }
-.sub-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.btn-secondary {
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 14px; padding: 14px;
-  font-weight: 700; color: #e2e8f0; cursor: pointer;
-  transition: all 0.2s;
-}
-.btn-secondary:active { background: rgba(255,255,255,0.2); transform: scale(0.96); }
-.btn-secondary:disabled { opacity: 0.4; }
-
-/* Status */
-.status {
-  display: none; padding: 14px; border-radius: 16px;
-  font-size: 14px; font-weight: 600;
-  align-items: center; gap: 10px;
-  animation: slideUp 0.3s;
-}
-.status.success { background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.4); }
-.status.error { background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.4); }
-.status.loading { background: rgba(59,130,246,0.15); color: #60a5fa; border: 1px solid rgba(59,130,246,0.4); }
-.spinner {
-  border: 2px solid currentColor; border-top-color: transparent;
-  border-radius: 50%; width: 18px; height: 18px;
-  animation: spin 0.7s linear infinite;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-@keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-/* Specs */
-.spec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.spec-pill { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 10px; }
-.spec-pill .label { color: var(--muted); font-size: 11px; }
-.spec-pill .value { color: #f1f5f9; font-size: 13px; font-weight: 700; }
-
-/* Live Ticker */
-.ticker {
-  position: fixed; bottom: 12px; left: 12px;
-  width: 240px; height: 42px;
-  background: rgba(0,0,0,0.75);
-  border: 1px solid rgba(59,130,246,0.4);
-  border-radius: 12px;
-  display: flex; align-items: center; overflow: hidden;
-  z-index: 999; box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-}
-.ticker-content { white-space: nowrap; animation: scrollTicker 12s linear infinite; font-size: 12px; color: #60a5fa; font-weight: 600; padding-left: 10px; }
-@keyframes scrollTicker {
-  0% { transform: translateX(100%); }
-  100% { transform: translateX(-100%); }
-}
-
-/* Footer */
-.footer-note {
-  text-align: center; font-size: 11px; color: var(--muted);
-  padding: 6px; margin-top: 10px;
-}
-
-/* Preloader */
-#preloader {
-  position: fixed; top:0; left:0; width:100%; height:100%;
-  background: #070a12; z-index: 10000;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  transition: opacity 0.4s;
-}
-#preloader.hidden { opacity:0; pointer-events:none; }
-.loader-icon { font-size: 60px; animation: pulse 1.5s infinite; }
-.loader-text { margin-top: 16px; font-weight: 800; font-size: 24px; background: linear-gradient(90deg, #60a5fa, #8b5cf6, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-@keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.1); } }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#050508">
+  <meta name="description" content="Meta Glasses Pro – Apni photo ko Meta Glasses style mein convert karein. High-resolution output, EXIF injection, custom watermark, 100% client-side.">
+  <meta property="og:title" content="Meta Glasses Pro – Premium Photo Converter">
+  <meta property="og:description" content="Ek tap mein photo ko 3024×4032 resolution, EXIF metadata aur custom watermark ke saath ready karein.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>Meta Glasses Pro – Premium Photo Converter</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕶️</text></svg>">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/piexifjs/1.0.6/piexif.js"></script>
+  <style>
+    /* ===== CSS Variables & Reset ===== */
+    :root {
+      --bg: #050508;
+      --card: rgba(18,20,30,0.55);
+      --border: rgba(255,255,255,0.12);
+      --text: #f2f5f9;
+      --muted: #7f8a9b;
+      --accent: #4f7cff;
+      --accent2: #6e57ff;
+      --accent3: #ff4f9a;
+      --glass: blur(20px) saturate(180%);
+      --font-main: 'Inter', 'Noto Sans', sans-serif;
+      --font-display: 'Space Grotesk', sans-serif;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: var(--font-main);
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    /* ===== Background Effects ===== */
+    .bg-glow {
+      position: fixed;
+      top: -20%;
+      left: -20%;
+      width: 140vw;
+      height: 140vh;
+      background: radial-gradient(ellipse at center, rgba(79,124,255,0.1) 0%, transparent 70%),
+                  radial-gradient(ellipse at 80% 80%, rgba(255,79,154,0.08) 0%, transparent 60%);
+      z-index: -1;
+      animation: bgPulse 15s ease-in-out infinite;
+    }
+    @keyframes bgPulse {
+      0%,100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 0.8; }
+    }
+    /* Floating grid */
+    .grid-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+      z-index: -1;
+    }
+    /* ===== Preloader ===== */
+    #preloader {
+      position: fixed;
+      top:0; left:0;
+      width:100%; height:100%;
+      background: #050508;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 99999;
+      transition: opacity 0.6s ease;
+    }
+    #preloader.hidden {
+      opacity:0;
+      pointer-events:none;
+    }
+    .preloader-icon {
+      width: 120px;
+      height: 120px;
+      position: relative;
+      margin-bottom: 30px;
+    }
+    .preloader-icon::before {
+      content: "🕶️";
+      font-size: 100px;
+      position: absolute;
+      top: 0; left: 0;
+      animation: glassesFloat 2s ease-in-out infinite;
+    }
+    .preloader-text {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 2px;
+      animation: textGlow 1.5s ease-in-out infinite;
+    }
+    @keyframes glassesFloat {
+      0%,100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(5deg); }
+    }
+    @keyframes textGlow {
+      0%,100% { opacity: 0.6; }
+      50% { opacity: 1; text-shadow: 0 0 20px rgba(79,124,255,0.8); }
+    }
+    /* ===== Navigation ===== */
+    .nav {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 20px;
+      background: rgba(5,5,8,0.7);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      transition: padding 0.3s;
+    }
+    .nav.scrolled {
+      padding: 8px 20px;
+    }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 20px;
+      color: #fff;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-logo span {
+      background: linear-gradient(90deg, #4f7cff, #6e57ff, #ff4f9a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .nav-menu {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+    .nav-menu a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      opacity: 0.8;
+      transition: opacity 0.3s;
+    }
+    .nav-menu a:hover {
+      opacity: 1;
+    }
+    .nav-cta {
+      background: linear-gradient(90deg, #4f7cff, #6e57ff);
+      padding: 8px 18px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 14px;
+      color: #fff !important;
+      opacity: 1 !important;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .nav-cta:active {
+      transform: scale(0.95);
+    }
+    /* Scroll progress */
+    #scrollProgress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #4f7cff, #6e57ff, #ff4f9a);
+      width: 0%;
+      z-index: 1001;
+      transition: width 0.1s;
+    }
+    /* ===== Sections ===== */
+    .section {
+      padding: 80px 20px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    /* ===== Hero ===== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      text-align: center;
+      padding: 100px 20px;
+    }
+    .hero-badge {
+      background: rgba(79,124,255,0.15);
+      border: 1px solid rgba(79,124,255,0.3);
+      color: #4f7cff;
+      padding: 6px 16px;
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 8vw, 64px);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      background: linear-gradient(180deg, #fff, #c0cbd8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p.sub {
+      color: var(--muted);
+      font-size: 18px;
+      max-width: 600px;
+      margin-bottom: 30px;
+    }
+    .hero-cta-group {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .btn-primary {
+      background: linear-gradient(90deg, #4f7cff, #6e57ff);
+      color: #fff;
+      border: none;
+      padding: 16px 32px;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 10px 30px rgba(79,124,255,0.4);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 15px 40px rgba(79,124,255,0.5);
+    }
+    .btn-secondary {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      padding: 16px 32px;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.2);
+    }
+    /* Glasses 3D animation */
+    .glasses-hero {
+      width: 300px;
+      height: 150px;
+      position: relative;
+      margin-bottom: 40px;
+      perspective: 800px;
+    }
+    .glasses-3d {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      transform-style: preserve-3d;
+      animation: rotate3d 8s infinite linear;
+    }
+    .glasses-3d img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+    }
+    @keyframes rotate3d {
+      0% { transform: rotateY(0deg); }
+      50% { transform: rotateY(20deg) rotateX(5deg); }
+      100% { transform: rotateY(0deg); }
+    }
+    .glasses-light-sweep {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      animation: sweep 3s infinite;
+    }
+    @keyframes sweep {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+    /* ===== Converter Card ===== */
+    .converter-card {
+      background: var(--card);
+      backdrop-filter: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 30px;
+      margin-top: -60px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      position: relative;
+      z-index: 10;
+    }
+    .converter-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .converter-header h2 {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 700;
+    }
+    .converter-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #34d399;
+    }
+    .converter-status::before {
+      content: '●';
+      animation: blink 2s infinite;
+    }
+    @keyframes blink {
+      0%,100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    /* Dropzone */
+    .dropzone {
+      border: 2px dashed rgba(79,124,255,0.4);
+      background: rgba(0,0,0,0.2);
+      border-radius: 20px;
+      padding: 40px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .dropzone:hover {
+      border-color: #4f7cff;
+      background: rgba(79,124,255,0.05);
+    }
+    .dropzone.active {
+      border-color: #4f7cff;
+    }
+    .dropzone-icon {
+      font-size: 48px;
+      margin-bottom: 10px;
+    }
+    .dropzone p {
+      font-weight: 600;
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+    .dropzone span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+    /* Custom watermark input */
+    .watermark-section {
+      margin-top: 20px;
+    }
+    .watermark-section label {
+      display: block;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .watermark-input {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(0,0,0,0.3);
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    .watermark-input:focus {
+      border-color: #4f7cff;
+    }
+    /* Preview */
+    .preview-container {
+      margin-top: 20px;
+      display: none;
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .preview-container.show {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+    .preview-image {
+      width: 100%;
+      max-height: 400px;
+      object-fit: contain;
+      display: block;
+      user-select: auto;
+    }
+    .preview-info {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      background: rgba(0,0,0,0.7);
+      padding: 6px 12px;
+      border-radius: 10px;
+      font-size: 12px;
+      color: #cbd5e1;
+    }
+    /* Conversion button */
+    .convert-btn {
+      width: 100%;
+      margin-top: 20px;
+      background: linear-gradient(90deg, #4f7cff, #6e57ff);
+      border: none;
+      padding: 18px;
+      border-radius: 16px;
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(79,124,255,0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .convert-btn:active {
+      transform: scale(0.97);
+      box-shadow: 0 5px 15px rgba(79,124,255,0.3);
+    }
+    .convert-btn::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 50%);
+      transform: translate(-50%, -50%);
+      animation: btnGlow 3s linear infinite;
+      opacity: 0;
+    }
+    .convert-btn:hover::after {
+      opacity: 1;
+    }
+    @keyframes btnGlow {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+    /* Secondary actions */
+    .action-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .action-btn {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 14px 8px;
+      border-radius: 12px;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .action-btn:hover {
+      background: rgba(255,255,255,0.15);
+    }
+    /* Toast notification */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.8);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: 600;
+      z-index: 9999;
+      opacity: 0;
+      transition: opacity 0.3s, transform 0.3s;
+      pointer-events: none;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(-10px);
+    }
+    /* ===== Features Section ===== */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .feature-card {
+      background: var(--card);
+      backdrop-filter: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 30px 20px;
+      text-align: center;
+      transition: transform 0.3s;
+    }
+    .feature-card:hover {
+      transform: translateY(-5px) scale(1.02);
+    }
+    .feature-icon {
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+    .feature-title {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .feature-desc {
+      color: var(--muted);
+      font-size: 14px;
+    }
+    /* ===== How It Works ===== */
+    .how-steps {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+    .step {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      max-width: 500px;
+      width: 100%;
+    }
+    .step-number {
+      font-family: var(--font-display);
+      font-size: 40px;
+      font-weight: 800;
+      color: #4f7cff;
+      line-height: 1;
+      opacity: 0.7;
+    }
+    .step-content {
+      flex: 1;
+    }
+    .step-content h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .step-content p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .step-line {
+      width: 2px;
+      height: 40px;
+      background: linear-gradient(#4f7cff, transparent);
+    }
+    /* ===== Privacy Section ===== */
+    .privacy-card {
+      text-align: center;
+      padding: 40px 20px;
+      background: var(--card);
+      backdrop-filter: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+    }
+    .privacy-icon {
+      font-size: 60px;
+      margin-bottom: 20px;
+    }
+    .privacy-card h2 {
+      font-family: var(--font-display);
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+    .privacy-card p {
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    .privacy-badges {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+    .privacy-badge {
+      background: rgba(79,124,255,0.15);
+      border: 1px solid rgba(79,124,255,0.3);
+      color: #4f7cff;
+      padding: 6px 16px;
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    /* ===== Promotions / Ecosystem ===== */
+    .ecosystem-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .ecosystem-card {
+      background: var(--card);
+      backdrop-filter: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 30px;
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .ecosystem-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+    .ecosystem-card .ec-icon {
+      font-size: 40px;
+      margin-bottom: 15px;
+    }
+    .ecosystem-card h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+    .ecosystem-card p {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    .ecosystem-card a {
+      display: inline-block;
+      background: linear-gradient(90deg, #4f7cff, #6e57ff);
+      color: #fff;
+      padding: 10px 24px;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.2s;
+    }
+    .ecosystem-card a:hover {
+      transform: scale(1.05);
+    }
+    /* ===== Creator Footer ===== */
+    .footer {
+      padding: 40px 20px;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      margin-top: 80px;
+    }
+    .footer .created {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+    .footer .insta-link {
+      color: #4f7cff;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .footer .insta-link:hover {
+      text-decoration: underline;
+    }
+    .footer .tagline {
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    /* ===== Reduced Motion ===== */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) {
+      .nav-menu {
+        display: none;
+      }
+      .hero-cta-group {
+        flex-direction: column;
+        width: 100%;
+      }
+      .btn-primary, .btn-secondary {
+        width: 100%;
+      }
+      .action-row {
+        grid-template-columns: 1fr;
+      }
+      .converter-card {
+        padding: 20px;
+      }
+    }
+  </style>
 </head>
 <body>
+  <!-- Preloader -->
+  <div id="preloader">
+    <div class="preloader-icon"></div>
+    <div class="preloader-text">META GLASSES PRO</div>
+    <div id="preloaderStatus" style="color:#7f8a9b; font-size:14px; margin-top:10px;"></div>
+  </div>
 
-<!-- Animated Background -->
-<div class="bg-blobs">
-  <div class="blob blob1"></div>
-  <div class="blob blob2"></div>
-  <div class="blob blob3"></div>
-</div>
+  <!-- Background -->
+  <div class="bg-glow"></div>
+  <div class="grid-overlay"></div>
 
-<!-- Preloader -->
-<div id="preloader">
-  <div class="loader-icon">🕶️</div>
-  <div class="loader-text">Meta Glasses Pro</div>
-</div>
+  <!-- Scroll Progress -->
+  <div id="scrollProgress"></div>
 
-<div class="container">
+  <!-- Navigation -->
+  <nav class="nav" id="nav">
+    <a href="#hero" class="nav-logo">🕶️ Meta <span>Glasses Pro</span></a>
+    <div class="nav-menu">
+      <a href="#hero">Home</a>
+      <a href="#converter">Converter</a>
+      <a href="#features">Features</a>
+      <a href="#privacy">Privacy</a>
+    </div>
+    <button class="nav-cta" onclick="document.getElementById('converter').scrollIntoView({behavior:'smooth'})">Convert Photo</button>
+  </nav>
 
-  <!-- Header -->
-  <header class="header">
-    <div class="badge">🕶️ Ray-Ban Meta Smart Glasses</div>
-    <h1>Photo Converter</h1>
-    <p class="sub">1-Tap 3024×4032 | EXIF Injection | Custom Watermark</p>
-    <!-- Instagram Link -->
-    <a href="https://www.instagram.com/ganeshpatil_91i" target="_blank" rel="noopener noreferrer" class="insta-link">
-      📸 @ganeshpatil_91i
-    </a>
-  </header>
+  <!-- Hero Section -->
+  <section id="hero" class="hero">
+    <div class="hero-badge">NEXT-GEN PHOTO CONVERTER</div>
+    <div class="glasses-hero">
+      <div class="glasses-3d">
+        <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 100'><rect x='10' y='20' width='80' height='50' rx='25' fill='rgba(255,255,255,0.1)' stroke='white' stroke-width='2'/><rect x='110' y='20' width='80' height='50' rx='25' fill='rgba(255,255,255,0.1)' stroke='white' stroke-width='2'/><path d='M90 40 L110 40' stroke='white' stroke-width='3'/><path d='M10 20 L30 10 M190 20 L170 10' stroke='white' stroke-width='3'/></svg>" alt="Meta Glasses">
+      </div>
+      <div class="glasses-light-sweep"></div>
+    </div>
+    <h1>Apni Photo Ko<br>Meta Glasses Experience Dein.</h1>
+    <p class="sub">Ek tap mein photo ko 3024×4032 resolution, EXIF metadata aur custom watermark ke saath ready karein.</p>
+    <div class="hero-cta-group">
+      <button class="btn-primary" onclick="document.getElementById('converter').scrollIntoView({behavior:'smooth'})">⚡ Photo Convert Karein</button>
+      <button class="btn-secondary" onclick="document.getElementById('cameraBtn').click()">📸 Camera Se Photo Lein</button>
+    </div>
+  </section>
 
-  <!-- Top Promotion Section -->
-  <section class="promo-top glass">
-    <div class="promo-title">🌟 Promote Your Websites 🌟</div>
-    <div class="promo-scroll" id="promoScroll">
-      <div class="promo-card">
-        <h4>💼 Swipe Jobs India</h4>
-        <p>Job apply & hiring platform</p>
+  <!-- Converter Section -->
+  <section id="converter" class="section">
+    <div class="converter-card">
+      <div class="converter-header">
+        <h2>PHOTO CONVERTER</h2>
+        <div class="converter-status">READY TO CONVERT</div>
+      </div>
+
+      <div class="dropzone" id="dropzone">
+        <div class="dropzone-icon">📷</div>
+        <p>Photo Select Karein</p>
+        <span>JPG / JPEG supported</span>
+      </div>
+      <div style="display: flex; gap: 10px; margin-top: 15px;">
+        <button class="btn-secondary" id="cameraBtn" style="flex:1;">📸 Camera</button>
+        <button class="btn-secondary" id="galleryBtn" style="flex:1;">🖼️ Gallery</button>
+      </div>
+
+      <div class="watermark-section">
+        <label for="watermarkInput">Watermark Text (Aapka Naam)</label>
+        <input type="text" id="watermarkInput" class="watermark-input" placeholder="ganeshpatil_91i" value="ganeshpatil_91i">
+      </div>
+
+      <div class="preview-container" id="previewContainer">
+        <img id="previewImage" class="preview-image" alt="Preview">
+        <div class="preview-info">3024 × 4032 • Ready</div>
+      </div>
+
+      <button id="convertBtn" class="convert-btn" disabled>⚡ ALL-IN-ONE CONVERT</button>
+
+      <div class="action-row" style="display: none;" id="actionRow">
+        <button class="action-btn" id="copyBase64Btn">📋 Copy Base64</button>
+        <button class="action-btn" id="savePhotoBtn">📥 Save Photo</button>
+        <button class="action-btn" id="shareInstagramBtn">📲 Share</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="section">
+    <h2 style="text-align:center; font-family: var(--font-display); font-size: 36px; margin-bottom: 40px;">Premium Features</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-title">One-Tap Conversion</div>
+        <div class="feature-desc">Ek simple tap mein photo conversion complete karein.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📐</div>
+        <div class="feature-title">3024 × 4032</div>
+        <div class="feature-desc">High-resolution output ke saath photo ready karein.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🧬</div>
+        <div class="feature-title">EXIF Injection</div>
+        <div class="feature-desc">Required metadata ko photo mein intelligently add karein.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <div class="feature-title">100% Client-Side</div>
+        <div class="feature-desc">Photo processing aapke device par hoti hai.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section id="how" class="section">
+    <h2 style="text-align:center; font-family: var(--font-display); font-size: 36px; margin-bottom: 40px;">How It Works</h2>
+    <div class="how-steps">
+      <div class="step">
+        <div class="step-number">01</div>
+        <div class="step-content">
+          <h3>Photo Select Karein</h3>
+          <p>Camera ya Gallery se photo choose karein.</p>
+        </div>
+      </div>
+      <div class="step-line"></div>
+      <div class="step">
+        <div class="step-number">02</div>
+        <div class="step-content">
+          <h3>Convert Karein</h3>
+          <p>ALL-IN-ONE CONVERT par tap karein.</p>
+        </div>
+      </div>
+      <div class="step-line"></div>
+      <div class="step">
+        <div class="step-number">03</div>
+        <div class="step-content">
+          <h3>Save / Share</h3>
+          <p>Ready photo save karein ya Instagram par share karein.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Privacy Section -->
+  <section id="privacy" class="section">
+    <div class="privacy-card">
+      <div class="privacy-icon">🔒</div>
+      <h2>Privacy Aapki Priority Hai.</h2>
+      <p>Photo kisi server par upload karne ki zarurat nahi. Processing directly aapke browser/device par hoti hai.</p>
+      <div class="privacy-badges">
+        <span class="privacy-badge">PRIVATE</span>
+        <span class="privacy-badge">FAST</span>
+        <span class="privacy-badge">SECURE</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ecosystem / Promotions -->
+  <section id="ecosystem" class="section">
+    <h2 style="text-align:center; font-family: var(--font-display); font-size: 36px; margin-bottom: 40px;">Explore More From Our Ecosystem</h2>
+    <div class="ecosystem-cards">
+      <div class="ecosystem-card">
+        <div class="ec-icon">🚀</div>
+        <h3>Swipe Jobs India</h3>
+        <p>Job Apply & Hiring Platform</p>
         <a href="https://swipe-jobs-ten.vercel.app/" target="_blank" rel="noopener noreferrer">Visit</a>
       </div>
-      <div class="promo-card">
-        <h4>🎓 Video Course</h4>
-        <p>Free & paid courses</p>
+      <div class="ecosystem-card">
+        <div class="ec-icon">🎓</div>
+        <h3>Video Course</h3>
+        <p>Free & Paid Courses</p>
         <a href="https://anandsp999.github.io/Video-course/candidate.html" target="_blank" rel="noopener noreferrer">Visit</a>
       </div>
-      <div class="promo-card">
-        <h4>🚀 Gen Z Gravity</h4>
-        <p>Freelancing, projects & hiring</p>
+      <div class="ecosystem-card">
+        <div class="ec-icon">⚡</div>
+        <h3>Gen-Z Gravity</h3>
+        <p>Freelancing, Projects & Hiring</p>
         <a href="https://gen-z-gravity-co.vercel.app/" target="_blank" rel="noopener noreferrer">Visit</a>
       </div>
     </div>
   </section>
 
-  <!-- Main Card -->
-  <main class="card glass">
-    <div class="source-selector">
-      <button class="source-btn" id="cameraBtn"><span class="icon">📷</span>Take Photo</button>
-      <button class="source-btn" id="galleryBtn"><span class="icon">🖼️</span>Photo Library</button>
-    </div>
+  <!-- Creator Footer -->
+  <footer class="footer">
+    <div class="created">Created with ⚡ by Ganesh Patil</div>
+    <a href="https://www.instagram.com/ganeshpatil_91i" target="_blank" class="insta-link" rel="noopener noreferrer">📸 @ganeshpatil_91i</a>
+    <div class="tagline">Meta Glasses Pro • Fast • Private • Client-Side</div>
+  </footer>
 
-    <div class="drop" id="dropZone">
-      <span class="emoji">⚡</span>
-      <p class="main" id="uploadTitle">Tap to select photo</p>
-      <p class="sub" id="uploadSub">Supports JPG / JPEG</p>
-      <input id="fileInput" type="file" accept="image/jpeg,.jpg,.jpeg">
-      <input id="cameraInput" type="file" accept="image/jpeg,.jpg,.jpeg" capture="environment">
-    </div>
+  <!-- Toast Notification -->
+  <div id="toast" class="toast"></div>
 
-    <div class="preview-container" id="previewContainer">
-      <img id="preview" class="preview" alt="Preview">
-      <div class="preview-tag" id="previewTag">Source Ready</div>
-      <div class="preview-hint">📱 Tap & hold to save</div>
-    </div>
+  <!-- Hidden file inputs -->
+  <input type="file" id="fileInput" accept="image/jpeg,.jpg,.jpeg" style="display:none;">
+  <input type="file" id="cameraInput" accept="image/jpeg,.jpg,.jpeg" capture="environment" style="display:none;">
 
-    <div class="actions">
-      <button id="allInOneBtn" class="btn-all-in-one">
-        <span>⚡</span> <span id="allInOneText">ALL-IN-ONE CONVERT</span>
-      </button>
-      <div class="sub-actions">
-        <button id="copyBtn" class="btn-secondary" disabled>📋 Copy Base64</button>
-        <button id="shareInstagramBtn" class="btn-secondary" disabled>📲 Share to Instagram</button>
-      </div>
-    </div>
+  <script>
+    // ===== Global Variables =====
+    const $ = id => document.getElementById(id);
+    let sourceDataUrl = null;
+    let finalDataUrl = null;
+    let pureBase64 = null;
+    let watermarkText = 'ganeshpatil_91i';
 
-    <div id="status" class="status"></div>
-
-    <div class="spec-grid">
-      <div class="spec-pill"><div class="label">Resolution</div><div class="value">3024 × 4032</div></div>
-      <div class="spec-pill"><div class="label">EXIF</div><div class="value">Meta AI / Ray-Ban 2</div></div>
-    </div>
-  </main>
-
-  <p class="footer-note">🔒 100% Client-Side | Created by @ganeshpatil_91i</p>
-</div>
-
-<!-- Live Ticker -->
-<div class="ticker">
-  <div class="ticker-content" id="tickerContent">🕶️ Meta Glasses Converter activated... Ready to convert your photo!</div>
-</div>
-
-<script>
-const $ = id => document.getElementById(id);
-const preloader = $("preloader");
-const dropZone = $("dropZone");
-const fileInput = $("fileInput");
-const cameraInput = $("cameraInput");
-const cameraBtn = $("cameraBtn");
-const galleryBtn = $("galleryBtn");
-const previewContainer = $("previewContainer");
-const preview = $("preview");
-const previewTag = $("previewTag");
-const uploadTitle = $("uploadTitle");
-const uploadSub = $("uploadSub");
-const allInOneBtn = $("allInOneBtn");
-const copyBtn = $("copyBtn");
-const shareInstagramBtn = $("shareInstagramBtn");
-const status = $("status");
-const allInOneText = $("allInOneText");
-const tickerContent = $("tickerContent");
-
-let sourceDataUrl = null;
-let finalDataUrl = null;
-let pureBase64 = null;
-
-// Hide preloader after 1.5s
-setTimeout(() => preloader.classList.add("hidden"), 1500);
-
-// Ticker updates
-const tickerMessages = [
-  "🕶️ Meta Glasses Converter activated...",
-  "⚡ 3024×4032 format ready",
-  "📸 EXIF injected: Meta AI",
-  "🎯 Promote your websites below!",
-  "🔥 100% client-side processing",
-  "📸 Follow @ganeshpatil_91i"
-];
-let tickerIdx = 0;
-setInterval(() => {
-  tickerContent.textContent = tickerMessages[tickerIdx];
-  tickerIdx = (tickerIdx + 1) % tickerMessages.length;
-}, 4000);
-
-// Source selection
-cameraBtn.addEventListener("click", () => cameraInput.click());
-galleryBtn.addEventListener("click", () => fileInput.click());
-dropZone.addEventListener("click", () => fileInput.click());
-
-// Drag and drop
-dropZone.addEventListener("dragover", e => {
-  e.preventDefault();
-  dropZone.style.borderColor = "#60a5fa";
-});
-dropZone.addEventListener("dragleave", () => dropZone.style.borderColor = "");
-dropZone.addEventListener("drop", e => {
-  e.preventDefault();
-  dropZone.style.borderColor = "";
-  const file = e.dataTransfer.files?.[0];
-  if (file) handleFile(file);
-});
-
-fileInput.addEventListener("change", () => {
-  const file = fileInput.files?.[0];
-  if (file) handleFile(file);
-});
-cameraInput.addEventListener("change", () => {
-  const file = cameraInput.files?.[0];
-  if (file) handleFile(file);
-});
-
-function handleFile(file) {
-  if (file.type !== "image/jpeg" && !/\.jpe?g$/i.test(file.name)) {
-    showStatus("Please select a JPG/JPEG image.", "error");
-    return;
-  }
-  const reader = new FileReader();
-  reader.onload = e => {
-    sourceDataUrl = e.target.result;
-    preview.src = sourceDataUrl;
-    previewContainer.style.display = "block";
-    previewTag.textContent = "Source Ready";
-    uploadTitle.textContent = file.name || "Photo Selected";
-    uploadSub.textContent = `${(file.size / 1024).toFixed(1)} KB — Ready to convert`;
-
-    allInOneBtn.disabled = false;
-    allInOneText.textContent = "⚡ ALL-IN-ONE: Convert, Copy & Share";
-    copyBtn.disabled = true;
-    shareInstagramBtn.disabled = true;
-    hideStatus();
-  };
-  reader.readAsDataURL(file);
-}
-
-function showStatus(message, type, loading = false) {
-  status.className = `status ${type}`;
-  status.style.display = "flex";
-  status.innerHTML = loading ? `<span class="spinner"></span><span>${message}</span>` : `<span>${type === 'success' ? '✅' : '❌'}</span><span>${message}</span>`;
-}
-function hideStatus() { status.style.display = "none"; }
-
-function readOrientation(dataUrl) {
-  try {
-    const exif = piexif.load(dataUrl);
-    return exif["0th"][piexif.ImageIFD.Orientation] || 1;
-  } catch (e) { return 1; }
-}
-
-function drawCorrected(dataUrl, targetW, targetH, orientation) {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.onload = () => {
-      const canvas = document.createElement("canvas");
-      const rotate90 = orientation >= 5 && orientation <= 8;
-      canvas.width = rotate90 ? targetH : targetW;
-      canvas.height = rotate90 ? targetW : targetH;
-      const ctx = canvas.getContext("2d");
-
-      // Apply orientation transform
-      switch (orientation) {
-        case 2: ctx.setTransform(-1, 0, 0, 1, targetW, 0); break;
-        case 3: ctx.setTransform(-1, 0, 0, -1, targetW, targetH); break;
-        case 4: ctx.setTransform(1, 0, 0, -1, 0, targetH); break;
-        case 5: ctx.setTransform(0, 1, 1, 0, 0, 0); break;
-        case 6: ctx.setTransform(0, 1, -1, 0, targetH, 0); break;
-        case 7: ctx.setTransform(0, -1, -1, 0, targetH, targetW); break;
-        case 8: ctx.setTransform(0, -1, 1, 0, 0, targetW); break;
-        default: ctx.setTransform(1, 0, 0, 1, 0, 0);
+    // ===== Preloader =====
+    const preloader = $('preloader');
+    const preloaderStatus = $('preloaderStatus');
+    const loadingTexts = ['INITIALIZING META GLASSES PRO...', 'PHOTO ENGINE READY'];
+    let loadingIndex = 0;
+    const loadingTimer = setInterval(() => {
+      loadingIndex++;
+      preloaderStatus.textContent = loadingTexts[loadingIndex % loadingTexts.length];
+      if (loadingIndex >= 2) {
+        clearInterval(loadingTimer);
+        setTimeout(() => preloader.classList.add('hidden'), 500);
       }
-      ctx.drawImage(img, 0, 0, targetW, targetH);
+    }, 800);
 
-      // Draw watermark (ganeshpatil_91i)
-      drawWatermark(ctx, targetW, targetH);
+    // ===== Navigation Scroll Progress =====
+    const nav = $('nav');
+    const scrollProgress = $('scrollProgress');
+    window.addEventListener('scroll', () => {
+      // nav scrolled
+      if (window.scrollY > 50) nav.classList.add('scrolled');
+      else nav.classList.remove('scrolled');
+      // progress bar
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = (window.scrollY / totalHeight) * 100;
+      scrollProgress.style.width = progress + '%';
+    });
 
-      // Reset transform and create final image
-      ctx.setTransform(1, 0, 0, 1, 0, 0);
-      resolve(canvas.toDataURL("image/jpeg", 0.95));
-    };
-    img.onerror = reject;
-    img.src = dataUrl;
-  });
-}
+    // ===== File selection =====
+    const dropzone = $('dropzone');
+    const fileInput = $('fileInput');
+    const cameraInput = $('cameraInput');
+    const cameraBtn = $('cameraBtn');
+    const galleryBtn = $('galleryBtn');
+    const previewContainer = $('previewContainer');
+    const previewImage = $('previewImage');
+    const convertBtn = $('convertBtn');
+    const actionRow = $('actionRow');
+    const copyBase64Btn = $('copyBase64Btn');
+    const savePhotoBtn = $('savePhotoBtn');
+    const shareInstagramBtn = $('shareInstagramBtn');
+    const watermarkInput = $('watermarkInput');
+    const toast = $('toast');
 
-function drawWatermark(ctx, w, h) {
-  ctx.save();
-  ctx.globalAlpha = 0.85;
-  ctx.fillStyle = "#ffffff";
-  ctx.shadowColor = "rgba(0,0,0,0.5)";
-  ctx.shadowBlur = 6;
-  ctx.font = `bold ${Math.min(w,h) * 0.06}px Arial`;
-  ctx.textAlign = "center";
-  ctx.fillText("ganeshpatil_91i", w / 2, h - 40);
-  ctx.restore();
-}
+    // Event listeners
+    cameraBtn.addEventListener('click', () => cameraInput.click());
+    galleryBtn.addEventListener('click', () => fileInput.click());
+    dropzone.addEventListener('click', () => fileInput.click());
 
-function buildExif(dataUrl) {
-  let exif;
-  try {
-    exif = piexif.load(dataUrl);
-  } catch (e) {
-    exif = { "0th": {}, "Exif": {}, "GPS": {}, "1st": {}, "thumbnail": null };
-  }
-  exif["GPS"] = {};
-  delete exif["0th"][piexif.ImageIFD.Software];
-  delete exif["0th"][piexif.ImageIFD.HostComputer];
-  delete exif["Exif"][piexif.ExifIFD.MakerNote];
-  delete exif["Exif"][piexif.ExifIFD.LensMake];
-  delete exif["Exif"][piexif.ExifIFD.LensModel];
-  delete exif["Exif"][piexif.ExifIFD.LensSpecification];
+    fileInput.addEventListener('change', e => handleFile(e.target.files[0]));
+    cameraInput.addEventListener('change', e => handleFile(e.target.files[0]));
 
-  exif["0th"][piexif.ImageIFD.Make] = "Meta AI";
-  exif["0th"][piexif.ImageIFD.Model] = "Ray-Ban Meta Smart Glasses 2";
-  exif["0th"][piexif.ImageIFD.Orientation] = 1;
-  exif["Exif"][piexif.ExifIFD.ColorSpace] = 1;
-  exif["Exif"][piexif.ExifIFD.PixelXDimension] = 3024;
-  exif["Exif"][piexif.ExifIFD.PixelYDimension] = 4032;
-  return exif;
-}
+    // Drag & drop
+    dropzone.addEventListener('dragover', e => {
+      e.preventDefault();
+      dropzone.classList.add('active');
+    });
+    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('active'));
+    dropzone.addEventListener('drop', e => {
+      e.preventDefault();
+      dropzone.classList.remove('active');
+      const file = e.dataTransfer.files[0];
+      if (file) handleFile(file);
+    });
 
-function dataUrlToBlob(dataUrl) {
-  const arr = dataUrl.split(',');
-  const mime = arr[0].match(/:(.*?);/)[1] || 'image/jpeg';
-  const bstr = atob(arr[1]);
-  let n = bstr.length;
-  const u8arr = new Uint8Array(n);
-  while (n--) u8arr[n] = bstr.charCodeAt(n);
-  return new Blob([u8arr], { type: mime });
-}
+    // Watermark input
+    watermarkInput.addEventListener('input', () => {
+      watermarkText = watermarkInput.value.trim() || 'ganeshpatil_91i';
+    });
 
-async function copyText(text) {
-  if (navigator.clipboard?.writeText) return await navigator.clipboard.writeText(text);
-  const ta = document.createElement("textarea");
-  ta.value = text;
-  document.body.appendChild(ta);
-  ta.select();
-  const ok = document.execCommand("copy");
-  ta.remove();
-  return ok;
-}
+    // ===== Handle file =====
+    function handleFile(file) {
+      if (!file || (file.type !== 'image/jpeg' && !/\.jpe?g$/i.test(file.name))) {
+        showToast('Please select a JPG/JPEG image.', 'error');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = e => {
+        sourceDataUrl = e.target.result;
+        previewImage.src = sourceDataUrl;
+        previewContainer.classList.add('show');
+        convertBtn.disabled = false;
+        actionRow.style.display = 'none';
+        showToast('Photo selected! Ready to convert.', 'success');
+      };
+      reader.readAsDataURL(file);
+    }
 
-async function shareImage(dataUrl, filename) {
-  const blob = dataUrlToBlob(dataUrl);
-  const file = new File([blob], filename, { type: "image/jpeg" });
-  if (navigator.canShare && navigator.canShare({ files: [file] })) {
-    try {
-      await navigator.share({
-        files: [file],
-        title: "Photo converted with Meta Glasses",
-        text: "Converted with Meta Glasses Pro"
+    // ===== Conversion logic =====
+    function readOrientation(dataUrl) {
+      try {
+        const exif = piexif.load(dataUrl);
+        return exif['0th'][piexif.ImageIFD.Orientation] || 1;
+      } catch (e) {
+        return 1;
+      }
+    }
+
+    function drawCorrected(dataUrl, targetW, targetH, orientation) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const rotate90 = orientation >= 5 && orientation <= 8;
+          canvas.width = rotate90 ? targetH : targetW;
+          canvas.height = rotate90 ? targetW : targetH;
+          const ctx = canvas.getContext('2d');
+
+          // Orientation transform
+          switch (orientation) {
+            case 2: ctx.setTransform(-1, 0, 0, 1, targetW, 0); break;
+            case 3: ctx.setTransform(-1, 0, 0, -1, targetW, targetH); break;
+            case 4: ctx.setTransform(1, 0, 0, -1, 0, targetH); break;
+            case 5: ctx.setTransform(0, 1, 1, 0, 0, 0); break;
+            case 6: ctx.setTransform(0, 1, -1, 0, targetH, 0); break;
+            case 7: ctx.setTransform(0, -1, -1, 0, targetH, targetW); break;
+            case 8: ctx.setTransform(0, -1, 1, 0, 0, targetW); break;
+            default: ctx.setTransform(1, 0, 0, 1, 0, 0);
+          }
+
+          ctx.drawImage(img, 0, 0, targetW, targetH);
+
+          // Draw watermark text (bottom center)
+          ctx.setTransform(1, 0, 0, 1, 0, 0); // reset
+          ctx.save();
+          ctx.globalAlpha = 0.85;
+          ctx.fillStyle = '#ffffff';
+          ctx.shadowColor = 'rgba(0,0,0,0.6)';
+          ctx.shadowBlur = 8;
+          ctx.font = `bold ${Math.min(targetW, targetH) * 0.05}px 'Inter', sans-serif`;
+          ctx.textAlign = 'center';
+          ctx.fillText(watermarkText, targetW / 2, targetH - 50);
+          ctx.restore();
+
+          resolve(canvas.toDataURL('image/jpeg', 0.95));
+        };
+        img.onerror = reject;
+        img.src = dataUrl;
       });
-      return "share";
-    } catch (err) {
-      if (err.name === "AbortError") return "cancelled";
     }
-  }
-  // Fallback download
-  const blobUrl = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = blobUrl;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  setTimeout(() => { URL.revokeObjectURL(blobUrl); a.remove(); }, 4000);
-  return "download";
-}
 
-async function convertImage() {
-  const orientation = readOrientation(sourceDataUrl);
-  const corrected = await drawCorrected(sourceDataUrl, 3024, 4032, orientation);
-  const exif = buildExif(sourceDataUrl);
-  const exifBytes = piexif.dump(exif);
-  finalDataUrl = piexif.insert(exifBytes, corrected);
-  pureBase64 = finalDataUrl.split(",")[1];
-  return { finalDataUrl, pureBase64 };
-}
+    function buildExif(dataUrl) {
+      let exif;
+      try {
+        exif = piexif.load(dataUrl);
+      } catch (e) {
+        exif = { '0th': {}, 'Exif': {}, 'GPS': {}, '1st': {}, 'thumbnail': null };
+      }
+      exif['GPS'] = {};
+      delete exif['0th'][piexif.ImageIFD.Software];
+      delete exif['0th'][piexif.ImageIFD.HostComputer];
+      delete exif['Exif'][piexif.ExifIFD.MakerNote];
+      delete exif['Exif'][piexif.ExifIFD.LensMake];
+      delete exif['Exif'][piexif.ExifIFD.LensModel];
+      delete exif['Exif'][piexif.ExifIFD.LensSpecification];
 
-// All-in-One button
-allInOneBtn.addEventListener("click", async () => {
-  if (!sourceDataUrl) { fileInput.click(); return; }
-  allInOneBtn.disabled = true;
-  showStatus("Processing 3024×4032 conversion...", "loading", true);
-
-  try {
-    const { finalDataUrl: converted, pureBase64: base64 } = await convertImage();
-
-    // Update preview
-    preview.src = converted;
-    previewTag.textContent = "3024×4032 Ready";
-
-    // Copy base64
-    let copied = false;
-    try { await copyText(base64); copied = true; } catch(e) { console.warn(e); }
-
-    // Trigger share
-    const result = await shareImage(converted, "meta-glasses-photo.jpg");
-
-    copyBtn.disabled = false;
-    shareInstagramBtn.disabled = false;
-
-    if (result === "share") {
-      showStatus("✅ Base64 copied & Share sheet opened (select Instagram to post).", "success");
-    } else {
-      showStatus("✅ Success! Base64 copied & image saved.", "success");
+      exif['0th'][piexif.ImageIFD.Make] = 'Meta AI';
+      exif['0th'][piexif.ImageIFD.Model] = 'Ray-Ban Meta Smart Glasses 2';
+      exif['0th'][piexif.ImageIFD.Orientation] = 1;
+      exif['Exif'][piexif.ExifIFD.ColorSpace] = 1;
+      exif['Exif'][piexif.ExifIFD.PixelXDimension] = 3024;
+      exif['Exif'][piexif.ExifIFD.PixelYDimension] = 4032;
+      return exif;
     }
-  } catch (err) {
-    console.error(err);
-    showStatus("Conversion failed. Try another JPG.", "error");
-  } finally {
-    allInOneBtn.disabled = false;
-  }
-});
 
-// Copy Base64
-copyBtn.addEventListener("click", async () => {
-  if (!pureBase64) return;
-  try {
-    await copyText(pureBase64);
-    showStatus("Base64 copied to clipboard!", "success");
-  } catch(e) {
-    showStatus("Clipboard restricted by browser.", "error");
-  }
-});
+    function dataUrlToBlob(dataUrl) {
+      const arr = dataUrl.split(',');
+      const mime = arr[0].match(/:(.*?);/)[1] || 'image/jpeg';
+      const bstr = atob(arr[1]);
+      let n = bstr.length;
+      const u8arr = new Uint8Array(n);
+      while (n--) u8arr[n] = bstr.charCodeAt(n);
+      return new Blob([u8arr], { type: mime });
+    }
 
-// Share to Instagram (explicit)
-shareInstagramBtn.addEventListener("click", async () => {
-  if (!finalDataUrl) return;
-  const result = await shareImage(finalDataUrl, "meta-glasses-photo.jpg");
-  showStatus("Share sheet opened — choose Instagram!", "success");
-});
+    async function copyText(text) {
+      if (navigator.clipboard?.writeText) return await navigator.clipboard.writeText(text);
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      const ok = document.execCommand('copy');
+      ta.remove();
+      return ok;
+    }
 
-// Auto-scroll promotion cards
-const promoScroll = $("promoScroll");
-let promoIndex = 0;
-setInterval(() => {
-  promoIndex = (promoIndex + 1) % promoScroll.children.length;
-  const card = promoScroll.children[promoIndex];
-  card.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-}, 3000);
-</script>
+    async function shareImage(dataUrl, filename) {
+      const blob = dataUrlToBlob(dataUrl);
+      const file = new File([blob], filename, { type: 'image/jpeg' });
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        try {
+          await navigator.share({
+            files: [file],
+            title: 'Meta Glasses Pro Photo',
+            text: 'Converted with Meta Glasses Pro'
+          });
+          return 'share';
+        } catch (err) {
+          if (err.name === 'AbortError') return 'cancelled';
+        }
+      }
+      // Fallback download
+      const blobUrl = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = blobUrl;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => { URL.revokeObjectURL(blobUrl); a.remove(); }, 4000);
+      return 'download';
+    }
+
+    // ===== Convert button =====
+    convertBtn.addEventListener('click', async () => {
+      if (!sourceDataUrl) return;
+      convertBtn.disabled = true;
+      convertBtn.textContent = '⏳ Processing Shuru Ho Rahi Hai...';
+      try {
+        const orientation = readOrientation(sourceDataUrl);
+        const corrected = await drawCorrected(sourceDataUrl, 3024, 4032, orientation);
+        const exif = buildExif(sourceDataUrl);
+        const exifBytes = piexif.dump(exif);
+        finalDataUrl = piexif.insert(exifBytes, corrected);
+        pureBase64 = finalDataUrl.split(',')[1];
+        // Update preview
+        previewImage.src = finalDataUrl;
+        convertBtn.textContent = '✓ CONVERSION COMPLETE';
+        convertBtn.style.background = 'linear-gradient(90deg, #10b981, #059669)';
+        actionRow.style.display = 'grid';
+        showToast('Photo Successfully Convert Ho Gayi!', 'success');
+      } catch (err) {
+        console.error(err);
+        showToast('Conversion failed. Try another JPG.', 'error');
+        convertBtn.disabled = false;
+        convertBtn.textContent = '⚡ ALL-IN-ONE CONVERT';
+      }
+    });
+
+    // Secondary actions
+    copyBase64Btn.addEventListener('click', async () => {
+      if (!pureBase64) return;
+      try {
+        await copyText(pureBase64);
+        showToast('Base64 copied to clipboard!', 'success');
+      } catch(e) {
+        showToast('Clipboard restricted by browser.', 'error');
+      }
+    });
+
+    savePhotoBtn.addEventListener('click', () => {
+      if (!finalDataUrl) return;
+      const blob = dataUrlToBlob(finalDataUrl);
+      const blobUrl = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = blobUrl;
+      a.download = 'meta-glasses-pro-photo.jpg';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => { URL.revokeObjectURL(blobUrl); a.remove(); }, 4000);
+      showToast('Photo saved!', 'success');
+    });
+
+    shareInstagramBtn.addEventListener('click', async () => {
+      if (!finalDataUrl) return;
+      const result = await shareImage(finalDataUrl, 'meta-glasses-pro.jpg');
+      showToast('Share sheet opened — choose Instagram!', 'success');
+    });
+
+    // ===== Toast =====
+    function showToast(message, type) {
+      toast.textContent = message;
+      toast.style.borderColor = type === 'error' ? '#ef4444' : '#4f7cff';
+      toast.style.background = type === 'error' ? 'rgba(239,68,68,0.9)' : 'rgba(5,5,8,0.9)';
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    // ===== Scroll Reveal (Intersection Observer) =====
+    const revealElements = document.querySelectorAll('.feature-card, .step, .privacy-card, .ecosystem-card, .converter-card');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+    revealElements.forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(30px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(el);
+    });
+  </script>
 </body>
 </html>
