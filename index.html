@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio | Video Editor & SMM</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* --- THEME VARIABLES (White Mode & Dark Mode) --- */
-        :root {
+        /* --- THEMES --- */
+        :root, [data-theme="light"] {
             --bg: #f4f4f4;
             --white: #ffffff;
             --dark: #111111;
@@ -15,108 +15,115 @@
             --yellow: #ffd900;
             --blue: #0056b3;
             --border: 2px solid var(--dark);
-            --shadow: 0 4px 15px rgba(0,0,0,0.08);
+            --shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
-        
-        body.dark-mode {
+        [data-theme="dark"] {
             --bg: #121212;
             --white: #1e1e1e;
             --dark: #ffffff;
             --grey: #aaaaaa;
-            --border: 2px solid #333;
+            --yellow: #ffd900;
+            --blue: #4a90e2;
+            --border: 2px solid var(--dark);
             --shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
 
         body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--dark); margin: 0; padding: 20px; padding-bottom: 80px; transition: background 0.3s, color 0.3s; }
         
-        /* --- Top Header & Theme Toggle --- */
-        .top-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .theme-btn { background: var(--white); border: var(--border); border-radius: 50%; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; cursor: pointer; font-size: 20px; box-shadow: var(--shadow); transition: transform 0.1s; }
-        .theme-btn:active { transform: scale(0.95); }
-
-        /* --- Typography & Headers --- */
+        /* --- TYPOGRAPHY & GENERAL --- */
+        h1, h2, h3 { margin: 10px 0; }
         h2 { font-size: 22px; border-left: 5px solid var(--yellow); padding-left: 10px; margin-top: 40px; }
 
-        /* --- Layout: PC vs Mobile --- */
+        /* --- LAYOUT --- */
         .desktop-nav { display: none; }
-        .mobile-tabs { display: flex; position: fixed; bottom: 0; left: 0; right: 0; background: var(--white); box-shadow: 0 -4px 15px rgba(0,0,0,0.1); z-index: 100; border-radius: 20px 20px 0 0; }
-        .tab-btn { flex: 1; padding: 15px; font-size: 12px; background: none; border: none; font-weight: 700; cursor: pointer; color: var(--grey); }
+        .mobile-tabs { display: flex; position: fixed; bottom: 0; left: 0; right: 0; background: var(--white); box-shadow: 0 -4px 15px var(--shadow); z-index: 100; border-radius: 20px 20px 0 0; border-top: var(--border); }
+        .tab-btn { flex: 1; padding: 15px; font-size: 12px; background: none; border: none; font-weight: 700; color: var(--grey); cursor: pointer; }
         .tab-btn.active { color: var(--blue); }
         
         @media (min-width: 900px) {
-            body { padding: 40px; padding-bottom: 40px; }
+            body { padding: 40px; }
             .mobile-tabs { display: none; }
-            .desktop-nav { display: flex; gap: 10px; position: sticky; top: 0; background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); padding: 15px; border-radius: 20px; z-index: 100; justify-content: center; margin-bottom: 30px; border: 1px solid var(--border); }
-            body.dark-mode .desktop-nav { background: rgba(30,30,30,0.9); }
+            .desktop-nav { display: flex; gap: 10px; position: sticky; top: 0; background: var(--white); backdrop-filter: blur(10px); padding: 15px; border-radius: 20px; z-index: 100; justify-content: center; border: var(--border); margin-bottom: 20px; }
             .max-width { max-width: 1200px; margin: 0 auto; }
         }
 
-        /* --- Components --- */
-        .card { background: var(--white); border: var(--border); border-radius: 24px; box-shadow: var(--shadow); padding: 20px; margin-bottom: 20px; transition: background 0.3s, color 0.3s; }
-        .btn { background: var(--yellow); border: var(--border); border-radius: 50px; padding: 10px 20px; font-weight: 700; cursor: pointer; transition: transform 0.1s; text-decoration: none; color: var(--dark); display: inline-block; }
+        /* --- TOP BAR (Theme Toggle) --- */
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .theme-toggle { cursor: pointer; background: var(--white); border: var(--border); padding: 10px 15px; border-radius: 50px; font-weight: bold; }
+
+        /* --- COMPONENTS --- */
+        .card { background: var(--white); border: var(--border); border-radius: 24px; box-shadow: var(--shadow); padding: 20px; margin-bottom: 20px; transition: background 0.3s, border-color 0.3s; }
+        .btn { background: var(--yellow); border: var(--border); border-radius: 50px; padding: 10px 20px; font-weight: 700; cursor: pointer; transition: transform 0.1s; text-decoration: none; display: inline-block; color: var(--dark); }
         .btn:active { transform: scale(0.95); }
         .btn-blue { background: var(--blue); color: white; border: none; }
         .verified { background: var(--blue); color: white; font-size: 12px; padding: 4px 10px; border-radius: 20px; position: absolute; top: 15px; right: 15px; }
         .relative { position: relative; }
 
-        /* --- Horizontal Scroll & Auto-Scroll Logic --- */
-        .h-scroll { display: flex; gap: 20px; overflow-x: auto; padding-bottom: 20px; scrollbar-width: none; }
+        /* --- H-SCROLL (Fixed Auto-Scroll) --- */
+        .h-scroll { display: flex; gap: 20px; overflow-x: auto; padding-bottom: 20px; scrollbar-width: none; scroll-behavior: smooth; }
         .h-scroll::-webkit-scrollbar { display: none; }
-        .h-scroll-card { min-width: 280px; scroll-snap-align: start; }
-        .video-card { min-width: 350px; max-width: 350px; }
+        .h-scroll-card { min-width: 280px; }
 
-        /* --- Video Section --- */
+        /* --- VIDEO SECTION --- */
         .filter-btn-container { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
-        .video-card iframe { width: 100%; height: 200px; border-radius: 15px; border: none; background: black; }
-        
-        /* --- Popups / Modals --- */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 1000; }
-        .modal-content { background: var(--white); width: 90%; max-width: 800px; max-height: 80vh; overflow-y: auto; border-radius: 20px; padding: 20px; position: relative; border: var(--border); }
-        .close-modal { position: sticky; top: 0; float: right; cursor: pointer; background: var(--yellow); border: var(--border); border-radius: 50%; width: 30px; height: 30px; display: flex; justify-content: center; align-items: center; font-weight: bold; }
+        .video-card { min-width: 350px; max-width: 350px; }
+        .video-card iframe { width: 100%; height: 200px; border-radius: 15px; border: none; }
 
-        /* --- Growth Section --- */
-        .growth-box { min-width: 250px; background: var(--dark); color: var(--white); border-radius: 15px; padding: 15px; }
+        /* --- CHATBOT UI (New) --- */
+        #chatFab { position: fixed; bottom: 90px; right: 20px; width: 60px; height: 60px; border-radius: 50%; background: var(--blue); color: white; font-size: 30px; display: flex; justify-content: center; align-items: center; box-shadow: var(--shadow); cursor: pointer; z-index: 1000; border: none; }
+        #chatBox { position: fixed; bottom: 160px; right: 20px; width: 350px; max-height: 400px; background: var(--white); border: var(--border); border-radius: 20px; box-shadow: var(--shadow); display: none; flex-direction: column; overflow: hidden; z-index: 1000; }
+        .chat-header { background: var(--blue); color: white; padding: 10px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
+        .chat-body { padding: 15px; height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .chat-msg { padding: 10px; border-radius: 15px; max-width: 80%; font-size: 14px; }
+        .bot-msg { background: #eee; align-self: flex-start; color: #111; }
+        .user-msg { background: var(--blue); color: white; align-self: flex-end; }
+        .chat-input-area { display: flex; border-top: 1px solid #ccc; }
+        .chat-input-area input { flex: 1; border: none; padding: 15px; outline: none; background: var(--white); color: var(--dark); }
+        .chat-send { background: var(--yellow); border: none; padding: 10px; cursor: pointer; font-weight: bold; }
+
+        /* --- HIDDEN ADMIN PANEL (Inside Chat) --- */
+        #adminPanel { display: none; background: #f9f9f9; border-top: 1px solid #ccc; padding: 10px; }
+        #adminPanel input, #adminPanel textarea { width: 100%; padding: 8px; border-radius: 10px; border: 1px solid #ccc; margin-bottom: 10px; box-sizing: border-box; font-family: inherit; }
+
+        /* --- MODALS --- */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 1050; }
+        .modal-content { background: var(--white); width: 90%; max-width: 800px; max-height: 80vh; overflow-y: auto; border-radius: 20px; padding: 20px; border: var(--border); position: relative; }
+        .close-modal { position: sticky; top: 0; float: right; cursor: pointer; background: var(--yellow); border: 1px solid #000; border-radius: 50%; width: 30px; height: 30px; display: flex; justify-content: center; align-items: center; font-weight: bold; }
+
+        /* --- GROWTH --- */
+        .growth-box { min-width: 250px; background: #222; color: white; border-radius: 15px; padding: 15px; }
         .growth-bar { height: 10px; background: #444; border-radius: 10px; margin-top: 10px; overflow: hidden; }
         .growth-fill { height: 100%; background: var(--yellow); }
 
-        /* --- Subtle Admin Button (©) --- */
-        #adminLogin { position: fixed; bottom: 10px; right: 10px; background: transparent; border: none; color: var(--grey); font-size: 14px; z-index: 999; cursor: pointer; opacity: 0.2; }
-        #adminLogin:hover { opacity: 1; }
-
-        /* --- Admin Panel --- */
-        #adminPanel { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--white); padding: 20px; border-radius: 20px; border: var(--border); display: none; z-index: 1200; width: 90%; max-width: 400px; }
-        .hidden { display: none !important; }
-        input, textarea { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ccc; box-sizing: border-box; margin-bottom: 10px; font-family: inherit; background: var(--bg); color: var(--dark); }
-        
-        /* --- Profile --- */
+        /* --- PROFILE --- */
         .profile-section { text-align: center; background: var(--white); border: var(--border); border-radius: 24px; padding: 30px; }
         .profile-img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid var(--yellow); }
     </style>
 </head>
 <body>
 
-    <div class="max-width">
-        <!-- Top Header with Theme Toggle -->
-        <div class="top-header">
-            <h3 style="margin:0;">✦ YOUR NAME ⚡</h3>
-            <button class="theme-btn" onclick="toggleTheme()" title="Toggle Dark/White Mode">🌙</button>
-        </div>
+    <!-- Top Bar with Theme Toggle -->
+    <div class="top-bar">
+        <div style="font-weight: 800;">✦ Your Portfolio ⚡</div>
+        <div class="theme-toggle" onclick="toggleTheme()">🌙 Dark</div>
+    </div>
 
-        <!-- Desktop Navigation -->
-        <div class="desktop-nav">
-            <a href="#videos" class="btn">Videos</a>
-            <a href="#growth" class="btn">Growth</a>
-            <a href="#clients" class="btn">Clients</a>
-            <a href="#articles" class="btn">Articles</a>
-            <a href="#contact" class="btn btn-blue">Contact</a>
-        </div>
+    <!-- Desktop Navigation -->
+    <div class="desktop-nav">
+        <a href="#videos" class="btn">Videos</a>
+        <a href="#growth" class="btn">Growth</a>
+        <a href="#clients" class="btn">Clients</a>
+        <a href="#articles" class="btn">Articles</a>
+        <a href="#contact" class="btn btn-blue">Contact</a>
+    </div>
+
+    <div class="max-width">
 
         <!-- Profile Section -->
         <div class="profile-section">
             <img src="https://via.placeholder.com/150" class="profile-img" alt="Profile">
             <h1>✦ YOUR NAME ⚡</h1>
             <p style="color: var(--grey);">Professional Video Editor & Social Media Manager</p>
-            <p>Transforming raw footage into viral stories.</p>
             <a href="#contact" class="btn">Hire Me</a>
         </div>
 
@@ -127,23 +134,21 @@
             <button class="btn" onclick="filterVideos('UGC')">UGC</button>
             <button class="btn" onclick="filterVideos('News')">News</button>
             <button class="btn" onclick="filterVideos('Marketing')">Marketing</button>
-            <button class="btn" onclick="filterVideos('YouTube')">YouTube</button>
         </div>
 
         <div class="h-scroll" id="mainVideoScroll">
-            <!-- Default Videos -->
             <div class="card relative video-card" data-cat="UGC">
-                <span class="verified">verified</span>
+                <span class="verified">UGC</span>
                 <iframe src="https://www.youtube.com/embed/aqz-KE-bpKQ" allowfullscreen></iframe>
                 <h3>UGC Ad</h3>
             </div>
             <div class="card relative video-card" data-cat="Marketing">
-                <span class="verified">verified</span>
+                <span class="verified">Marketing</span>
                 <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
                 <h3>Marketing Reel</h3>
             </div>
             <div class="card relative video-card" data-cat="News">
-                <span class="verified">verified</span>
+                <span class="verified">News</span>
                 <iframe src="https://www.youtube.com/embed/jNQXAC9IVRw" allowfullscreen></iframe>
                 <h3>News Segment</h3>
             </div>
@@ -175,9 +180,8 @@
 
         <!-- CLIENT COLLABORATION & SERVICES -->
         <h2 id="clients">🤝 Client Collaboration & Services</h2>
-        <p style="color: var(--grey);">Trusted by these brands (Auto-scrolling, hover to pause).</p>
+        <p style="color: var(--grey);">Trusted by these brands (Auto-scrolling).</p>
         <div class="h-scroll" id="clientScrollContainer">
-            <!-- Default Clients -->
             <div class="card h-scroll-card">
                 <img src="https://via.placeholder.com/100" style="width: 60px; height: 60px; border-radius: 50%;" alt="Client">
                 <h3>Company A</h3>
@@ -187,6 +191,11 @@
                 <img src="https://via.placeholder.com/100" style="width: 60px; height: 60px; border-radius: 50%;" alt="Client">
                 <h3>Company B</h3>
                 <p style="color: var(--grey); font-size: 14px;">Social Media Mgt</p>
+            </div>
+            <div class="card h-scroll-card">
+                <img src="https://via.placeholder.com/100" style="width: 60px; height: 60px; border-radius: 50%;" alt="Client">
+                <h3>Company C</h3>
+                <p style="color: var(--grey); font-size: 14px;">UGC & Content</p>
             </div>
         </div>
 
@@ -226,7 +235,35 @@
         <button class="tab-btn" onclick="goTo('contact', this)">Contact</button>
     </div>
 
-    <!-- MODALS (Popups) -->
+    <!-- CHATBOT -->
+    <button id="chatFab" onclick="toggleChat()">💬</button>
+    <div id="chatBox">
+        <div class="chat-header">
+            <span>Admin & AI Enquiry Assistant</span>
+            <span onclick="toggleChat()" style="cursor:pointer;">X</span>
+        </div>
+        <div class="chat-body" id="chatBody">
+            <div class="chat-msg bot-msg">Hi! I'm here to assist you. Ask me about services, pricing, or contact info.</div>
+        </div>
+        <div id="adminPanel">
+            <h4 style="margin: 5px 0;">🔒 Admin Mode</h4>
+            <input type="text" id="clientName" placeholder="Client Name">
+            <input type="text" id="clientImg" placeholder="Client Image URL">
+            <input type="text" id="clientService" placeholder="Service Provided">
+            <button class="btn" onclick="saveClient()">Save Client</button>
+            <hr>
+            <input type="text" id="videoTitle" placeholder="Video Title">
+            <input type="text" id="videoLink" placeholder="Video Link">
+            <input type="text" id="videoCat" placeholder="Video Category">
+            <button class="btn btn-blue" onclick="saveVideo()">Save Video</button>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="Type here..." onkeypress="handleEnter(event)">
+            <button class="chat-send" onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <!-- MODALS -->
     <div class="modal-overlay" id="videoModal">
         <div class="modal-content">
             <div class="close-modal" onclick="closeModal('videoModal')">X</div>
@@ -250,74 +287,51 @@
         </div>
     </div>
 
-    <!-- Hidden Admin Button (©) -->
-    <button id="adminLogin" onclick="adminLogin()">©</button>
-
-    <!-- Admin Panel -->
-    <div id="adminPanel">
-        <h3>Admin Panel</h3>
-        <button class="btn" onclick="addClient()">+ Add Client</button>
-        <button class="btn btn-blue" onclick="addMoreVideo()">+ Add Video</button>
-        <button class="btn" onclick="document.getElementById('adminPanel').style.display='none';">Close</button>
-    </div>
-    <div id="addClientForm" class="hidden">
-        <input type="text" id="clientName" placeholder="Company Name">
-        <input type="text" id="clientImg" placeholder="Image URL">
-        <input type="text" id="clientService" placeholder="Service provided">
-        <button class="btn" onclick="saveClient()">Save Client</button>
-    </div>
-    <div id="addVideoForm" class="hidden">
-        <input type="text" id="videoTitle" placeholder="Title">
-        <input type="text" id="videoLink" placeholder="YouTube/Drive Link">
-        <select id="videoCat">
-            <option>UGC</option><option>News</option><option>Marketing</option><option>YouTube</option>
-        </select>
-        <button class="btn" onclick="saveVideo()">Save Video</button>
-    </div>
-
     <script>
-        // --- Theme Toggle (Dark/White Mode) ---
+        // --- THEME TOGGLE ---
         function toggleTheme() {
             const body = document.body;
-            const btn = document.querySelector('.theme-btn');
-            body.classList.toggle('dark-mode');
-            
-            if (body.classList.contains('dark-mode')) {
-                btn.innerHTML = '☀️';
+            const btn = document.querySelector('.theme-toggle');
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.setAttribute('data-theme', 'light');
+                btn.innerText = '🌙 Dark';
             } else {
-                btn.innerHTML = '🌙';
+                body.setAttribute('data-theme', 'dark');
+                btn.innerText = '☀️ Light';
             }
         }
 
-        // --- Mobile Tab Navigation ---
+        // --- MOBILE TAB NAVIGATION ---
         function goTo(id, btn) {
             document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
         }
 
-        // --- Auto-Scroll Logic for Client Section (FIXED) ---
+        // --- FIXED AUTO-SCROLL LOGIC ---
         const clientScroll = document.getElementById('clientScrollContainer');
-        let isPaused = false;
-
-        function autoScroll() {
-            if (!isPaused) {
+        let scrollInterval = setInterval(() => {
+            // If scroll reaches the end, reset to start
+            if (clientScroll.scrollLeft + clientScroll.clientWidth >= clientScroll.scrollWidth - 1) {
+                clientScroll.scrollLeft = 0;
+            } else {
                 clientScroll.scrollLeft += 1;
-                // If reached the end, reset to start
-                if (clientScroll.scrollLeft >= (clientScroll.scrollWidth - clientScroll.clientWidth)) {
-                    clientScroll.scrollLeft = 0;
-                }
             }
-            requestAnimationFrame(autoScroll);
-        }
-        autoScroll(); // Start smooth auto-scrolling
+        }, 30);
+        
+        // Pause on hover, resume on leave
+        clientScroll.addEventListener('mouseover', () => clearInterval(scrollInterval));
+        clientScroll.addEventListener('mouseout', () => {
+            scrollInterval = setInterval(() => {
+                if (clientScroll.scrollLeft + clientScroll.clientWidth >= clientScroll.scrollWidth - 1) {
+                    clientScroll.scrollLeft = 0;
+                } else {
+                    clientScroll.scrollLeft += 1;
+                }
+            }, 30);
+        });
 
-        clientScroll.addEventListener('mouseenter', () => isPaused = true);
-        clientScroll.addEventListener('mouseleave', () => isPaused = false);
-        clientScroll.addEventListener('touchstart', () => isPaused = true);
-        clientScroll.addEventListener('touchend', () => isPaused = false);
-
-        // --- Video Filtering ---
+        // --- VIDEO FILTER ---
         function filterVideos(cat) {
             const videos = document.querySelectorAll('#mainVideoScroll .video-card');
             videos.forEach(v => {
@@ -325,60 +339,57 @@
             });
         }
 
-        // --- Video Modal ---
-        function openVideoModal() {
-            const list = document.getElementById('allVideosList');
-            list.innerHTML = '';
-            const allVideos = document.querySelectorAll('#mainVideoScroll .video-card');
-            allVideos.forEach(v => {
-                const frame = v.querySelector('iframe').outerHTML;
-                const title = v.querySelector('h3').innerText;
-                const cat = v.getAttribute('data-cat');
-                list.innerHTML += `<div class="card" style="margin-bottom:20px;">
-                    ${frame} <h4>${title}</h4> <p style="color:var(--grey)">Category: ${cat}</p>
-                </div>`;
-            });
-            document.getElementById('videoModal').style.display = 'flex';
-        }
-
-        // --- Article Modals ---
-        function openArticle(articleId) {
-            const content = document.getElementById('articleContent');
-            if (articleId === 'article1') {
-                content.innerHTML = `<h1>Best Editor 2026 Award</h1><p>Detailed article about winning the award...</p>`;
-            } else {
-                content.innerHTML = `<h1>Viral Video Secrets</h1><p>Detailed article about editing strategies...</p>`;
-            }
-            document.getElementById('articleModal').style.display = 'flex';
-        }
-
-        function openArticleList() {
-            const list = document.getElementById('allArticlesList');
-            list.innerHTML = `<div class="card" style="cursor:pointer;" onclick="openArticle('article1'); closeModal('articleListModal')">
-                <h3>Best Editor 2026</h3><p style="color:var(--grey)">Read more...</p></div>
-                <div class="card" style="cursor:pointer;" onclick="openArticle('article2'); closeModal('articleListModal')">
-                <h3>Viral Video Secrets</h3><p style="color:var(--grey)">Read more...</p></div>`;
-            document.getElementById('articleListModal').style.display = 'flex';
-        }
-
-        function closeModal(id) {
-            document.getElementById(id).style.display = 'none';
-        }
-
-        // --- Admin Functions (Hidden © Button) ---
-        function adminLogin() {
-            let pass = prompt("Enter Admin Password:");
-            if (pass === "admin123") {
-                document.getElementById('adminPanel').style.display = 'block';
-            } else {
-                alert("Incorrect!");
+        // --- CHATBOT & HIDDEN ADMIN LOGIC ---
+        function toggleChat() {
+            const box = document.getElementById('chatBox');
+            box.style.display = box.style.display === 'flex' ? 'none' : 'flex';
+            if (box.style.display === 'flex') {
+                document.getElementById('chatInput').focus();
             }
         }
 
-        function addClient() {
-            document.getElementById('addClientForm').classList.toggle('hidden');
+        function handleEnter(e) {
+            if (e.key === 'Enter') sendMessage();
         }
 
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const msg = input.value.trim();
+            if (!msg) return;
+
+            // Add User Message
+            const chatBody = document.getElementById('chatBody');
+            chatBody.innerHTML += `<div class="chat-msg user-msg">${msg}</div>`;
+            input.value = '';
+            chatBody.scrollTop = chatBody.scrollHeight;
+
+            // Bot Logic (Simulated AI)
+            setTimeout(() => {
+                let botReplyMsg = "";
+                const lowerMsg = msg.toLowerCase();
+
+                // Hidden Admin Code
+                if (msg === "099") {
+                    document.getElementById('adminPanel').style.display = 'block';
+                    botReplyMsg = "🛡️ Admin Mode Unlocked! Please use the panel above to add Clients or Videos.";
+                } 
+                // Basic Enquiries
+                else if (lowerMsg.includes("price") || lowerMsg.includes("service")) {
+                    botReplyMsg = "I offer Video Editing, Reels, and Social Media Management. Pricing is negotiable! Please book a meeting for a custom quote.";
+                } 
+                else if (lowerMsg.includes("contact") || lowerMsg.includes("email")) {
+                    botReplyMsg = "You can reach me at admin@yourbrand.com or +91 98765 43210.";
+                } 
+                else {
+                    botReplyMsg = "Thank you for your query! I'm a smart assistant. Please ask about 'Services', 'Pricing', or type 'Contact' for details. (Admin: Type 099 to open panel)";
+                }
+
+                chatBody.innerHTML += `<div class="chat-msg bot-msg">${botReplyMsg}</div>`;
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }, 1000); // Simulating thinking delay
+        }
+
+        // --- ADMIN FUNCTIONS (Inside Chat) ---
         function saveClient() {
             let name = document.getElementById('clientName').value;
             let img = document.getElementById('clientImg').value;
@@ -390,11 +401,6 @@
             </div>`;
             document.getElementById('clientScrollContainer').insertAdjacentHTML('beforeend', html);
             alert("Client Added!");
-            document.getElementById('addClientForm').classList.add('hidden');
-        }
-
-        function addMoreVideo() {
-            document.getElementById('addVideoForm').classList.toggle('hidden');
         }
 
         function saveVideo() {
@@ -409,7 +415,44 @@
             </div>`;
             document.getElementById('mainVideoScroll').insertAdjacentHTML('beforeend', html);
             alert("Video Added!");
-            document.getElementById('addVideoForm').classList.add('hidden');
+        }
+
+        // --- MODAL LOGIC ---
+        function openVideoModal() {
+            const list = document.getElementById('allVideosList');
+            list.innerHTML = ''; 
+            const allVideos = document.querySelectorAll('#mainVideoScroll .video-card');
+            allVideos.forEach(v => {
+                const frame = v.querySelector('iframe').outerHTML;
+                const title = v.querySelector('h3').innerText;
+                list.innerHTML += `<div class="card" style="margin-bottom:20px; border:1px solid #ccc;">
+                    ${frame} <h4>${title}</h4>
+                </div>`;
+            });
+            document.getElementById('videoModal').style.display = 'flex';
+        }
+
+        function openArticle(articleId) {
+            const content = document.getElementById('articleContent');
+            if (articleId === 'article1') {
+                content.innerHTML = `<h1>Best Editor 2026 Award</h1><p>Detailed article about winning the award...</p>`;
+            } else {
+                content.innerHTML = `<h1>Viral Video Secrets</h1><p>Detailed article about editing strategies...</p>`;
+            }
+            document.getElementById('articleModal').style.display = 'flex';
+        }
+
+        function openArticleList() {
+            const list = document.getElementById('allArticlesList');
+            list.innerHTML = `<div class="card" style="cursor:pointer;" onclick="openArticle('article1'); closeModal('articleListModal')">
+                <h3>Best Editor 2026</h3><p>Read more...</p></div>
+                <div class="card" style="cursor:pointer;" onclick="openArticle('article2'); closeModal('articleListModal')">
+                <h3>Viral Video Secrets</h3><p>Read more...</p></div>`;
+            document.getElementById('articleListModal').style.display = 'flex';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
         }
     </script>
 </body>
