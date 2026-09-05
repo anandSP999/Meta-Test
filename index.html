@@ -1,219 +1,158 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio | Video Editor & SMM</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* --- THEMES --- */
-        :root, [data-theme="light"] {
-            --bg: #f4f4f4;
-            --white: #ffffff;
-            --dark: #111111;
-            --grey: #666666;
-            --yellow: #ffd900;
-            --blue: #0056b3;
-            --border: 2px solid var(--dark);
-            --shadow: 0 4px 15px rgba(0,0,0,0.1);
+        :root {
+            --bg: #f4f4f4; --card: #ffffff; --text: #111; --text-grey: #666; --border: 2px solid #111;
+            --yellow: #ffd900; --blue: #0056b3; --shadow: 0 4px 15px rgba(0,0,0,0.08);
         }
-        [data-theme="dark"] {
-            --bg: #121212;
-            --white: #1e1e1e;
-            --dark: #ffffff;
-            --grey: #aaaaaa;
-            --yellow: #ffd900;
-            --blue: #4a90e2;
-            --border: 2px solid var(--dark);
-            --shadow: 0 4px 15px rgba(0,0,0,0.5);
+        body.dark-theme {
+            --bg: #111111; --card: #222222; --text: #ffffff; --text-grey: #aaa; --border: 2px solid #fff;
+            --shadow: 0 4px 15px rgba(255,255,255,0.1);
         }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; padding-bottom: 100px; transition: 0.3s; }
+        h1, h2, h3, p { color: var(--text); }
+        h2 { border-left: 5px solid var(--yellow); padding-left: 10px; margin-top: 40px; }
 
-        body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--dark); margin: 0; padding: 20px; padding-bottom: 80px; transition: background 0.3s, color 0.3s; }
-        
-        /* --- TYPOGRAPHY & GENERAL --- */
-        h1, h2, h3 { margin: 10px 0; }
-        h2 { font-size: 22px; border-left: 5px solid var(--yellow); padding-left: 10px; margin-top: 40px; }
+        /* Theme Toggle */
+        .theme-toggle { position: fixed; top: 15px; right: 15px; z-index: 1000; background: var(--card); border: var(--border); border-radius: 50px; padding: 5px 10px; cursor: pointer; font-size: 20px; }
 
-        /* --- LAYOUT --- */
-        .desktop-nav { display: none; }
-        .mobile-tabs { display: flex; position: fixed; bottom: 0; left: 0; right: 0; background: var(--white); box-shadow: 0 -4px 15px var(--shadow); z-index: 100; border-radius: 20px 20px 0 0; border-top: var(--border); }
-        .tab-btn { flex: 1; padding: 15px; font-size: 12px; background: none; border: none; font-weight: 700; color: var(--grey); cursor: pointer; }
-        .tab-btn.active { color: var(--blue); }
-        
-        @media (min-width: 900px) {
-            body { padding: 40px; }
-            .mobile-tabs { display: none; }
-            .desktop-nav { display: flex; gap: 10px; position: sticky; top: 0; background: var(--white); backdrop-filter: blur(10px); padding: 15px; border-radius: 20px; z-index: 100; justify-content: center; border: var(--border); margin-bottom: 20px; }
-            .max-width { max-width: 1200px; margin: 0 auto; }
-        }
+        /* Footer (Created by) */
+        .footer-made-by { text-align: center; margin-top: 50px; font-size: 12px; color: var(--text-grey); cursor: pointer; }
+        .footer-made-by:hover { color: var(--yellow); }
 
-        /* --- TOP BAR (Theme Toggle) --- */
-        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .theme-toggle { cursor: pointer; background: var(--white); border: var(--border); padding: 10px 15px; border-radius: 50px; font-weight: bold; }
-
-        /* --- COMPONENTS --- */
-        .card { background: var(--white); border: var(--border); border-radius: 24px; box-shadow: var(--shadow); padding: 20px; margin-bottom: 20px; transition: background 0.3s, border-color 0.3s; }
-        .btn { background: var(--yellow); border: var(--border); border-radius: 50px; padding: 10px 20px; font-weight: 700; cursor: pointer; transition: transform 0.1s; text-decoration: none; display: inline-block; color: var(--dark); }
+        /* Components */
+        .card { background: var(--card); border: var(--border); border-radius: 24px; box-shadow: var(--shadow); padding: 20px; margin-bottom: 20px; }
+        .btn { background: var(--yellow); border: var(--border); border-radius: 50px; padding: 10px 20px; font-weight: 700; cursor: pointer; transition: transform 0.1s; color: #111; }
         .btn:active { transform: scale(0.95); }
         .btn-blue { background: var(--blue); color: white; border: none; }
-        .verified { background: var(--blue); color: white; font-size: 12px; padding: 4px 10px; border-radius: 20px; position: absolute; top: 15px; right: 15px; }
-        .relative { position: relative; }
 
-        /* --- H-SCROLL (Fixed Auto-Scroll) --- */
+        /* Horizontal Scroll Containers */
         .h-scroll { display: flex; gap: 20px; overflow-x: auto; padding-bottom: 20px; scrollbar-width: none; scroll-behavior: smooth; }
         .h-scroll::-webkit-scrollbar { display: none; }
-        .h-scroll-card { min-width: 280px; }
+        .card-scroll { min-width: 280px; max-width: 280px; scroll-snap-align: start; display: flex; flex-direction: column; align-items: center; text-align: center; }
 
-        /* --- VIDEO SECTION --- */
-        .filter-btn-container { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
-        .video-card { min-width: 350px; max-width: 350px; }
-        .video-card iframe { width: 100%; height: 200px; border-radius: 15px; border: none; }
+        /* Client Card */
+        .client-img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid var(--yellow); }
 
-        /* --- CHATBOT UI (New) --- */
-        #chatFab { position: fixed; bottom: 90px; right: 20px; width: 60px; height: 60px; border-radius: 50%; background: var(--blue); color: white; font-size: 30px; display: flex; justify-content: center; align-items: center; box-shadow: var(--shadow); cursor: pointer; z-index: 1000; border: none; }
-        #chatBox { position: fixed; bottom: 160px; right: 20px; width: 350px; max-height: 400px; background: var(--white); border: var(--border); border-radius: 20px; box-shadow: var(--shadow); display: none; flex-direction: column; overflow: hidden; z-index: 1000; }
-        .chat-header { background: var(--blue); color: white; padding: 10px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
-        .chat-body { padding: 15px; height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-        .chat-msg { padding: 10px; border-radius: 15px; max-width: 80%; font-size: 14px; }
-        .bot-msg { background: #eee; align-self: flex-start; color: #111; }
-        .user-msg { background: var(--blue); color: white; align-self: flex-end; }
-        .chat-input-area { display: flex; border-top: 1px solid #ccc; }
-        .chat-input-area input { flex: 1; border: none; padding: 15px; outline: none; background: var(--white); color: var(--dark); }
-        .chat-send { background: var(--yellow); border: none; padding: 10px; cursor: pointer; font-weight: bold; }
+        /* Video Card */
+        .video-card { min-width: 320px; max-width: 320px; }
+        .video-card iframe { width: 100%; height: 200px; border-radius: 15px; border: none; background: black; }
 
-        /* --- HIDDEN ADMIN PANEL (Inside Chat) --- */
-        #adminPanel { display: none; background: #f9f9f9; border-top: 1px solid #ccc; padding: 10px; }
-        #adminPanel input, #adminPanel textarea { width: 100%; padding: 8px; border-radius: 10px; border: 1px solid #ccc; margin-bottom: 10px; box-sizing: border-box; font-family: inherit; }
+        /* Popups */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 1000; }
+        .modal-content { background: var(--card); width: 90%; max-width: 800px; max-height: 80vh; overflow-y: auto; border-radius: 20px; padding: 20px; border: var(--border); }
+        .close-modal { float: right; background: var(--yellow); border: var(--border); border-radius: 50%; width: 30px; height: 30px; cursor: pointer; font-weight: bold; }
 
-        /* --- MODALS --- */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 1050; }
-        .modal-content { background: var(--white); width: 90%; max-width: 800px; max-height: 80vh; overflow-y: auto; border-radius: 20px; padding: 20px; border: var(--border); position: relative; }
-        .close-modal { position: sticky; top: 0; float: right; cursor: pointer; background: var(--yellow); border: 1px solid #000; border-radius: 50%; width: 30px; height: 30px; display: flex; justify-content: center; align-items: center; font-weight: bold; }
+        /* Chatbot */
+        #chatWindow { position: fixed; bottom: 20px; right: 20px; width: 300px; max-width: 100%; height: 450px; background: var(--card); border: var(--border); border-radius: 20px; display: none; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 1001; overflow: hidden; }
+        .chat-header { background: var(--blue); color: white; padding: 15px; }
+        .chat-body { flex: 1; padding: 15px; overflow-y: auto; background: var(--bg); }
+        .chat-input-area { padding: 10px; background: var(--card); border-top: 1px solid #ccc; display: flex; gap: 5px; }
+        .chat-input-area input { flex: 1; padding: 10px; border-radius: 20px; border: 1px solid #ccc; background: var(--bg); color: var(--text); }
+        
+        .msg { padding: 10px; border-radius: 15px; margin-bottom: 10px; max-width: 80%; font-size: 14px; }
+        .msg-bot { background: #fff; color: #333; border: 1px solid #ddd; }
+        .msg-user { background: var(--blue); color: white; margin-left: auto; }
 
-        /* --- GROWTH --- */
-        .growth-box { min-width: 250px; background: #222; color: white; border-radius: 15px; padding: 15px; }
-        .growth-bar { height: 10px; background: #444; border-radius: 10px; margin-top: 10px; overflow: hidden; }
-        .growth-fill { height: 100%; background: var(--yellow); }
+        .quick-btn { font-size: 12px; padding: 8px; margin: 2px; }
+        #chatFAB { position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; border-radius: 50%; background: var(--yellow); border: var(--border); cursor: pointer; display: flex; justify-content: center; align-items: center; font-size: 24px; z-index: 1000; box-shadow: var(--shadow); }
 
-        /* --- PROFILE --- */
-        .profile-section { text-align: center; background: var(--white); border: var(--border); border-radius: 24px; padding: 30px; }
-        .profile-img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid var(--yellow); }
+        /* Admin Hidden Panel */
+        #adminPanel { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--card); padding: 20px; border-radius: 20px; border: var(--border); display: none; z-index: 1002; width: 90%; max-width: 400px; }
+        #addClientForm, #addVideoForm { display: none; }
+        input, textarea { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ccc; box-sizing: border-box; margin-bottom: 10px; background: var(--bg); color: var(--text); }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            #chatWindow { width: 100%; height: 60vh; bottom: 0; right: 0; border-radius: 20px 20px 0 0; }
+            #chatFAB { bottom: 20px; right: 20px; }
+        }
     </style>
 </head>
 <body>
 
-    <!-- Top Bar with Theme Toggle -->
-    <div class="top-bar">
-        <div style="font-weight: 800;">✦ Your Portfolio ⚡</div>
-        <div class="theme-toggle" onclick="toggleTheme()">🌙 Dark</div>
-    </div>
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
 
-    <!-- Desktop Navigation -->
-    <div class="desktop-nav">
-        <a href="#videos" class="btn">Videos</a>
-        <a href="#growth" class="btn">Growth</a>
-        <a href="#clients" class="btn">Clients</a>
-        <a href="#articles" class="btn">Articles</a>
-        <a href="#contact" class="btn btn-blue">Contact</a>
-    </div>
-
-    <div class="max-width">
-
+    <div class="max-width" style="max-width: 1200px; margin: 0 auto;">
+        
         <!-- Profile Section -->
-        <div class="profile-section">
-            <img src="https://via.placeholder.com/150" class="profile-img" alt="Profile">
+        <div class="card" style="text-align: center; padding: 40px;">
+            <img src="https://via.placeholder.com/150" style="width: 150px; height: 150px; border-radius: 50%; border: 4px solid var(--yellow);" alt="Profile">
             <h1>✦ YOUR NAME ⚡</h1>
-            <p style="color: var(--grey);">Professional Video Editor & Social Media Manager</p>
+            <p style="color: var(--text-grey);">Professional Video Editor & Social Media Manager</p>
             <a href="#contact" class="btn">Hire Me</a>
         </div>
 
         <!-- VIDEO PORTFOLIO -->
         <h2>🎬 Video Portfolio</h2>
-        <div class="filter-btn-container">
+        <div class="filter-btn-container" style="margin-bottom: 20px;">
             <button class="btn" onclick="filterVideos('all')">All</button>
             <button class="btn" onclick="filterVideos('UGC')">UGC</button>
             <button class="btn" onclick="filterVideos('News')">News</button>
             <button class="btn" onclick="filterVideos('Marketing')">Marketing</button>
+            <button class="btn" onclick="filterVideos('YouTube')">YouTube</button>
         </div>
 
         <div class="h-scroll" id="mainVideoScroll">
-            <div class="card relative video-card" data-cat="UGC">
-                <span class="verified">UGC</span>
+            <div class="card video-card" data-cat="UGC">
                 <iframe src="https://www.youtube.com/embed/aqz-KE-bpKQ" allowfullscreen></iframe>
                 <h3>UGC Ad</h3>
             </div>
-            <div class="card relative video-card" data-cat="Marketing">
-                <span class="verified">Marketing</span>
+            <div class="card video-card" data-cat="Marketing">
                 <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
                 <h3>Marketing Reel</h3>
             </div>
-            <div class="card relative video-card" data-cat="News">
-                <span class="verified">News</span>
+            <div class="card video-card" data-cat="News">
                 <iframe src="https://www.youtube.com/embed/jNQXAC9IVRw" allowfullscreen></iframe>
                 <h3>News Segment</h3>
             </div>
         </div>
-        
         <div style="text-align: center; margin-top: 20px;">
             <button class="btn btn-blue" onclick="openVideoModal()">More Videos</button>
         </div>
 
-        <!-- SOCIAL MEDIA GROWTH RESULTS -->
-        <h2 id="growth">📈 Social Media Growth Results</h2>
+        <!-- GROWTH RESULTS -->
+        <h2>📈 Social Media Growth Results</h2>
         <div class="h-scroll">
-            <div class="growth-box">
-                <p>10K Views</p>
-                <div class="growth-bar"><div class="growth-fill" style="width: 100%;"></div></div>
-                <p style="color: var(--yellow);">Reached</p>
-            </div>
-            <div class="growth-box">
-                <p>50K Views</p>
-                <div class="growth-bar"><div class="growth-fill" style="width: 80%;"></div></div>
-                <p style="color: var(--yellow);">80% Reached</p>
-            </div>
-            <div class="growth-box">
-                <p>100K Views</p>
-                <div class="growth-bar"><div class="growth-fill" style="width: 40%;"></div></div>
-                <p style="color: var(--yellow);">Growing</p>
-            </div>
+            <div class="card" style="min-width: 250px;">10K Views Reached</div>
+            <div class="card" style="min-width: 250px;">50K Views Growing</div>
+            <div class="card" style="min-width: 250px;">100K Views Target</div>
         </div>
 
-        <!-- CLIENT COLLABORATION & SERVICES -->
-        <h2 id="clients">🤝 Client Collaboration & Services</h2>
-        <p style="color: var(--grey);">Trusted by these brands (Auto-scrolling).</p>
+        <!-- CLIENT COLLABORATION -->
+        <h2>🤝 Client Collaboration & Services</h2>
         <div class="h-scroll" id="clientScrollContainer">
-            <div class="card h-scroll-card">
-                <img src="https://via.placeholder.com/100" style="width: 60px; height: 60px; border-radius: 50%;" alt="Client">
+            <div class="card card-scroll">
+                <img src="https://via.placeholder.com/80" class="client-img">
                 <h3>Company A</h3>
-                <p style="color: var(--grey); font-size: 14px;">Video Editing, Reels</p>
+                <p style="font-size: 14px; color: var(--text-grey);">Video Editing, Reels</p>
             </div>
-            <div class="card h-scroll-card">
-                <img src="https://via.placeholder.com/100" style="width: 60px; height: 60px; border-radius: 50%;" alt="Client">
+            <div class="card card-scroll">
+                <img src="https://via.placeholder.com/80" class="client-img">
                 <h3>Company B</h3>
-                <p style="color: var(--grey); font-size: 14px;">Social Media Mgt</p>
-            </div>
-            <div class="card h-scroll-card">
-                <img src="https://via.placeholder.com/100" style="width: 60px; height: 60px; border-radius: 50%;" alt="Client">
-                <h3>Company C</h3>
-                <p style="color: var(--grey); font-size: 14px;">UGC & Content</p>
+                <p style="font-size: 14px; color: var(--text-grey);">Social Media Mgt</p>
             </div>
         </div>
 
         <!-- ARTICLES & ACHIEVEMENTS -->
-        <h2 id="articles">🏆 Articles & Achievements</h2>
+        <h2>🏆 Articles & Achievements</h2>
         <div class="h-scroll">
-            <div class="card h-scroll-card relative" onclick="openArticle('article1')" style="cursor: pointer;">
-                <span class="verified">Award</span>
+            <div class="card card-scroll" onclick="openArticle('article1')" style="cursor: pointer;">
                 <h3>Best Editor 2026</h3>
-                <p style="color: var(--grey);">Click to read...</p>
+                <p style="color: var(--text-grey);">Click to read...</p>
             </div>
-            <div class="card h-scroll-card relative" onclick="openArticle('article2')" style="cursor: pointer;">
-                <span class="verified">News</span>
+            <div class="card card-scroll" onclick="openArticle('article2')" style="cursor: pointer;">
                 <h3>Viral Video Secrets</h3>
-                <p style="color: var(--grey);">Click to read...</p>
+                <p style="color: var(--text-grey);">Click to read...</p>
             </div>
         </div>
-        <div style="text-align: center; margin-top: 20px;">
+        <div style="text-align: center;">
             <button class="btn btn-blue" onclick="openArticleList()">More Articles</button>
         </div>
 
@@ -221,57 +160,32 @@
         <h2 id="contact">📧 Contact Details</h2>
         <div class="card">
             <p><strong>Email:</strong> admin@yourbrand.com</p>
-            <p><strong>Phone:</strong> +91 98765 43210</p>
+            <p><strong>Phone:</strong> 099XXXXXX00</p>
             <a href="mailto:admin@yourbrand.com" class="btn">Send Email</a>
         </div>
-    </div>
 
-    <!-- Mobile Bottom Tab Bar -->
-    <div class="mobile-tabs">
-        <button class="tab-btn active" onclick="goTo('videos', this)">Videos</button>
-        <button class="tab-btn" onclick="goTo('growth', this)">Growth</button>
-        <button class="tab-btn" onclick="goTo('clients', this)">Clients</button>
-        <button class="tab-btn" onclick="goTo('articles', this)">Articles</button>
-        <button class="tab-btn" onclick="goTo('contact', this)">Contact</button>
-    </div>
-
-    <!-- CHATBOT -->
-    <button id="chatFab" onclick="toggleChat()">💬</button>
-    <div id="chatBox">
-        <div class="chat-header">
-            <span>Admin & AI Enquiry Assistant</span>
-            <span onclick="toggleChat()" style="cursor:pointer;">X</span>
-        </div>
-        <div class="chat-body" id="chatBody">
-            <div class="chat-msg bot-msg">Hi! I'm here to assist you. Ask me about services, pricing, or contact info.</div>
-        </div>
-        <div id="adminPanel">
-            <h4 style="margin: 5px 0;">🔒 Admin Mode</h4>
-            <input type="text" id="clientName" placeholder="Client Name">
-            <input type="text" id="clientImg" placeholder="Client Image URL">
-            <input type="text" id="clientService" placeholder="Service Provided">
-            <button class="btn" onclick="saveClient()">Save Client</button>
-            <hr>
-            <input type="text" id="videoTitle" placeholder="Video Title">
-            <input type="text" id="videoLink" placeholder="Video Link">
-            <input type="text" id="videoCat" placeholder="Video Category">
-            <button class="btn btn-blue" onclick="saveVideo()">Save Video</button>
-        </div>
-        <div class="chat-input-area">
-            <input type="text" id="chatInput" placeholder="Type here..." onkeypress="handleEnter(event)">
-            <button class="chat-send" onclick="sendMessage()">Send</button>
+        <!-- FOOTER -->
+        <div class="footer-made-by" onclick="openChat()">
+            © 2026 Made by <strong style="color: var(--blue);">Creator</strong>
         </div>
     </div>
 
-    <!-- MODALS -->
+    <!-- Modal: More Videos -->
     <div class="modal-overlay" id="videoModal">
         <div class="modal-content">
             <div class="close-modal" onclick="closeModal('videoModal')">X</div>
             <h2>All Videos</h2>
+            <!-- Category filters for Modal -->
+            <div style="margin-bottom: 15px;">
+                <button class="btn" onclick="filterModalVideos('all')">All</button>
+                <button class="btn" onclick="filterModalVideos('UGC')">UGC</button>
+                <button class="btn" onclick="filterModalVideos('News')">News</button>
+            </div>
             <div id="allVideosList"></div>
         </div>
     </div>
 
+    <!-- Modal: Article Content -->
     <div class="modal-overlay" id="articleModal">
         <div class="modal-content">
             <div class="close-modal" onclick="closeModal('articleModal')">X</div>
@@ -279,6 +193,7 @@
         </div>
     </div>
 
+    <!-- Modal: Article List -->
     <div class="modal-overlay" id="articleListModal">
         <div class="modal-content">
             <div class="close-modal" onclick="closeModal('articleListModal')">X</div>
@@ -287,157 +202,153 @@
         </div>
     </div>
 
-    <script>
-        // --- THEME TOGGLE ---
-        function toggleTheme() {
-            const body = document.body;
-            const btn = document.querySelector('.theme-toggle');
-            if (body.getAttribute('data-theme') === 'dark') {
-                body.setAttribute('data-theme', 'light');
-                btn.innerText = '🌙 Dark';
-            } else {
-                body.setAttribute('data-theme', 'dark');
-                btn.innerText = '☀️ Light';
-            }
-        }
+    <!-- Chat FAB Button -->
+    <div id="chatFAB" onclick="toggleChat()">💬</div>
 
-        // --- MOBILE TAB NAVIGATION ---
-        function goTo(id, btn) {
-            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-        }
+    <!-- Chat Window -->
+    <div id="chatWindow">
+        <div class="chat-header" style="display: flex; justify-content: space-between; align-items: center;">
+            <span>Personal Assistant</span>
+            <span style="cursor: pointer; font-size: 20px;" onclick="toggleChat()">×</span>
+        </div>
+        <div class="chat-body" id="chatBody">
+            <div class="msg msg-bot">Namaste! Main aapki madad karne ke liye yahan hoon. Aap neeche buttons dabakar sawaal pooch sakte hain.</div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="Type message..." onkeydown="if(event.key==='Enter') sendMessage()">
+            <button class="btn" onclick="sendMessage()">Send</button>
+        </div>
+        <div style="padding: 5px; text-align: center; border-top: 1px solid #ccc; background: var(--card);">
+            <button class="btn quick-btn" onclick="sendQuick('Services')">Services</button>
+            <button class="btn quick-btn" onclick="sendQuick('Contact')">Contact</button>
+            <button class="btn quick-btn" onclick="sendQuick('Portfolio')">Portfolio</button>
+        </div>
+    </div>
 
-        // --- FIXED AUTO-SCROLL LOGIC ---
-        const clientScroll = document.getElementById('clientScrollContainer');
-        let scrollInterval = setInterval(() => {
-            // If scroll reaches the end, reset to start
-            if (clientScroll.scrollLeft + clientScroll.clientWidth >= clientScroll.scrollWidth - 1) {
-                clientScroll.scrollLeft = 0;
-            } else {
-                clientScroll.scrollLeft += 1;
-            }
-        }, 30);
+    <!-- Admin Panel (Hidden) -->
+    <div id="adminPanel">
+        <h3>Admin Panel</h3>
+        <button class="btn" onclick="showAddClient()">+ Add Client</button>
+        <button class="btn btn-blue" onclick="showAddVideo()">+ Add Video</button>
+        <button class="btn" onclick="document.getElementById('adminPanel').style.display='none';">Close Admin</button>
         
-        // Pause on hover, resume on leave
-        clientScroll.addEventListener('mouseover', () => clearInterval(scrollInterval));
-        clientScroll.addEventListener('mouseout', () => {
-            scrollInterval = setInterval(() => {
-                if (clientScroll.scrollLeft + clientScroll.clientWidth >= clientScroll.scrollWidth - 1) {
-                    clientScroll.scrollLeft = 0;
-                } else {
-                    clientScroll.scrollLeft += 1;
-                }
-            }, 30);
-        });
+        <div id="addClientForm" style="margin-top: 15px;">
+            <h4>New Client</h4>
+            <input type="text" id="clientName" placeholder="Company Name">
+            <input type="text" id="clientImg" placeholder="Image URL">
+            <input type="text" id="clientService" placeholder="Service provided">
+            <button class="btn" onclick="saveClient()">Save Client</button>
+        </div>
 
-        // --- VIDEO FILTER ---
-        function filterVideos(cat) {
-            const videos = document.querySelectorAll('#mainVideoScroll .video-card');
-            videos.forEach(v => {
-                v.style.display = (cat === 'all' || v.getAttribute('data-cat') === cat) ? 'block' : 'none';
-            });
+        <div id="addVideoForm" style="margin-top: 15px;">
+            <h4>New Video</h4>
+            <input type="text" id="videoTitle" placeholder="Title">
+            <input type="text" id="videoLink" placeholder="YouTube/Drive Link">
+            <select id="videoCat">
+                <option>UGC</option><option>News</option><option>Marketing</option><option>YouTube</option>
+            </select>
+            <button class="btn" onclick="saveVideo()">Save Video</button>
+        </div>
+    </div>
+
+    <script>
+        // Theme Toggle
+        function toggleTheme() {
+            document.body.classList.toggle('dark-theme');
+            const btn = document.querySelector('.theme-toggle');
+            btn.innerText = document.body.classList.contains('dark-theme') ? '☀️' : '🌙';
         }
 
-        // --- CHATBOT & HIDDEN ADMIN LOGIC ---
+        // Chat Functions
         function toggleChat() {
-            const box = document.getElementById('chatBox');
-            box.style.display = box.style.display === 'flex' ? 'none' : 'flex';
-            if (box.style.display === 'flex') {
-                document.getElementById('chatInput').focus();
+            const chat = document.getElementById('chatWindow');
+            chat.style.display = chat.style.display === 'flex' ? 'none' : 'flex';
+            if(chat.style.display === 'flex') {
+                addBotMsg("Aap yahan kuch bhi puch sakte hain! 🎬");
             }
-        }
-
-        function handleEnter(e) {
-            if (e.key === 'Enter') sendMessage();
         }
 
         function sendMessage() {
-            const input = document.getElementById('chatInput');
-            const msg = input.value.trim();
-            if (!msg) return;
+            const input = document.getElementById('chatInput').value;
+            if (!input) return;
+            addUserMsg(input);
+            document.getElementById('chatInput').value = '';
 
-            // Add User Message
-            const chatBody = document.getElementById('chatBody');
-            chatBody.innerHTML += `<div class="chat-msg user-msg">${msg}</div>`;
-            input.value = '';
-            chatBody.scrollTop = chatBody.scrollHeight;
+            // SECRET ADMIN CODE
+            if (input.trim() === '099') {
+                addBotMsg("Admin access granted!");
+                document.getElementById('adminPanel').style.display = 'block';
+                return;
+            }
 
-            // Bot Logic (Simulated AI)
-            setTimeout(() => {
-                let botReplyMsg = "";
-                const lowerMsg = msg.toLowerCase();
-
-                // Hidden Admin Code
-                if (msg === "099") {
-                    document.getElementById('adminPanel').style.display = 'block';
-                    botReplyMsg = "🛡️ Admin Mode Unlocked! Please use the panel above to add Clients or Videos.";
-                } 
-                // Basic Enquiries
-                else if (lowerMsg.includes("price") || lowerMsg.includes("service")) {
-                    botReplyMsg = "I offer Video Editing, Reels, and Social Media Management. Pricing is negotiable! Please book a meeting for a custom quote.";
-                } 
-                else if (lowerMsg.includes("contact") || lowerMsg.includes("email")) {
-                    botReplyMsg = "You can reach me at admin@yourbrand.com or +91 98765 43210.";
-                } 
-                else {
-                    botReplyMsg = "Thank you for your query! I'm a smart assistant. Please ask about 'Services', 'Pricing', or type 'Contact' for details. (Admin: Type 099 to open panel)";
-                }
-
-                chatBody.innerHTML += `<div class="chat-msg bot-msg">${botReplyMsg}</div>`;
-                chatBody.scrollTop = chatBody.scrollHeight;
-            }, 1000); // Simulating thinking delay
+            handleBotLogic(input);
         }
 
-        // --- ADMIN FUNCTIONS (Inside Chat) ---
-        function saveClient() {
-            let name = document.getElementById('clientName').value;
-            let img = document.getElementById('clientImg').value;
-            let service = document.getElementById('clientService').value;
-            let html = `<div class="card h-scroll-card">
-                <img src="${img}" style="width:60px; height:60px; border-radius:50%;" onerror="this.src='https://via.placeholder.com/100'">
-                <h3>${name}</h3>
-                <p style="color:var(--grey); font-size:14px;">${service}</p>
-            </div>`;
-            document.getElementById('clientScrollContainer').insertAdjacentHTML('beforeend', html);
-            alert("Client Added!");
+        function sendQuick(text) {
+            addUserMsg(text);
+            handleBotLogic(text);
         }
 
-        function saveVideo() {
-            let title = document.getElementById('videoTitle').value;
-            let link = document.getElementById('videoLink').value;
-            let cat = document.getElementById('videoCat').value;
-            if(link.includes("watch?v=")) link = link.replace("watch?v=", "embed/");
-            let html = `<div class="card relative video-card" data-cat="${cat}">
-                <span class="verified">new</span>
-                <iframe src="${link}" allowfullscreen></iframe>
-                <h3>${title}</h3>
-            </div>`;
-            document.getElementById('mainVideoScroll').insertAdjacentHTML('beforeend', html);
-            alert("Video Added!");
+        function handleBotLogic(text) {
+            const lower = text.toLowerCase();
+            if (lower.includes('contact') || lower.includes('number')) {
+                addBotMsg("Aap mujhe is number par sampark kar sakte hain: 📞 099XXXXXX00");
+            } else if (lower.includes('service')) {
+                addBotMsg("Main Video Editing, Social Media Management aur UGC Ads provide karta hoon. Aap contact section mein jaakar kaam discuss kar sakte hain!");
+            } else if (lower.includes('portfolio')) {
+                addBotMsg("Portfolio dekhne ke liye upar 'Videos' section mein scroll karein.");
+            } else if (lower.includes('hello') || lower.includes('hi')) {
+                addBotMsg("Namaste! Kaise madad karu?");
+            } else {
+                addBotMsg("Achha sawaal! Iske liye aap mujhe direct contact kar sakte hain: 099XXXXXX00.");
+            }
         }
 
-        // --- MODAL LOGIC ---
+        function addUserMsg(text) {
+            const body = document.getElementById('chatBody');
+            body.innerHTML += `<div class="msg msg-user">${text}</div>`;
+            body.scrollTop = body.scrollHeight;
+        }
+
+        function addBotMsg(text) {
+            const body = document.getElementById('chatBody');
+            body.innerHTML += `<div class="msg msg-bot">${text}</div>`;
+            body.scrollTop = body.scrollHeight;
+        }
+
+        // Modal Functions
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
         function openVideoModal() {
             const list = document.getElementById('allVideosList');
-            list.innerHTML = ''; 
+            list.innerHTML = '';
             const allVideos = document.querySelectorAll('#mainVideoScroll .video-card');
             allVideos.forEach(v => {
                 const frame = v.querySelector('iframe').outerHTML;
                 const title = v.querySelector('h3').innerText;
-                list.innerHTML += `<div class="card" style="margin-bottom:20px; border:1px solid #ccc;">
-                    ${frame} <h4>${title}</h4>
+                const cat = v.getAttribute('data-cat');
+                list.innerHTML += `<div class="card" style="margin-bottom:20px;" data-modal-cat="${cat}">
+                    ${frame} <h4>${title} <span style="color:grey; font-size:12px;">(${cat})</span></h4>
                 </div>`;
             });
             document.getElementById('videoModal').style.display = 'flex';
         }
 
+        function filterModalVideos(cat) {
+            const videos = document.querySelectorAll('#allVideosList > div');
+            videos.forEach(v => {
+                v.style.display = (cat === 'all' || v.getAttribute('data-modal-cat') === cat) ? 'block' : 'none';
+            });
+        }
+
         function openArticle(articleId) {
             const content = document.getElementById('articleContent');
             if (articleId === 'article1') {
-                content.innerHTML = `<h1>Best Editor 2026 Award</h1><p>Detailed article about winning the award...</p>`;
+                content.innerHTML = `<h1>Best Editor 2026 Award</h1><p>Yahan article ka content likha hoga...</p>`;
             } else {
-                content.innerHTML = `<h1>Viral Video Secrets</h1><p>Detailed article about editing strategies...</p>`;
+                content.innerHTML = `<h1>Viral Video Secrets</h1><p>Yahan article ka content likha hoga...</p>`;
             }
             document.getElementById('articleModal').style.display = 'flex';
         }
@@ -451,9 +362,65 @@
             document.getElementById('articleListModal').style.display = 'flex';
         }
 
-        function closeModal(id) {
-            document.getElementById(id).style.display = 'none';
+        // Video Filter (Main)
+        function filterVideos(cat) {
+            const videos = document.querySelectorAll('#mainVideoScroll .video-card');
+            videos.forEach(v => {
+                v.style.display = (cat === 'all' || v.getAttribute('data-cat') === cat) ? 'block' : 'none';
+            });
         }
+
+        // Admin Save Functions
+        function showAddClient() { document.getElementById('addClientForm').style.display = 'block'; }
+        function showAddVideo() { document.getElementById('addVideoForm').style.display = 'block'; }
+
+        function saveClient() {
+            let name = document.getElementById('clientName').value;
+            let img = document.getElementById('clientImg').value;
+            let service = document.getElementById('clientService').value;
+            let html = `<div class="card card-scroll">
+                <img src="${img}" class="client-img" onerror="this.src='https://via.placeholder.com/80'">
+                <h3>${name}</h3>
+                <p style="color: grey; font-size: 14px;">${service}</p>
+            </div>`;
+            document.getElementById('clientScrollContainer').insertAdjacentHTML('beforeend', html);
+            alert("Client Added!");
+        }
+
+        function saveVideo() {
+            let title = document.getElementById('videoTitle').value;
+            let link = document.getElementById('videoLink').value;
+            let cat = document.getElementById('videoCat').value;
+            if(link.includes("watch?v=")) link = link.replace("watch?v=", "embed/");
+            let html = `<div class="card video-card" data-cat="${cat}">
+                <iframe src="${link}" allowfullscreen></iframe>
+                <h3>${title}</h3>
+            </div>`;
+            document.getElementById('mainVideoScroll').insertAdjacentHTML('beforeend', html);
+            alert("Video Added!");
+        }
+
+        // Client Auto-Scroll Logic
+        const clientScroll = document.getElementById('clientScrollContainer');
+        let scrollInterval = setInterval(() => {
+            if (clientScroll.scrollLeft + clientScroll.clientWidth >= clientScroll.scrollWidth - 5) {
+                clientScroll.scrollLeft = 0;
+            } else {
+                clientScroll.scrollLeft += 1;
+            }
+        }, 40);
+        
+        // Pause on hover
+        clientScroll.addEventListener('mouseover', () => clearInterval(scrollInterval));
+        clientScroll.addEventListener('mouseout', () => {
+            scrollInterval = setInterval(() => {
+                if (clientScroll.scrollLeft + clientScroll.clientWidth >= clientScroll.scrollWidth - 5) {
+                    clientScroll.scrollLeft = 0;
+                } else {
+                    clientScroll.scrollLeft += 1;
+                }
+            }, 40);
+        });
     </script>
 </body>
 </html>
