@@ -3,405 +3,348 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>Portfolio | Video Editor & SMM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #111;
-            --bg: #f8f9fa;
-            --accent: #0056b3;
-            --grey: #666;
-            --radius: 20px;
+            --bg: #f5f5f5;
+            --white: #ffffff;
+            --dark: #111;
+            --grey: #777;
+            --yellow: #ffd900;
+            --blue: #0056b3;
+            --radius: 24px;
+            --shadow: 0 4px 20px rgba(0,0,0,0.08);
         }
-
         body {
             font-family: 'Poppins', sans-serif;
+            background: var(--bg);
             margin: 0;
-            background-color: var(--bg);
-            color: var(--primary);
-            padding-bottom: 80px; /* Space for mobile nav */
-        }
-
-        /* Hidden Admin Button */
-        .admin-gear {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--primary);
-            color: white;
-            text-align: center;
-            line-height: 40px;
-            cursor: pointer;
-            z-index: 999;
-            opacity: 0.3;
-            transition: 0.3s;
-        }
-        .admin-gear:hover { opacity: 1; }
-
-        /* -- DESKTOP SIDEBAR DESIGN (PC) -- */
-        .desktop-sidebar {
-            display: none;
-        }
-
-        .main-content {
-            margin-left: 0;
             padding: 20px;
-            max-width: 800px;
-            margin: 0 auto;
+            padding-bottom: 80px; /* Space for mobile tab bar */
+            color: var(--dark);
         }
-
-        /* -- MOBILE APP TAB BAR -- */
-        .mobile-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 70px;
-            background: white;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            border-top: 1px solid #ddd;
-            z-index: 100;
-            backdrop-filter: blur(10px);
+        h1, h2, h3 { margin: 10px 0; }
+        
+        /* Desktop vs Mobile Layout */
+        .desktop-nav { display: none; }
+        .mobile-tabs { display: flex; position: fixed; bottom: 0; left: 0; right: 0; background: var(--white); box-shadow: 0 -4px 10px rgba(0,0,0,0.1); z-index: 100; border-radius: 20px 20px 0 0; }
+        .tab-btn { flex: 1; padding: 15px; text-align: center; font-size: 12px; border: none; background: none; font-weight: 600; color: var(--grey); cursor: pointer; }
+        .tab-btn.active { color: var(--blue); }
+        
+        @media (min-width: 900px) {
+            body { padding: 40px; padding-bottom: 20px; }
+            .mobile-tabs { display: none; }
+            .desktop-nav { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 20px; position: sticky; top: 0; background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); padding: 15px; border-radius: 20px; z-index: 100; }
+            .page-section { max-width: 1200px; margin: 0 auto; }
+            .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
         }
-        .nav-item { cursor: pointer; font-size: 12px; text-align: center; color: var(--grey); }
-        .nav-item.active { color: var(--accent); font-weight: 600; }
-        .nav-item svg { width: 24px; height: 24px; display: block; margin: 0 auto; }
-
-        /* Pages */
-        .page { display: none; animation: fadeIn 0.4s ease; }
-        .page.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* Cards */
-        .card {
-            background: white;
-            border-radius: var(--radius);
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
-
-        /* Home / Intro */
-        .profile-img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid var(--accent); display: block; margin: 0 auto 15px; }
-        .highlight-text { color: var(--accent); font-weight: 700; }
-
-        /* Portfolio */
-        .video-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
-        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; }
-        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
-        .image-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-        .image-grid img { width: 100%; border-radius: 12px; object-fit: cover; }
-
-        /* Growth */
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .stat-box { background: #eef; padding: 20px; border-radius: 12px; text-align: center; }
-        .stat-box h2 { margin: 0; font-size: 28px; color: var(--accent); }
-
-        /* Services */
-        .service-item { border-left: 4px solid var(--accent); padding-left: 15px; margin-bottom: 15px; }
-
-        /* Scheduler & Contact */
-        input, textarea, select {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-sizing: border-box;
-        }
-        button.submit-btn {
-            background: var(--accent);
-            color: white;
-            border: none;
-            padding: 15px;
-            width: 100%;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        /* Admin Modal */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; }
-        .modal-content { background: white; padding: 20px; border-radius: 12px; width: 90%; max-width: 400px; }
+        .card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; margin-bottom: 20px; border: 1px solid #ddd; }
         
-        /* Responsive Desktop View */
-        @media (min-width: 900px) {
-            body { padding-bottom: 0; }
-            .mobile-nav { display: none; }
-            .desktop-sidebar {
-                display: block;
-                position: fixed;
-                left: 0;
-                top: 0;
-                height: 100vh;
-                width: 250px;
-                background: white;
-                border-right: 1px solid #ddd;
-                padding: 20px;
-            }
-            .main-content { margin-left: 250px; max-width: 1200px; padding: 40px; }
-            .video-grid { grid-template-columns: repeat(3, 1fr); }
-            .image-grid { grid-template-columns: repeat(4, 1fr); }
-            .stats-grid { grid-template-columns: repeat(4, 1fr); }
-        }
+        /* Buttons with Press Animation */
+        .btn { background: var(--yellow); border: 2px solid var(--dark); border-radius: 50px; padding: 12px 25px; font-weight: 700; cursor: pointer; transition: transform 0.1s; border: none; }
+        .btn:active { transform: scale(0.95); }
+        .btn-blue { background: var(--blue); color: white; }
+        
+        /* Profile */
+        .profile-section { display: flex; flex-direction: column; align-items: center; text-align: center; }
+        .profile-img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid var(--yellow); box-shadow: var(--shadow); }
+        
+        /* Results / Milestones (Gamified style) */
+        .milestones-container { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px; scroll-snap-type: x mandatory; }
+        .milestone-box { min-width: 220px; background: #222; color: white; border-radius: 15px; padding: 15px; scroll-snap-align: start; }
+        .progress-bg { height: 10px; background: #444; border-radius: 10px; margin-top: 10px; }
+        .progress-fill { height: 100%; background: var(--yellow); border-radius: 10px; }
+
+        /* Video & Images */
+        .filter-btns { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        @media (min-width: 600px) { .grid-2 { grid-template-columns: 1fr 1fr; } }
+        .video-card iframe { width: 100%; height: 220px; border: none; border-radius: 15px; background: black; }
+        .image-card img { width: 100%; border-radius: 15px; object-fit: cover; max-height: 300px; }
+
+        /* Scheduler & Forms */
+        input, textarea, select { width: 100%; padding: 12px; border-radius: 15px; border: 1px solid #ddd; box-sizing: border-box; margin-bottom: 15px; font-family: inherit; }
+        
+        /* Admin Panel */
+        #adminLogin { position: fixed; top: 10px; right: 10px; z-index: 999; }
+        #adminPanel { background: var(--white); border-radius: 20px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 400px; z-index: 1000; }
+        .hidden { display: none; }
+        
+        h2 { border-left: 5px solid var(--yellow); padding-left: 10px; }
     </style>
 </head>
 <body>
 
-<!-- Admin Login Modal -->
-<div class="modal" id="adminModal">
-    <div class="modal-content">
-        <h3>Admin Login</h3>
-        <input type="password" id="adminPass" placeholder="Enter Password (Default: admin123)">
-        <button class="submit-btn" onclick="checkAdmin()">Login</button>
-        <button class="submit-btn" style="background: grey; margin-top:10px;" onclick="closeAdmin()">Close</button>
-    </div>
-</div>
+    <!-- Admin Login Button -->
+    <button id="adminLogin" class="btn btn-blue" onclick="adminLogin()">Admin</button>
 
-<!-- Admin Panel Add Content -->
-<div class="modal" id="addContentModal">
-    <div class="modal-content">
-        <h3>Add New Content</h3>
-        <select id="contentType">
-            <option value="video">Add Video (YouTube/Drive URL)</option>
-            <option value="image">Add Image URL</option>
-            <option value="article">Add Article</option>
-        </select>
-        <input type="text" id="contentTitle" placeholder="Title / Description">
-        <input type="text" id="contentUrl" placeholder="URL (for video/image)">
-        <textarea id="contentText" placeholder="Article Content (optional)" rows="3"></textarea>
-        <button class="submit-btn" onclick="addContent()">Add</button>
-        <button class="submit-btn" style="background: grey; margin-top:10px;" onclick="closeAddModal()">Close</button>
-    </div>
-</div>
-
-<!-- Desktop Sidebar -->
-<div class="desktop-sidebar">
-    <h2>My Portfolio</h2>
-    <div onclick="showPage('home')" class="nav-item">Home</div>
-    <div onclick="showPage('portfolio')" class="nav-item">Portfolio</div>
-    <div onclick="showPage('growth')" class="nav-item">Growth</div>
-    <div onclick="showPage('services')" class="nav-item">Services</div>
-    <div onclick="showPage('schedule')" class="nav-item">Schedule</div>
-    <div onclick="showPage('articles')" class="nav-item">Articles</div>
-    <div onclick="showPage('contact')" class="nav-item">Contact</div>
-    
-    <div style="position: absolute; bottom: 20px; width: 80%;">
-        <a href="#" onclick="openAdmin(event)" style="font-size: 12px; color: grey;">Admin Only</a>
-    </div>
-</div>
-
-<!-- Mobile Bottom Nav -->
-<div class="mobile-nav">
-    <div class="nav-item active" onclick="showPage('home')">Home</div>
-    <div class="nav-item" onclick="showPage('portfolio')">Portfolio</div>
-    <div class="nav-item" onclick="showPage('growth')">Growth</div>
-    <div class="nav-item" onclick="showPage('services')">Services</div>
-    <div class="nav-item" onclick="showPage('schedule')">Meet</div>
-    <div class="nav-item" onclick="showPage('articles')">Blog</div>
-    <div class="nav-item" onclick="showPage('contact')">Contact</div>
-</div>
-
-<div class="main-content">
-
-    <!-- HOME -->
-    <div id="home" class="page active">
-        <div class="card" style="text-align: center;">
-            <img src="https://via.placeholder.com/150" class="profile-img" id="profileImage" alt="Profile">
-            <h1>Your Name Here</h1>
-            <p class="highlight-text">Professional Video Editor & Social Media Manager</p>
-            <p>With years of experience in creating viral content, I help brands elevate their visual storytelling to drive massive engagement and growth.</p>
-            <a href="#schedule" class="submit-btn" onclick="showPage('schedule')">Hire Me</a>
+    <!-- Admin Panel -->
+    <div id="adminPanel">
+        <h3>Admin Panel</h3>
+        <div id="adminControls">
+            <button class="btn" onclick="showAddVideo()">Add Video</button>
+            <button class="btn" onclick="showAddImage()">Add Image</button>
+            <button class="btn btn-blue" onclick="logout()">Logout</button>
+        </div>
+        
+        <div id="videoForm" class="hidden">
+            <input type="text" id="newVideoTitle" placeholder="Video Title (e.g. Instagram Reel)">
+            <input type="text" id="newVideoLink" placeholder="Paste YouTube or Drive Link">
+            <input type="text" id="newVideoCat" placeholder="Category (e.g. Reels)">
+            <button class="btn" onclick="addVideo()">Save Video</button>
+        </div>
+        
+        <div id="imageForm" class="hidden">
+            <input type="text" id="newImageTitle" placeholder="Image Title">
+            <input type="text" id="newImageLink" placeholder="Paste Image URL">
+            <button class="btn" onclick="addImage()">Save Image</button>
         </div>
     </div>
 
-    <!-- PORTFOLIO -->
-    <div id="portfolio" class="page">
-        <h2>My Portfolio</h2>
-        <div class="video-grid" id="videoGrid">
-            <!-- Videos added by Admin will appear here -->
+    <!-- PC Navigation -->
+    <div class="desktop-nav">
+        <a href="#home" class="btn" style="text-decoration:none;">Home</a>
+        <a href="#videos" class="btn" style="text-decoration:none;">Videos</a>
+        <a href="#images" class="btn" style="text-decoration:none;">Images</a>
+        <a href="#results" class="btn" style="text-decoration:none;">Results</a>
+        <a href="#services" class="btn" style="text-decoration:none;">Services</a>
+        <a href="#meeting" class="btn" style="text-decoration:none;">Meeting</a>
+        <a href="#articles" class="btn" style="text-decoration:none;">Articles</a>
+        <a href="#contact" class="btn" style="text-decoration:none;">Contact</a>
+    </div>
+
+    <!-- Home Section -->
+    <div id="home" class="page-section">
+        <div class="card profile-section">
+            <img src="https://via.placeholder.com/150" class="profile-img" alt="Profile">
+            <h1>✦ Your Name ⚡</h1>
+            <p style="color: var(--grey);">Professional Video Editor & Social Media Manager</p>
+            <p>I craft high-quality, engaging visual stories that help brands grow and connect with their audience.</p>
+            <div style="display:flex; gap: 10px;">
+                <a href="#contact" class="btn btn-blue" style="text-decoration:none;">Contact Me</a>
+                <a href="#videos" class="btn" style="text-decoration:none;">View Work</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Videos Section -->
+    <div id="videos" class="page-section">
+        <h2>🎬 Video Portfolio</h2>
+        <div class="filter-btns">
+            <button class="btn" onclick="filterVideos('all')">All</button>
+            <button class="btn" onclick="filterVideos('Reels')">Reels</button>
+            <button class="btn" onclick="filterVideos('Editing')">Cinematic</button>
+        </div>
+        
+        <div class="grid-2" id="videosContainer">
+            <!-- Default Video (Admin can add more) -->
+            <div class="card video-card" data-cat="Editing">
+                <iframe src="https://www.youtube.com/embed/aqz-KE-bpKQ" allowfullscreen></iframe>
+                <h3>Cinematic Travel Edit</h3>
+                <p style="color: var(--grey);">2026 Highlight</p>
+            </div>
+            <div class="card video-card" data-cat="Reels">
+                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                <h3>Viral Instagram Reel</h3>
+                <p style="color: var(--grey);">Trending Audio</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Images Section -->
+    <div id="images" class="page-section">
+        <h2>🖼️ Photography & Thumbnails</h2>
+        <div class="grid-2" id="imagesContainer">
+            <div class="card image-card">
+                <img src="https://via.placeholder.com/600x400" alt="Work">
+                <h3>Project Thumbnail 1</h3>
+            </div>
+            <div class="card image-card">
+                <img src="https://via.placeholder.com/600x400" alt="Work">
+                <h3>Project Thumbnail 2</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results / Milestones Section -->
+    <div id="results" class="page-section">
+        <h2>📈 Social Media Growth Results</h2>
+        <div class="card">
+            <div class="milestones-container">
+                <div class="milestone-box">
+                    <p>10K Views</p><div class="progress-bg"><div class="progress-fill" style="width: 100%;"></div></div>
+                    <p style="color: var(--yellow);">Achieved</p>
+                </div>
+                <div class="milestone-box">
+                    <p>30K Views</p><div class="progress-bg"><div class="progress-fill" style="width: 80%;"></div></div>
+                    <p style="color: var(--yellow);">90% there</p>
+                </div>
+                <div class="milestone-box">
+                    <p>100K Views</p><div class="progress-bg"><div class="progress-fill" style="width: 40%;"></div></div>
+                    <p style="color: var(--yellow);">Growing</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Services Section (No Pricing) -->
+    <div id="services" class="page-section">
+        <h2>🤝 Client Collaboration & Services</h2>
+        <div class="grid-3">
             <div class="card">
-                <div class="video-container"><iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe></div>
-                <h3>Sample Project</h3>
-            </div>
-        </div>
-        <h2>Image Gallery</h2>
-        <div class="image-grid" id="imageGrid">
-            <!-- Images added by Admin will appear here -->
-            <img src="https://via.placeholder.com/300" alt="Work 1">
-            <img src="https://via.placeholder.com/300" alt="Work 2">
-        </div>
-    </div>
-
-    <!-- GROWTH / RESULTS -->
-    <div id="growth" class="page">
-        <h2>Social Media Growth Results</h2>
-        <div class="card">
-            <div class="stats-grid" id="statsGrid">
-                <div class="stat-box"><h2>10M+</h2><p>Views Generated</p></div>
-                <div class="stat-box"><h2>150+</h2><p>Happy Clients</p></div>
-                <div class="stat-box"><h2>500K</h2><p>Followers Grown</p></div>
-                <div class="stat-box"><h2>3 Years</h2><p>Experience</p></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- SERVICES -->
-    <div id="services" class="page">
-        <h2>Let's Collaborate</h2>
-        <div class="card">
-            <div class="service-item">
                 <h3>Video Editing</h3>
-                <p>Cinematic cuts, color grading, motion graphics, and sound design tailored for YouTube, Instagram Reels, and advertisements.</p>
+                <p>Professional cuts, color grading, motion graphics, high-quality sound design for Reels, YouTube, and Corporate.</p>
             </div>
-            <div class="service-item">
+            <div class="card">
                 <h3>Social Media Management</h3>
-                <p>Complete management of your profiles, content calendars, captions, hashtags, and growth strategies.</p>
+                <p>Content strategy, posting schedules, growth hacking, audience engagement across all platforms.</p>
             </div>
-            <div class="service-item">
-                <h3>Thumbnail & Design</h3>
-                <p>Eye-catching thumbnails and creatives designed to maximize click-through rates and visual appeal.</p>
+            <div class="card">
+                <h3>Complete Branding</h3>
+                <p>Visual storytelling, thumbnails, ad creatives, and a consistent brand look. <br>(Pricing is negotiable and discussed directly with clients.)</p>
             </div>
-            <p style="color: var(--grey); font-size: 14px;">For pricing and custom packages, please contact me or schedule a meeting.</p>
         </div>
     </div>
 
-    <!-- SCHEDULE -->
-    <div id="schedule" class="page">
-        <h2>Schedule a Meeting</h2>
+    <!-- Meeting Scheduler -->
+    <div id="meeting" class="page-section">
+        <h2>📅 Schedule a Meeting</h2>
         <div class="card">
-            <form onsubmit="event.preventDefault(); alert('Meeting Request Sent!');">
+            <p>Let's discuss your project!</p>
+            <form onsubmit="event.preventDefault(); alert('Meeting Request Sent Successfully!'); this.reset();">
                 <input type="text" placeholder="Your Name" required>
                 <input type="email" placeholder="Your Email" required>
-                <input type="date" required>
-                <input type="time" required>
-                <textarea placeholder="Project Details" rows="3"></textarea>
-                <button type="submit" class="submit-btn">Book Meeting</button>
+                <input type="datetime-local" required>
+                <textarea placeholder="Project Details..."></textarea>
+                <button type="submit" class="btn btn-blue" style="width: 100%;">Book Meeting</button>
             </form>
         </div>
     </div>
 
-    <!-- ARTICLES / ACHIEVEMENTS -->
-    <div id="articles" class="page">
-        <h2>Articles, Achievements & History</h2>
-        <div id="articleList">
-            <div class="card">
-                <h3>Award for Best Editor 2024</h3>
-                <p>Received the award for outstanding creativity and technical skill in video post-production. This milestone shaped my career.</p>
-            </div>
-            <div class="card">
-                <h3>Journey to 100k Followers</h3>
-                <p>How I helped a small brand explode their social media presence using data-driven editing strategies and consistent posting.</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- CONTACT -->
-    <div id="contact" class="page">
-        <h2>Contact Details</h2>
+    <!-- Articles & Achievements -->
+    <div id="articles" class="page-section">
+        <h2>🏆 Articles & Achievements</h2>
         <div class="card">
-            <p><strong>Email:</strong> admin@portfolio.com</p>
-            <p><strong>Phone:</strong> +91-9876543210</p>
-            <p><strong>Instagram:</strong> @yourprofile</p>
-            <p><strong>LinkedIn:</strong> /in/yourprofile</p>
+            <div style="border-left: 4px solid var(--yellow); padding-left: 15px;">
+                <h3>2026: Won Best Editing Award</h3>
+                <p style="color: var(--grey);">Small intro about the award...</p>
+            </div>
+            <div style="border-left: 4px solid var(--yellow); padding-left: 15px; margin-top: 20px;">
+                <h3>History: From Beginner to Pro</h3>
+                <p style="color: var(--grey);">How I started my editing journey...</p>
+            </div>
         </div>
     </div>
-</div>
 
-<div class="admin-gear" onclick="openAdmin(event)">⚙️</div>
+    <!-- Contact Details -->
+    <div id="contact" class="page-section">
+        <h2>📧 Contact Details</h2>
+        <div class="card">
+            <p><strong>Email:</strong> yourbusiness@email.com</p>
+            <p><strong>Phone/WhatsApp:</strong> +91 9876543210</p>
+            <p><strong>Instagram:</strong> @your_handle</p>
+            <a href="mailto:yourbusiness@email.com" class="btn">Email Now</a>
+        </div>
+    </div>
 
-<script>
-    // Navigation Logic
-    function showPage(pageId) {
-        document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-        document.getElementById(pageId).classList.add('active');
-        
-        // Mobile Nav update
-        if (window.innerWidth < 900) {
-            document.querySelectorAll('.mobile-nav .nav-item').forEach(item => item.classList.remove('active'));
-            // Find the clicked mobile item
-            const navItems = document.querySelectorAll('.mobile-nav .nav-item');
-            for(let i=0; i<navItems.length; i++) {
-                if(navItems[i].getAttribute('onclick').includes(pageId)) {
-                    navItems[i].classList.add('active');
-                    break;
+    <!-- Mobile Tab Bar -->
+    <div class="mobile-tabs">
+        <button class="tab-btn active" onclick="goTo('home', this)">Home</button>
+        <button class="tab-btn" onclick="goTo('videos', this)">Videos</button>
+        <button class="tab-btn" onclick="goTo('results', this)">Growth</button>
+        <button class="tab-btn" onclick="goTo('services', this)">Services</button>
+        <button class="tab-btn" onclick="goTo('meeting', this)">Book</button>
+    </div>
+
+    <!-- Javascript Logic -->
+    <script>
+        // --- Mobile Tab Navigation ---
+        function goTo(id, btn) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        // --- Video Filtering ---
+        function filterVideos(cat) {
+            const videos = document.querySelectorAll('.video-card');
+            videos.forEach(v => {
+                if (cat === 'all' || v.getAttribute('data-cat') === cat) {
+                    v.style.display = 'block';
+                } else {
+                    v.style.display = 'none';
                 }
+            });
+        }
+
+        // --- Admin Functionality (Local Storage for Real-time Add) ---
+        let isAdmin = false;
+        
+        function adminLogin() {
+            let pass = prompt("Enter Admin Password:");
+            if (pass === "admin123") {
+                isAdmin = true;
+                document.getElementById('adminPanel').style.display = 'block';
+                alert("Welcome Admin!");
+            } else {
+                alert("Wrong Password!");
             }
         }
-    }
 
-    // Admin Functions
-    let isAdmin = false;
-    
-    function openAdmin(e) {
-        if(e) e.preventDefault();
-        if (isAdmin) {
-            document.getElementById('addContentModal').style.display = 'flex';
-        } else {
-            document.getElementById('adminModal').style.display = 'flex';
+        function logout() {
+            isAdmin = false;
+            document.getElementById('adminPanel').style.display = 'none';
         }
-    }
 
-    function closeAdmin() {
-        document.getElementById('adminModal').style.display = 'none';
-    }
-
-    function closeAddModal() {
-        document.getElementById('addContentModal').style.display = 'none';
-    }
-
-    function checkAdmin() {
-        const pass = document.getElementById('adminPass').value;
-        if (pass === 'admin123') {
-            isAdmin = true;
-            alert('Login Successful! Welcome Admin.');
-            closeAdmin();
-            openAddModal();
-        } else {
-            alert('Wrong Password!');
+        function showAddVideo() {
+            document.getElementById('videoForm').classList.toggle('hidden');
+            document.getElementById('imageForm').classList.add('hidden');
         }
-    }
 
-    function openAddModal() {
-        document.getElementById('addContentModal').style.display = 'flex';
-    }
+        function showAddImage() {
+            document.getElementById('imageForm').classList.toggle('hidden');
+            document.getElementById('videoForm').classList.add('hidden');
+        }
 
-    function addContent() {
-        const type = document.getElementById('contentType').value;
-        const title = document.getElementById('contentTitle').value;
-        const url = document.getElementById('contentUrl').value;
-        const text = document.getElementById('contentText').value;
+        function addVideo() {
+            let title = document.getElementById('newVideoTitle').value;
+            let link = document.getElementById('newVideoLink').value;
+            let cat = document.getElementById('newVideoCat').value;
 
-        if(type === 'video' && url) {
-            let embedUrl = url;
-            if (url.includes('youtube.com/watch?v=')) {
-                const id = url.split('v=')[1];
-                embedUrl = `https://www.youtube.com/embed/${id}`;
+            // Convert YouTube watch to embed
+            if (link.includes("watch?v=")) {
+                link = link.replace("watch?v=", "embed/");
             }
-            const html = `<div class="card"><div class="video-container"><iframe src="${embedUrl}" allowfullscreen></iframe></div><h3>${title}</h3></div>`;
-            document.getElementById('videoGrid').insertAdjacentHTML('beforeend', html);
-        }
-        else if(type === 'image' && url) {
-            const html = `<img src="${url}" alt="${title}">`;
-            document.getElementById('imageGrid').insertAdjacentHTML('beforeend', html);
-        }
-        else if(type === 'article') {
-            const html = `<div class="card"><h3>${title}</h3><p>${text}</p></div>`;
-            document.getElementById('articleList').insertAdjacentHTML('beforeend', html);
+
+            let videoHTML = `
+                <div class="card video-card" data-cat="${cat}">
+                    <iframe src="${link}" allowfullscreen></iframe>
+                    <h3>${title}</h3>
+                    <p style="color: var(--grey);">Added by Admin</p>
+                </div>`;
+            
+            document.getElementById('videosContainer').insertAdjacentHTML('beforeend', videoHTML);
+            alert("Video Added!");
+            document.getElementById('videoForm').classList.add('hidden');
         }
 
-        // Clear inputs
-        document.getElementById('contentTitle').value = '';
-        document.getElementById('contentUrl').value = '';
-        document.getElementById('contentText').value = '';
-        alert('Content Added Successfully!');
-    }
-</script>
+        function addImage() {
+            let title = document.getElementById('newImageTitle').value;
+            let link = document.getElementById('newImageLink').value;
 
+            let imgHTML = `
+                <div class="card image-card">
+                    <img src="${link}" alt="${title}">
+                    <h3>${title}</h3>
+                </div>`;
+            
+            document.getElementById('imagesContainer').insertAdjacentHTML('beforeend', imgHTML);
+            alert("Image Added!");
+            document.getElementById('imageForm').classList.add('hidden');
+        }
+    </script>
 </body>
 </html>
