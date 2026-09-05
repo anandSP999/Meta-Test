@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Video Editor & SMM Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* === UI/UX Variables (Matching the images) === */
+        :root {
+            --bg-color: #f4f4f4;
+            --card-bg: #ffffff;
+            --text-dark: #111;
+            --text-grey: #666;
+            --accent-yellow: #ffd900;
+            --accent-blue: #0056b3;
+            --radius-large: 24px;
+            --radius-pill: 50px;
+            --shadow: 0 4px 15px rgba(0,0,0,0.08);
+            --transition: all 0.2s ease;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+            color: var(--text-dark);
+        }
+
+        /* === Typography === */
+        h1, h2, h3 { margin: 10px 0; font-weight: 700; }
+        h2 { font-size: 24px; margin-bottom: 20px; }
+        
+        /* === Card Design === */
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius-large);
+            box-shadow: var(--shadow);
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+        }
+
+        /* === Profile Section (Top) === */
+        .profile-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 2px solid black;
+        }
+        .avatar { width: 80px; height: 80px; border-radius: 50%; background: #ccc; object-fit: cover; }
+        .badge {
+            background: var(--accent-blue);
+            color: white;
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+        .verified { float: right; background: var(--accent-blue); color: white; padding: 5px 10px; border-radius: 5px; font-size: 12px;}
+
+        /* === Pill Buttons & Press Animation === */
+        .btn {
+            background: var(--accent-yellow);
+            border: 2px solid black;
+            border-radius: var(--radius-pill);
+            padding: 12px 24px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-block;
+            text-decoration: none;
+            color: black;
+        }
+        /* Press Effect (Active state) */
+        .btn:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .btn:hover { filter: brightness(0.9); }
+        .btn-blue { background: var(--accent-blue); color: white; border: none; }
+
+        /* === Milestones / Horizontal Scroll Area === */
+        .milestones-container {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            scroll-snap-type: x mandatory;
+        }
+        .milestone-box {
+            min-width: 200px;
+            background: #222;
+            color: white;
+            border-radius: 12px;
+            padding: 15px;
+            scroll-snap-align: start;
+            position: relative;
+        }
+        .milestone-progress {
+            height: 10px;
+            background: #444;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        .milestone-fill {
+            height: 100%;
+            background: var(--accent-yellow);
+        }
+
+        /* === Video Category Grid === */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .video-card iframe {
+            width: 100%;
+            height: 200px;
+            border-radius: 12px;
+            border: none;
+            background: #000;
+        }
+        .tag { color: var(--accent-blue); font-weight: 600; }
+
+        /* === Service Pricing Section === */
+        .pricing-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
+        @media (max-width: 768px) { .pricing-grid { grid-template-columns: 1fr; } }
+
+        /* === Form / Meeting Scheduler === */
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 600; }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+            background: #f9f9f9;
+        }
+
+        /* === Blur (Glassmorphism) Overlay for smooth scrolling header === */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 10px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        /* === Blog/History Section === */
+        .article-card { border-left: 4px solid var(--accent-yellow); padding-left: 15px; margin-bottom: 15px; }
+
+        /* Responsive Adjustments */
+        @media (max-width: 600px) {
+            .pricing-grid { grid-template-columns: 1fr; }
+            .video-grid { grid-template-columns: 1fr; }
+            .sticky-header { flex-direction: column; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Glassmorphism Sticky Header -->
+    <div class="sticky-header">
+        <h3 style="margin:0;">✦ Your Name ⚡</h3>
+        <div>
+            <a href="#portfolio" class="btn" style="padding: 8px 16px;">Portfolio</a>
+            <a href="#services" class="btn btn-blue" style="padding: 8px 16px;">Services</a>
+        </div>
+    </div>
+
+    <!-- Introduction & Contact -->
+    <div class="card profile-card">
+        <span class="verified">verified</span>
+        <img src="https://via.placeholder.com/80" alt="Profile" class="avatar">
+        <div>
+            <h2>✦ GANESH ⚡ (Replace with your name)</h2>
+            <p style="color:var(--text-grey); margin: 0;">Video Editor & Social Media Manager</p>
+            <p style="margin: 5px 0;"><strong>Vision:</strong> Helping brands grow through engaging visual storytelling.</p>
+            <p><strong>Contact:</strong> your.email@example.com | +91-XXXXXXXXXX</p>
+        </div>
+    </div>
+
+    <!-- Results & Growth (Gamified Section) -->
+    <h2>📈 Social Media Results & Milestones</h2>
+    <div class="milestones-container">
+        <div class="milestone-box">
+            <p>10K Views</p>
+            <div class="milestone-progress"><div class="milestone-fill" style="width: 100%;"></div></div>
+            <p style="color:var(--accent-yellow);">⚡ 100 coins</p>
+        </div>
+        <div class="milestone-box">
+            <p>30K Views</p>
+            <div class="milestone-progress"><div class="milestone-fill" style="width: 80%;"></div></div>
+            <p style="color:var(--accent-yellow);">⚡ 200 coins</p>
+        </div>
+        <div class="milestone-box">
+            <p>100K Views</p>
+            <div class="milestone-progress"><div class="milestone-fill" style="width: 50%;"></div></div>
+            <p style="color:var(--accent-yellow);">⚡ 500 coins</p>
+        </div>
+        <div class="milestone-box">
+            <p>1M Views</p>
+            <div class="milestone-progress"><div class="milestone-fill" style="width: 10%;"></div></div>
+            <p style="color:var(--accent-yellow);">⚡ 1500 coins</p>
+        </div>
+    </div>
+
+    <!-- Category-wise Video Portfolio -->
+    <h2 id="portfolio">🎬 Category-wise Edited Videos</h2>
+    <p>Click the buttons below to filter!</p>
+    
+    <div class="btn" onclick="filterVideos('all')">All</div>
+    <div class="btn" onclick="filterVideos('reels')">Reels</div>
+    <div class="btn" onclick="filterVideos('documentary')">Documentary</div>
+    <div class="btn" onclick="filterVideos('corporate')">Corporate</div>
+
+    <div class="video-grid" id="videoGrid">
+        <!-- YouTube Link Example -->
+        <div class="card video-card" data-category="reels">
+            <h3>Trending Reel</h3>
+            <!-- YouTube Link Support -->
+            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+            <p><span class="tag">Instagram Reels</span> - Viral Edit</p>
+        </div>
+
+        <!-- Google Drive Link Example -->
+        <div class="card video-card" data-category="documentary">
+            <h3>Documentary Highlight</h3>
+            <!-- Google Drive Support (Replace with your raw Google Drive link) -->
+            <iframe src="https://drive.google.com/file/d/REPLACE_WITH_YOUR_ID/preview" allowfullscreen></iframe>
+            <p><span class="tag">Documentary</span> - Cinematic Color Grading</p>
+        </div>
+
+        <!-- Generic Embed -->
+        <div class="card video-card" data-category="corporate">
+            <h3>Corporate Video</h3>
+            <!-- YouTube Link Example -->
+            <iframe src="https://www.youtube.com/embed/aqz-KE-bpKQ" allowfullscreen></iframe>
+            <p><span class="tag">Corporate</span> - Storytelling & Motion Graphics</p>
+        </div>
+    </div>
+
+    <!-- Services & Negotiable Pricing -->
+    <h2 id="services">🛠️ My Services & Pricing (Negotiable)</h2>
+    <div class="pricing-grid">
+        <div class="card">
+            <h3>Basic Editing</h3>
+            <p>Cutting, Trimming, Audio Sync</p>
+            <h2>₹1500 <small style="font-size:12px; color:gray;">/video</small></h2>
+            <button class="btn" onclick="alert('Price is negotiable! Please use the scheduler below.')">Negotiate Price</button>
+        </div>
+        <div class="card">
+            <h3>Pro Editing</h3>
+            <p>Color Grading, Transitions, SFX, Subtitles</p>
+            <h2>₹3500 <small style="font-size:12px; color:gray;">/video</small></h2>
+            <button class="btn" onclick="alert('Price is negotiable! Please use the scheduler below.')">Negotiate Price</button>
+        </div>
+        <div class="card">
+            <h3>Social Media Mgt</h3>
+            <p>Weekly Reels, Strategy, Posting, Growth</p>
+            <h2>₹10,000 <small style="font-size:12px; color:gray;">/month</small></h2>
+            <button class="btn" onclick="alert('Price is negotiable! Please use the scheduler below.')">Negotiate Price</button>
+        </div>
+    </div>
+
+    <!-- Meeting Scheduler -->
+    <h2>📅 Schedule a Meeting</h2>
+    <div class="card">
+        <form onsubmit="event.preventDefault(); alert('Meeting request sent! I will get back to you soon.'); this.reset();">
+            <div class="form-group">
+                <label>Your Name</label>
+                <input type="text" required placeholder="John Doe">
+            </div>
+            <div class="form-group">
+                <label>Service Required</label>
+                <select style="width:100%; padding:12px; border-radius:12px;">
+                    <option>Video Editing</option>
+                    <option>Social Media Management</option>
+                    <option>Full Package</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Preferred Date & Time</label>
+                <input type="datetime-local" required>
+            </div>
+            <button type="submit" class="btn btn-blue" style="width:100%;">Book Meeting</button>
+        </form>
+    </div>
+
+    <!-- History / News / Articles (Like the 'About' section) -->
+    <h2>📰 News, Articles & My Journey</h2>
+    <div class="card">
+        <div class="article-card">
+            <h3>The Future of Video Editing in 2026</h3>
+            <p><small>Published: 2 days ago</small></p>
+            <p>AI is changing the game, but story-telling remains king. Here is my take on how editors should adapt...</p>
+            <button class="btn" style="padding: 5px 15px;">Read More</button>
+        </div>
+        <div class="article-card">
+            <h3>History of my Growth: From 0 to 100k Views</h3>
+            <p><small>Published: 1 week ago</small></p>
+            <p>Unveiling the strategy behind cracking the Instagram algorithm using reels and high retention editing...</p>
+            <button class="btn" style="padding: 5px 15px;">Read More</button>
+        </div>
+    </div>
+
+    <!-- Bottom Close Button Layout -->
+    <div style="text-align: center; margin-top: 20px;">
+        <button class="btn btn-blue">Close</button>
+    </div>
+
+    <!-- === JavaScript Logic === -->
+    <script>
+        // Video Category Filter
+        function filterVideos(category) {
+            const videos = document.querySelectorAll('.video-card');
+            videos.forEach(video => {
+                if (category === 'all' || video.getAttribute('data-category') === category) {
+                    video.style.display = 'block';
+                } else {
+                    video.style.display = 'none';
+                }
+            });
+        }
+
+        // Button Press Interaction effect (Purely CSS, but JS adds smooth hover logic if needed)
+        const buttons = document.querySelectorAll('.btn');
+        buttons.forEach(btn => {
+            btn.addEventListener('mousedown', () => btn.style.transform = 'scale(0.95)');
+            btn.addEventListener('mouseup', () => btn.style.transform = 'scale(1)');
+        });
+    </script>
+</body>
+  </html>
