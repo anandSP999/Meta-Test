@@ -3,305 +3,381 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional Portfolio - Video Editor & SMM</title>
+    <title>Portfolio | Video Editor & SMM</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #f4f4f4; --white: #ffffff; --dark: #111; --grey: #666; --yellow: #ffd900; --blue: #0056b3; --radius: 20px; --shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding: 20px; padding-bottom: 90px; color: var(--dark); }
-        h1, h2, h3 { margin: 10px 0; }
+        /* --- UI THEME (Matching Reference Images) --- */
+        :root {
+            --bg: #f4f4f4;
+            --white: #ffffff;
+            --dark: #111111;
+            --grey: #666666;
+            --yellow: #ffd900;
+            --blue: #0056b3;
+            --border: 2px solid var(--dark);
+            --radius-lg: 24px;
+            --radius-pill: 50px;
+            --shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--dark); margin: 0; padding: 20px; padding-bottom: 80px; }
         
-        /* Layouts */
+        /* --- Typography --- */
+        h1, h2, h3 { margin: 10px 0; }
+        h2 { font-size: 22px; border-left: 5px solid var(--yellow); padding-left: 10px; margin-top: 40px; }
+
+        /* --- Layout: PC vs Mobile --- */
         .desktop-nav { display: none; }
-        .mobile-tabs { display: flex; position: fixed; bottom: 0; left: 0; right: 0; background: var(--white); box-shadow: 0 -4px 10px rgba(0,0,0,0.1); z-index: 100; border-radius: 20px 20px 0 0; }
-        .tab-btn { flex: 1; padding: 15px; text-align: center; font-size: 12px; border: none; background: none; font-weight: 600; color: var(--grey); cursor: pointer; }
+        .mobile-tabs { display: flex; position: fixed; bottom: 0; left: 0; right: 0; background: var(--white); box-shadow: 0 -4px 15px rgba(0,0,0,0.1); z-index: 100; border-radius: 20px 20px 0 0; }
+        .tab-btn { flex: 1; padding: 15px; font-size: 12px; background: none; border: none; font-weight: 700; cursor: pointer; }
         .tab-btn.active { color: var(--blue); }
         
         @media (min-width: 900px) {
-            body { padding: 40px; padding-bottom: 20px; }
+            body { padding: 40px; padding-bottom: 40px; }
             .mobile-tabs { display: none; }
-            .desktop-nav { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 20px; position: sticky; top: 0; background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); padding: 15px; border-radius: 20px; z-index: 100; }
-            .page-section { max-width: 1200px; margin: 0 auto; }
-            .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-            .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+            .desktop-nav { display: flex; gap: 10px; position: sticky; top: 0; background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); padding: 15px; border-radius: 20px; z-index: 100; justify-content: center; }
+            .max-width { max-width: 1200px; margin: 0 auto; }
         }
 
-        /* Cards & Buttons */
-        .card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; margin-bottom: 20px; border: 1px solid #ddd; }
-        .btn { background: var(--yellow); border: 2px solid var(--dark); border-radius: 50px; padding: 10px 20px; font-weight: 700; cursor: pointer; transition: transform 0.1s; }
-        .btn:active { transform: scale(0.95); }
+        /* --- Components (Card, Buttons, Badges) --- */
+        .card { background: var(--white); border: var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow); padding: 20px; margin-bottom: 20px; }
+        .btn { background: var(--yellow); border: var(--border); border-radius: var(--radius-pill); padding: 10px 20px; font-weight: 700; cursor: pointer; transition: transform 0.1s; text-decoration: none; color: var(--dark); display: inline-block; }
+        .btn:active { transform: scale(0.95); } /* Press Animation */
         .btn-blue { background: var(--blue); color: white; border: none; }
-        .btn-outline { background: transparent; border: 2px solid var(--blue); color: var(--blue); }
+        .verified { background: var(--blue); color: white; font-size: 12px; padding: 4px 10px; border-radius: 20px; position: absolute; top: 15px; right: 15px; }
+        .relative { position: relative; }
 
-        /* Profile */
-        .profile-section { text-align: center; }
-        .profile-img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 5px solid var(--yellow); box-shadow: var(--shadow); }
+        /* --- Horizontal Auto-Scroll Containers (Clients & Articles) --- */
+        .h-scroll { display: flex; gap: 20px; overflow-x: auto; padding-bottom: 20px; scroll-snap-type: x mandatory; scrollbar-width: none; }
+        .h-scroll::-webkit-scrollbar { display: none; }
+        .h-scroll-card { min-width: 280px; scroll-snap-align: start; }
 
-        /* Video Grid */
-        .video-card iframe { width: 100%; height: 220px; border: none; border-radius: 15px; background: black; }
+        /* --- Video Section --- */
+        .filter-btn-container { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+        .video-card { min-width: 350px; max-width: 350px; }
+        .video-card iframe { width: 100%; height: 200px; border-radius: 15px; border: none; background: black; }
         
-        /* Modals (Popup) */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 2000; }
-        .modal-content { background: var(--white); border-radius: 20px; padding: 20px; width: 90%; max-width: 600px; max-height: 80vh; overflow-y: auto; position: relative; }
-        .close-btn { position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; font-weight: bold; }
+        /* --- Popup / Modal (More Videos / Articles) --- */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 1000; }
+        .modal-content { background: var(--white); width: 90%; max-width: 800px; max-height: 80vh; overflow-y: auto; border-radius: 20px; padding: 20px; position: relative; border: var(--border); }
+        .close-modal { position: sticky; top: 0; float: right; cursor: pointer; background: var(--yellow); border: var(--border); border-radius: 50%; width: 30px; height: 30px; display: flex; justify-content: center; align-items: center; font-weight: bold; }
+
+        /* --- Growth Section (Milestone style) --- */
+        .growth-box { min-width: 250px; background: #222; color: white; border-radius: 15px; padding: 15px; }
+        .growth-bar { height: 10px; background: #444; border-radius: 10px; margin-top: 10px; overflow: hidden; }
+        .growth-fill { height: 100%; background: var(--yellow); }
+
+        /* --- Admin Panel --- */
+        #adminLogin { position: fixed; bottom: 20px; right: 20px; z-index: 999; box-shadow: var(--shadow); }
+        #adminPanel { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 20px; border: var(--border); display: none; z-index: 1200; width: 90%; max-width: 400px; }
+        .hidden { display: none !important; }
+        input, textarea { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ccc; box-sizing: border-box; margin-bottom: 10px; font-family: inherit; }
         
-        /* Growth Results - Improved */
-        .growth-stat { display: flex; align-items: center; gap: 15px; padding: 10px 0; border-bottom: 1px dashed #eee; }
-        .stat-bar { flex: 1; height: 10px; background: #eee; border-radius: 5px; overflow: hidden; }
-        .stat-fill { height: 100%; background: var(--yellow); }
-
-        /* Client Carousel (Auto Scroll) */
-        .client-wrapper { display: flex; gap: 20px; overflow-x: auto; padding: 10px 0; scroll-behavior: smooth; animation: scrollClients 15s linear infinite; }
-        .client-card { min-width: 200px; max-width: 200px; border: 1px solid #ddd; border-radius: 15px; padding: 15px; text-align: center; }
-        @keyframes scrollClients { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } } /* Needs enough items */
-
-        /* Articles Carousel */
-        .article-row { display: flex; gap: 20px; overflow-x: auto; padding-bottom: 10px; }
-        .article-card { min-width: 280px; border-left: 5px solid var(--yellow); padding-left: 10px; cursor: pointer; }
-
-        /* Contact */
-        .contact-info { display: flex; flex-direction: column; gap: 10px; }
-
-        /* Admin Panel */
-        #adminLogin { position: fixed; top: 10px; right: 10px; z-index: 999; }
-        #adminPanel { background: var(--white); border-radius: 20px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 400px; z-index: 1500; }
-        .hidden { display: none; }
-        input, textarea { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid #ddd; box-sizing: border-box; margin-bottom: 10px; }
-        
-        h2 { border-left: 5px solid var(--yellow); padding-left: 10px; }
+        /* --- Profile --- */
+        .profile-section { text-align: center; background: var(--white); border: var(--border); border-radius: var(--radius-lg); padding: 30px; }
+        .profile-img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid var(--yellow); }
     </style>
 </head>
 <body>
 
-    <!-- Admin Login -->
-    <button id="adminLogin" class="btn btn-blue" onclick="adminLogin()">Admin</button>
-    
-    <!-- Admin Panel -->
-    <div id="adminPanel">
-        <h3>Admin Panel</h3>
-        <button class="btn" onclick="showForm('video')">Add Video</button>
-        <button class="btn" onclick="showForm('client')">Add Client</button>
-        <button class="btn" onclick="showForm('article')">Add Article</button>
-        <button class="btn btn-blue" onclick="logout()" style="float:right;">Logout</button>
-        
-        <div id="videoForm" class="hidden" style="margin-top:10px;">
-            <input type="text" id="vTitle" placeholder="Video Title">
-            <input type="text" id="vLink" placeholder="YouTube/Drive Link">
-            <input type="text" id="vCat" placeholder="Category (Reels, Cinematic)">
-            <button class="btn" onclick="addVideo()">Save</button>
-        </div>
-        <div id="clientForm" class="hidden" style="margin-top:10px;">
-            <input type="text" id="cName" placeholder="Client Name">
-            <input type="text" id="cService" placeholder="Service (e.g. Reels Editing)">
-            <input type="text" id="cImg" placeholder="Client Logo URL">
-            <button class="btn" onclick="addClient()">Save</button>
-        </div>
-        <div id="articleForm" class="hidden" style="margin-top:10px;">
-            <input type="text" id="aTitle" placeholder="Article Title">
-            <textarea id="aContent" placeholder="Article Content..."></textarea>
-            <button class="btn" onclick="addArticle()">Save</button>
-        </div>
-    </div>
-
-    <!-- Desktop Nav -->
+    <!-- Desktop Navigation -->
     <div class="desktop-nav">
-        <a href="#home" class="btn">Home</a>
         <a href="#videos" class="btn">Videos</a>
         <a href="#growth" class="btn">Growth</a>
         <a href="#clients" class="btn">Clients</a>
         <a href="#articles" class="btn">Articles</a>
-        <a href="#contact" class="btn">Contact</a>
+        <a href="#contact" class="btn btn-blue">Contact</a>
     </div>
 
-    <!-- 1. Profile -->
-    <div id="home" class="page-section">
-        <div class="card profile-section">
+    <div class="max-width">
+
+        <!-- Profile Section -->
+        <div class="profile-section">
             <img src="https://via.placeholder.com/150" class="profile-img" alt="Profile">
-            <h1>✦ Your Name ⚡</h1>
-            <p style="color: var(--grey);">Video Editor & Social Media Manager</p>
-            <p>Building impactful visual stories for brands.</p>
-            <button class="btn btn-blue">Contact Me</button>
+            <h1>✦ YOUR NAME ⚡</h1>
+            <p style="color: var(--grey);">Professional Video Editor & Social Media Manager</p>
+            <p>Transforming raw footage into viral stories.</p>
+            <a href="#contact" class="btn">Hire Me</a>
         </div>
-    </div>
 
-    <!-- 2. Videos (2-3 on site, More in Popup) -->
-    <div id="videos" class="page-section">
-        <h2>🎬 Video Portfolio</h2>
-        <div class="grid-2" id="mainVideoGrid">
-            <!-- Only 2 will be visible -->
-            <div class="card video-card">
+        <!-- VIDEO PORTFOLIO -->
+        <h2>🎬 Video Portfolio (UGC, News, Marketing, Shorts)</h2>
+        <div class="filter-btn-container">
+            <button class="btn" onclick="filterVideos('all')">All</button>
+            <button class="btn" onclick="filterVideos('UGC')">UGC</button>
+            <button class="btn" onclick="filterVideos('News')">News</button>
+            <button class="btn" onclick="filterVideos('Marketing')">Marketing</button>
+            <button class="btn" onclick="filterVideos('YouTube')">YouTube</button>
+        </div>
+
+        <div class="h-scroll" id="mainVideoScroll">
+            <!-- Default Videos -->
+            <div class="card relative video-card" data-cat="UGC">
+                <span class="verified">verified</span>
                 <iframe src="https://www.youtube.com/embed/aqz-KE-bpKQ" allowfullscreen></iframe>
-                <h3>Cinematic Edit</h3>
+                <h3>UGC Ad</h3>
             </div>
-            <div class="card video-card">
+            <div class="card relative video-card" data-cat="Marketing">
+                <span class="verified">verified</span>
                 <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
-                <h3>Reel Edit</h3>
+                <h3>Marketing Reel</h3>
+            </div>
+            <div class="card relative video-card" data-cat="News">
+                <span class="verified">verified</span>
+                <iframe src="https://www.youtube.com/embed/jNQXAC9IVRw" allowfullscreen></iframe>
+                <h3>News Segment</h3>
             </div>
         </div>
-        <button class="btn btn-outline" style="width:100%;" onclick="openVideoModal()">More Videos</button>
-    </div>
-
-    <!-- 3. Social Growth (Improved) -->
-    <div id="growth" class="page-section">
-        <h2>📊 Social Growth Results</h2>
-        <div class="card">
-            <div class="growth-stat"><span>10K Views</span><div class="stat-bar"><div class="stat-fill" style="width:100%;"></div></div><strong>100%</strong></div>
-            <div class="growth-stat"><span>50K Reach</span><div class="stat-bar"><div class="stat-fill" style="width:80%;"></div></div><strong>80%</strong></div>
-            <div class="growth-stat"><span>1M Impressions</span><div class="stat-bar"><div class="stat-fill" style="width:50%;"></div></div><strong>50%</strong></div>
+        
+        <div style="text-align: center; margin-top: 20px;">
+            <button class="btn btn-blue" onclick="openVideoModal()">More Videos</button>
         </div>
-    </div>
 
-    <!-- 4. Client Collaboration (Auto-scroll) -->
-    <div id="clients" class="page-section">
+        <!-- SOCIAL MEDIA GROWTH RESULTS -->
+        <h2>📈 Social Media Growth Results</h2>
+        <div class="h-scroll">
+            <div class="growth-box">
+                <p>10K Views</p>
+                <div class="growth-bar"><div class="growth-fill" style="width: 100%;"></div></div>
+                <p style="color: var(--yellow);">Reached</p>
+            </div>
+            <div class="growth-box">
+                <p>50K Views</p>
+                <div class="growth-bar"><div class="growth-fill" style="width: 80%;"></div></div>
+                <p style="color: var(--yellow);">80% Reached</p>
+            </div>
+            <div class="growth-box">
+                <p>100K Views</p>
+                <div class="growth-bar"><div class="growth-fill" style="width: 40%;"></div></div>
+                <p style="color: var(--yellow);">Growing</p>
+            </div>
+        </div>
+
+        <!-- CLIENT COLLABORATION & SERVICES -->
         <h2>🤝 Client Collaboration & Services</h2>
-        <div class="client-wrapper" id="clientList">
-            <!-- Default clients -->
-            <div class="client-card"><img src="https://via.placeholder.com/50" style="border-radius:50%;"><h4>Company A</h4><p style="color:grey;font-size:12px;">Reels Editing</p></div>
-            <div class="client-card"><img src="https://via.placeholder.com/50" style="border-radius:50%;"><h4>Company B</h4><p style="color:grey;font-size:12px;">Full SMM</p></div>
-            <div class="client-card"><img src="https://via.placeholder.com/50" style="border-radius:50%;"><h4>Company C</h4><p style="color:grey;font-size:12px;">Cinematic Ads</p></div>
-            <!-- Duplicates for smooth scroll -->
+        <p style="color: var(--grey);">Trusted by these brands (Auto-scrolling).</p>
+        <div class="h-scroll" id="clientScrollContainer">
+            <!-- Default Clients -->
+            <div class="card h-scroll-card">
+                <img src="https://via.placeholder.com/100" style="width: 60px; height: 60px; border-radius: 50%;" alt="Client">
+                <h3>Company A</h3>
+                <p style="color: var(--grey); font-size: 14px;">Video Editing, Reels</p>
+            </div>
+            <div class="card h-scroll-card">
+                <img src="https://via.placeholder.com/100" style="width: 60px; height: 60px; border-radius: 50%;" alt="Client">
+                <h3>Company B</h3>
+                <p style="color: var(--grey); font-size: 14px;">Social Media Mgt</p>
+            </div>
+        </div>
+
+        <!-- ARTICLES & ACHIEVEMENTS -->
+        <h2>🏆 Articles & Achievements</h2>
+        <div class="h-scroll">
+            <div class="card h-scroll-card relative" onclick="openArticle('article1')" style="cursor: pointer;">
+                <span class="verified">Award</span>
+                <h3>Best Editor 2026</h3>
+                <p style="color: var(--grey);">Click to read...</p>
+            </div>
+            <div class="card h-scroll-card relative" onclick="openArticle('article2')" style="cursor: pointer;">
+                <span class="verified">News</span>
+                <h3>Viral Video Secrets</h3>
+                <p style="color: var(--grey);">Click to read...</p>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 20px;">
+            <button class="btn btn-blue" onclick="openArticleList()">More Articles</button>
+        </div>
+
+        <!-- CONTACT -->
+        <h2 id="contact">📧 Contact Details</h2>
+        <div class="card">
+            <p><strong>Email:</strong> admin@yourbrand.com</p>
+            <p><strong>Phone:</strong> +91 98765 43210</p>
+            <a href="mailto:admin@yourbrand.com" class="btn">Send Email</a>
         </div>
     </div>
 
-    <!-- 5. Articles (Horizontal, More in Popup) -->
-    <div id="articles" class="page-section">
-        <h2>📰 Articles & Achievements</h2>
-        <div class="article-row" id="mainArticles">
-            <div class="card article-card" onclick="openArticle(0)"><h3>Winning the Editing Award</h3><p>Details about this prestigious award...</p></div>
-            <div class="card article-card" onclick="openArticle(1)"><h3>My Editing Journey</h3><p>How it all started...</p></div>
-        </div>
-        <button class="btn btn-outline" style="width:100%;" onclick="openArticleModal()">More Articles</button>
+    <!-- Mobile Bottom Tab Bar -->
+    <div class="mobile-tabs">
+        <button class="tab-btn active" onclick="goTo('videos', this)">Videos</button>
+        <button class="tab-btn" onclick="goTo('growth', this)">Growth</button>
+        <button class="tab-btn" onclick="goTo('clients', this)">Clients</button>
+        <button class="tab-btn" onclick="goTo('articles', this)">Articles</button>
+        <button class="tab-btn" onclick="goTo('contact', this)">Contact</button>
     </div>
 
-    <!-- 6. Contact -->
-    <div id="contact" class="page-section">
-        <h2>📬 Contact Details</h2>
-        <div class="card contact-info">
-            <p>📧: business@email.com</p>
-            <p>📞: +91 9876543210</p>
-            <p>📸: @your_handle</p>
-            <button class="btn">Email Me</button>
-        </div>
-    </div>
-
-    <!-- Popup for All Videos -->
-    <div id="videoModal" class="modal-overlay">
+    <!-- MODALS (Popups) -->
+    
+    <!-- Video Popup -->
+    <div class="modal-overlay" id="videoModal">
         <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('videoModal')">&times;</span>
+            <div class="close-modal" onclick="closeModal('videoModal')">X</div>
             <h2>All Videos</h2>
             <div id="allVideosList"></div>
         </div>
     </div>
 
-    <!-- Popup for All Articles -->
-    <div id="articleModal" class="modal-overlay">
+    <!-- Article Content Popup -->
+    <div class="modal-overlay" id="articleModal">
         <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('articleModal')">&times;</span>
+            <div class="close-modal" onclick="closeModal('articleModal')">X</div>
+            <div id="articleContent"></div>
+        </div>
+    </div>
+
+    <!-- Article List Popup -->
+    <div class="modal-overlay" id="articleListModal">
+        <div class="modal-content">
+            <div class="close-modal" onclick="closeModal('articleListModal')">X</div>
             <h2>All Articles</h2>
             <div id="allArticlesList"></div>
         </div>
     </div>
 
-    <!-- Article Reading Popup -->
-    <div id="articleReader" class="modal-overlay">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('articleReader')">&times;</span>
-            <div id="articleContent"></div>
-        </div>
+    <!-- Admin Panel -->
+    <button id="adminLogin" class="btn" onclick="adminLogin()">Admin</button>
+    <div id="adminPanel">
+        <h3>Admin Panel</h3>
+        <button class="btn" onclick="addClient()">+ Add Client</button>
+        <button class="btn btn-blue" onclick="addMoreVideo()">+ Add Video</button>
+        <button class="btn" onclick="document.getElementById('adminPanel').style.display='none';">Close</button>
+    </div>
+    <div id="addClientForm" class="hidden">
+        <input type="text" id="clientName" placeholder="Company Name">
+        <input type="text" id="clientImg" placeholder="Image URL">
+        <input type="text" id="clientService" placeholder="Service provided">
+        <button class="btn" onclick="saveClient()">Save Client</button>
+    </div>
+    <div id="addVideoForm" class="hidden">
+        <input type="text" id="videoTitle" placeholder="Title">
+        <input type="text" id="videoLink" placeholder="YouTube/Drive Link">
+        <select id="videoCat">
+            <option>UGC</option><option>News</option><option>Marketing</option><option>YouTube</option>
+        </select>
+        <button class="btn" onclick="saveVideo()">Save Video</button>
     </div>
 
-    <!-- Mobile Tab Bar -->
-    <div class="mobile-tabs">
-        <button class="tab-btn active" onclick="goTo('home')">Home</button>
-        <button class="tab-btn" onclick="goTo('videos')">Videos</button>
-        <button class="tab-btn" onclick="goTo('clients')">Clients</button>
-        <button class="tab-btn" onclick="goTo('articles')">Articles</button>
-        <button class="tab-btn" onclick="goTo('contact')">Contact</button>
-    </div>
-
-    <!-- JavaScript -->
     <script>
-        // Navigation
-        function goTo(id) {
+        // --- Mobile Tab Navigation ---
+        function goTo(id, btn) {
             document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
         }
 
-        // Admin
-        function adminLogin() {
-            let pass = prompt("Enter Admin Password:");
-            if (pass === "admin123") {
-                document.getElementById('adminPanel').style.display = 'block';
-            } else alert("Wrong Password");
-        }
-        function logout() { document.getElementById('adminPanel').style.display = 'none'; }
-        function showForm(type) {
-            document.querySelectorAll('#adminPanel div').forEach(d => d.classList.add('hidden'));
-            document.getElementById(type + 'Form').classList.remove('hidden');
+        // --- Auto-Scroll Logic for Clients & Articles ---
+        const clientScroll = document.getElementById('clientScrollContainer');
+        let scrollInterval = setInterval(() => {
+            if (clientScroll.scrollLeft + clientScroll.clientWidth >= clientScroll.scrollWidth) {
+                clientScroll.scrollLeft = 0;
+            } else {
+                clientScroll.scrollLeft += 1;
+            }
+        }, 30);
+        // Pause on hover
+        clientScroll.addEventListener('mouseover', () => clearInterval(scrollInterval));
+        clientScroll.addEventListener('mouseout', () => {
+            scrollInterval = setInterval(() => {
+                if (clientScroll.scrollLeft + clientScroll.clientWidth >= clientScroll.scrollWidth) {
+                    clientScroll.scrollLeft = 0;
+                } else {
+                    clientScroll.scrollLeft += 1;
+                }
+            }, 30);
+        });
+
+        // --- Video Filtering ---
+        function filterVideos(cat) {
+            const videos = document.querySelectorAll('#mainVideoScroll .video-card');
+            videos.forEach(v => {
+                v.style.display = (cat === 'all' || v.getAttribute('data-cat') === cat) ? 'block' : 'none';
+            });
         }
 
-        // Videos
-        let allVideos = [
-            {title: "Cinematic Edit", link: "https://www.youtube.com/embed/aqz-KE-bpKQ"},
-            {title: "Reel Edit", link: "https://www.youtube.com/embed/dQw4w9WgXcQ"},
-            {title: "Highlight Reel", link: "https://www.youtube.com/embed/aqz-KE-bpKQ"}
-        ];
-
-        function addVideo() {
-            let v = {title: document.getElementById('vTitle').value, link: document.getElementById('vLink').value.replace("watch?v=", "embed/")};
-            allVideos.push(v);
-            document.getElementById('vTitle').value = ''; document.getElementById('vLink').value = '';
-            alert("Video Added! Check 'More Videos'.");
-        }
-
+        // --- Video Modal (More Videos) ---
         function openVideoModal() {
-            let list = document.getElementById('allVideosList');
-            list.innerHTML = allVideos.map(v => `<div class="card video-card" style="margin-bottom:10px;"><h3>${v.title}</h3><iframe src="${v.link}" allowfullscreen></iframe></div>`).join('');
+            const list = document.getElementById('allVideosList');
+            list.innerHTML = ''; // clear
+            const allVideos = document.querySelectorAll('#mainVideoScroll .video-card');
+            allVideos.forEach(v => {
+                const frame = v.querySelector('iframe').outerHTML;
+                const title = v.querySelector('h3').innerText;
+                const cat = v.getAttribute('data-cat');
+                list.innerHTML += `<div class="card" style="margin-bottom:20px; border:1px solid #ccc;">
+                    ${frame} <h4>${title}</h4> <p style="color:#666">Category: ${cat}</p>
+                </div>`;
+            });
             document.getElementById('videoModal').style.display = 'flex';
         }
 
-        // Clients
-        let clients = [
-            {name: "Company A", service: "Reels Editing", img: "https://via.placeholder.com/50"},
-            {name: "Company B", service: "SMM", img: "https://via.placeholder.com/50"},
-            {name: "Company C", service: "Cinematic", img: "https://via.placeholder.com/50"},
-            // Duplicate for infinite scroll
-            {name: "Company A", service: "Reels Editing", img: "https://via.placeholder.com/50"},
-            {name: "Company B", service: "SMM", img: "https://via.placeholder.com/50"},
-            {name: "Company C", service: "Cinematic", img: "https://via.placeholder.com/50"}
-        ];
-
-        function addClient() {
-            let c = {name: document.getElementById('cName').value, service: document.getElementById('cService').value, img: document.getElementById('cImg').value || "https://via.placeholder.com/50"};
-            clients.push(c); // Add a new one (will appear in wrapper)
-            document.getElementById('clientList').innerHTML = clients.map(x => `<div class="client-card"><img src="${x.img}" style="border-radius:50%; width:50px; height:50px;"><h4>${x.name}</h4><p style="color:grey;font-size:12px;">${x.service}</p></div>`).join('');
-            alert("Client Added!");
-        }
-
-        // Articles
-        let articles = [
-            {title: "Winning the Editing Award", content: "<p>Details about this prestigious award. It was a great honor to be recognized for visual storytelling.</p>"},
-            {title: "My Editing Journey", content: "<p>From editing simple clips to complex brand campaigns, the journey has been incredible. Here's a look back.</p>"}
-        ];
-
-        function addArticle() {
-            let a = {title: document.getElementById('aTitle').value, content: "<p>" + document.getElementById('aContent').value + "</p>"};
-            articles.push(a);
-            alert("Article Added!");
-        }
-
-        function openArticle(index) {
-            document.getElementById('articleContent').innerHTML = `<h2>${articles[index].title}</h2>${articles[index].content}`;
-            document.getElementById('articleReader').style.display = 'flex';
-        }
-
-        function openArticleModal() {
-            let list = document.getElementById('allArticlesList');
-            list.innerHTML = articles.map((a, i) => `<div class="card article-card" onclick="openArticle(${i}); closeModal('articleModal');"><h3>${a.title}</h3><p>Click to read...</p></div>`).join('');
+        // --- Article Modal (Read Inside) ---
+        function openArticle(articleId) {
+            const content = document.getElementById('articleContent');
+            if (articleId === 'article1') {
+                content.innerHTML = `<h1>Best Editor 2026 Award</h1><p>Detailed article about winning the award...</p>`;
+            } else {
+                content.innerHTML = `<h1>Viral Video Secrets</h1><p>Detailed article about editing strategies...</p>`;
+            }
             document.getElementById('articleModal').style.display = 'flex';
+        }
+
+        function openArticleList() {
+            const list = document.getElementById('allArticlesList');
+            list.innerHTML = `<div class="card" style="cursor:pointer;" onclick="openArticle('article1'); closeModal('articleListModal')">
+                <h3>Best Editor 2026</h3><p style="color:#666">Read more...</p></div>
+                <div class="card" style="cursor:pointer;" onclick="openArticle('article2'); closeModal('articleListModal')">
+                <h3>Viral Video Secrets</h3><p style="color:#666">Read more...</p></div>`;
+            document.getElementById('articleListModal').style.display = 'flex';
         }
 
         function closeModal(id) {
             document.getElementById(id).style.display = 'none';
+        }
+
+        // --- Admin Functions ---
+        function adminLogin() {
+            let pass = prompt("Enter Admin Password:");
+            if (pass === "admin123") {
+                document.getElementById('adminPanel').style.display = 'block';
+            } else {
+                alert("Incorrect!");
+            }
+        }
+
+        function addClient() {
+            document.getElementById('addClientForm').classList.toggle('hidden');
+        }
+
+        function saveClient() {
+            let name = document.getElementById('clientName').value;
+            let img = document.getElementById('clientImg').value;
+            let service = document.getElementById('clientService').value;
+            let html = `<div class="card h-scroll-card">
+                <img src="${img}" style="width:60px; height:60px; border-radius:50%;" onerror="this.src='https://via.placeholder.com/100'">
+                <h3>${name}</h3>
+                <p style="color:#666; font-size:14px;">${service}</p>
+            </div>`;
+            document.getElementById('clientScrollContainer').insertAdjacentHTML('beforeend', html);
+            alert("Client Added!");
+            document.getElementById('addClientForm').classList.add('hidden');
+        }
+
+        function addMoreVideo() {
+            document.getElementById('addVideoForm').classList.toggle('hidden');
+        }
+
+        function saveVideo() {
+            let title = document.getElementById('videoTitle').value;
+            let link = document.getElementById('videoLink').value;
+            let cat = document.getElementById('videoCat').value;
+            if(link.includes("watch?v=")) link = link.replace("watch?v=", "embed/");
+            let html = `<div class="card relative video-card" data-cat="${cat}">
+                <span class="verified">new</span>
+                <iframe src="${link}" allowfullscreen></iframe>
+                <h3>${title}</h3>
+            </div>`;
+            document.getElementById('mainVideoScroll').insertAdjacentHTML('beforeend', html);
+            alert("Video Added!");
+            document.getElementById('addVideoForm').classList.add('hidden');
         }
     </script>
 </body>
