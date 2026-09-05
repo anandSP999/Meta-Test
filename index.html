@@ -3,343 +3,405 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional Video Editor & SMM Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Professional Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* === UI/UX Variables (Matching the images) === */
         :root {
-            --bg-color: #f4f4f4;
-            --card-bg: #ffffff;
-            --text-dark: #111;
-            --text-grey: #666;
-            --accent-yellow: #ffd900;
-            --accent-blue: #0056b3;
-            --radius-large: 24px;
-            --radius-pill: 50px;
-            --shadow: 0 4px 15px rgba(0,0,0,0.08);
-            --transition: all 0.2s ease;
+            --primary: #111;
+            --bg: #f8f9fa;
+            --accent: #0056b3;
+            --grey: #666;
+            --radius: 20px;
         }
 
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-color);
             margin: 0;
-            padding: 20px;
-            color: var(--text-dark);
+            background-color: var(--bg);
+            color: var(--primary);
+            padding-bottom: 80px; /* Space for mobile nav */
         }
 
-        /* === Typography === */
-        h1, h2, h3 { margin: 10px 0; font-weight: 700; }
-        h2 { font-size: 24px; margin-bottom: 20px; }
-        
-        /* === Card Design === */
+        /* Hidden Admin Button */
+        .admin-gear {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            line-height: 40px;
+            cursor: pointer;
+            z-index: 999;
+            opacity: 0.3;
+            transition: 0.3s;
+        }
+        .admin-gear:hover { opacity: 1; }
+
+        /* -- DESKTOP SIDEBAR DESIGN (PC) -- */
+        .desktop-sidebar {
+            display: none;
+        }
+
+        .main-content {
+            margin-left: 0;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* -- MOBILE APP TAB BAR -- */
+        .mobile-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid #ddd;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+        .nav-item { cursor: pointer; font-size: 12px; text-align: center; color: var(--grey); }
+        .nav-item.active { color: var(--accent); font-weight: 600; }
+        .nav-item svg { width: 24px; height: 24px; display: block; margin: 0 auto; }
+
+        /* Pages */
+        .page { display: none; animation: fadeIn 0.4s ease; }
+        .page.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Cards */
         .card {
-            background: var(--card-bg);
-            border-radius: var(--radius-large);
-            box-shadow: var(--shadow);
+            background: white;
+            border-radius: var(--radius);
             padding: 20px;
             margin-bottom: 20px;
-            border: 1px solid #ddd;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
 
-        /* === Profile Section (Top) === */
-        .profile-card {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            border: 2px solid black;
-        }
-        .avatar { width: 80px; height: 80px; border-radius: 50%; background: #ccc; object-fit: cover; }
-        .badge {
-            background: var(--accent-blue);
-            color: white;
-            font-size: 12px;
-            padding: 2px 8px;
-            border-radius: 10px;
-            display: inline-block;
-            margin-bottom: 5px;
-        }
-        .verified { float: right; background: var(--accent-blue); color: white; padding: 5px 10px; border-radius: 5px; font-size: 12px;}
+        /* Home / Intro */
+        .profile-img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid var(--accent); display: block; margin: 0 auto 15px; }
+        .highlight-text { color: var(--accent); font-weight: 700; }
 
-        /* === Pill Buttons & Press Animation === */
-        .btn {
-            background: var(--accent-yellow);
-            border: 2px solid black;
-            border-radius: var(--radius-pill);
-            padding: 12px 24px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: var(--transition);
-            display: inline-block;
-            text-decoration: none;
-            color: black;
-        }
-        /* Press Effect (Active state) */
-        .btn:active {
-            transform: scale(0.95);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-        .btn:hover { filter: brightness(0.9); }
-        .btn-blue { background: var(--accent-blue); color: white; border: none; }
+        /* Portfolio */
+        .video-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        .image-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .image-grid img { width: 100%; border-radius: 12px; object-fit: cover; }
 
-        /* === Milestones / Horizontal Scroll Area === */
-        .milestones-container {
-            display: flex;
-            gap: 15px;
-            overflow-x: auto;
-            padding-bottom: 10px;
-            scroll-snap-type: x mandatory;
-        }
-        .milestone-box {
-            min-width: 200px;
-            background: #222;
-            color: white;
-            border-radius: 12px;
-            padding: 15px;
-            scroll-snap-align: start;
-            position: relative;
-        }
-        .milestone-progress {
-            height: 10px;
-            background: #444;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-top: 10px;
-        }
-        .milestone-fill {
-            height: 100%;
-            background: var(--accent-yellow);
-        }
+        /* Growth */
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .stat-box { background: #eef; padding: 20px; border-radius: 12px; text-align: center; }
+        .stat-box h2 { margin: 0; font-size: 28px; color: var(--accent); }
 
-        /* === Video Category Grid === */
-        .video-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-        .video-card iframe {
-            width: 100%;
-            height: 200px;
-            border-radius: 12px;
-            border: none;
-            background: #000;
-        }
-        .tag { color: var(--accent-blue); font-weight: 600; }
+        /* Services */
+        .service-item { border-left: 4px solid var(--accent); padding-left: 15px; margin-bottom: 15px; }
 
-        /* === Service Pricing Section === */
-        .pricing-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
-        @media (max-width: 768px) { .pricing-grid { grid-template-columns: 1fr; } }
-
-        /* === Form / Meeting Scheduler === */
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: 600; }
-        .form-group input, .form-group textarea {
+        /* Scheduler & Contact */
+        input, textarea, select {
             width: 100%;
             padding: 12px;
-            border-radius: 12px;
+            margin-bottom: 15px;
             border: 1px solid #ddd;
+            border-radius: 8px;
             box-sizing: border-box;
-            background: #f9f9f9;
+        }
+        button.submit-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
         }
 
-        /* === Blur (Glassmorphism) Overlay for smooth scrolling header === */
-        .sticky-header {
-            position: sticky;
-            top: 0;
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            padding: 10px;
-            border-radius: 20px;
-            margin-bottom: 20px;
-            z-index: 100;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+        /* Admin Modal */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-content { background: white; padding: 20px; border-radius: 12px; width: 90%; max-width: 400px; }
         
-        /* === Blog/History Section === */
-        .article-card { border-left: 4px solid var(--accent-yellow); padding-left: 15px; margin-bottom: 15px; }
-
-        /* Responsive Adjustments */
-        @media (max-width: 600px) {
-            .pricing-grid { grid-template-columns: 1fr; }
-            .video-grid { grid-template-columns: 1fr; }
-            .sticky-header { flex-direction: column; gap: 10px; }
+        /* Responsive Desktop View */
+        @media (min-width: 900px) {
+            body { padding-bottom: 0; }
+            .mobile-nav { display: none; }
+            .desktop-sidebar {
+                display: block;
+                position: fixed;
+                left: 0;
+                top: 0;
+                height: 100vh;
+                width: 250px;
+                background: white;
+                border-right: 1px solid #ddd;
+                padding: 20px;
+            }
+            .main-content { margin-left: 250px; max-width: 1200px; padding: 40px; }
+            .video-grid { grid-template-columns: repeat(3, 1fr); }
+            .image-grid { grid-template-columns: repeat(4, 1fr); }
+            .stats-grid { grid-template-columns: repeat(4, 1fr); }
         }
     </style>
 </head>
 <body>
 
-    <!-- Glassmorphism Sticky Header -->
-    <div class="sticky-header">
-        <h3 style="margin:0;">✦ Your Name ⚡</h3>
-        <div>
-            <a href="#portfolio" class="btn" style="padding: 8px 16px;">Portfolio</a>
-            <a href="#services" class="btn btn-blue" style="padding: 8px 16px;">Services</a>
-        </div>
+<!-- Admin Login Modal -->
+<div class="modal" id="adminModal">
+    <div class="modal-content">
+        <h3>Admin Login</h3>
+        <input type="password" id="adminPass" placeholder="Enter Password (Default: admin123)">
+        <button class="submit-btn" onclick="checkAdmin()">Login</button>
+        <button class="submit-btn" style="background: grey; margin-top:10px;" onclick="closeAdmin()">Close</button>
     </div>
+</div>
 
-    <!-- Introduction & Contact -->
-    <div class="card profile-card">
-        <span class="verified">verified</span>
-        <img src="https://via.placeholder.com/80" alt="Profile" class="avatar">
-        <div>
-            <h2>✦ GANESH ⚡ (Replace with your name)</h2>
-            <p style="color:var(--text-grey); margin: 0;">Video Editor & Social Media Manager</p>
-            <p style="margin: 5px 0;"><strong>Vision:</strong> Helping brands grow through engaging visual storytelling.</p>
-            <p><strong>Contact:</strong> your.email@example.com | +91-XXXXXXXXXX</p>
-        </div>
+<!-- Admin Panel Add Content -->
+<div class="modal" id="addContentModal">
+    <div class="modal-content">
+        <h3>Add New Content</h3>
+        <select id="contentType">
+            <option value="video">Add Video (YouTube/Drive URL)</option>
+            <option value="image">Add Image URL</option>
+            <option value="article">Add Article</option>
+        </select>
+        <input type="text" id="contentTitle" placeholder="Title / Description">
+        <input type="text" id="contentUrl" placeholder="URL (for video/image)">
+        <textarea id="contentText" placeholder="Article Content (optional)" rows="3"></textarea>
+        <button class="submit-btn" onclick="addContent()">Add</button>
+        <button class="submit-btn" style="background: grey; margin-top:10px;" onclick="closeAddModal()">Close</button>
     </div>
+</div>
 
-    <!-- Results & Growth (Gamified Section) -->
-    <h2>📈 Social Media Results & Milestones</h2>
-    <div class="milestones-container">
-        <div class="milestone-box">
-            <p>10K Views</p>
-            <div class="milestone-progress"><div class="milestone-fill" style="width: 100%;"></div></div>
-            <p style="color:var(--accent-yellow);">⚡ 100 coins</p>
-        </div>
-        <div class="milestone-box">
-            <p>30K Views</p>
-            <div class="milestone-progress"><div class="milestone-fill" style="width: 80%;"></div></div>
-            <p style="color:var(--accent-yellow);">⚡ 200 coins</p>
-        </div>
-        <div class="milestone-box">
-            <p>100K Views</p>
-            <div class="milestone-progress"><div class="milestone-fill" style="width: 50%;"></div></div>
-            <p style="color:var(--accent-yellow);">⚡ 500 coins</p>
-        </div>
-        <div class="milestone-box">
-            <p>1M Views</p>
-            <div class="milestone-progress"><div class="milestone-fill" style="width: 10%;"></div></div>
-            <p style="color:var(--accent-yellow);">⚡ 1500 coins</p>
-        </div>
-    </div>
-
-    <!-- Category-wise Video Portfolio -->
-    <h2 id="portfolio">🎬 Category-wise Edited Videos</h2>
-    <p>Click the buttons below to filter!</p>
+<!-- Desktop Sidebar -->
+<div class="desktop-sidebar">
+    <h2>My Portfolio</h2>
+    <div onclick="showPage('home')" class="nav-item">Home</div>
+    <div onclick="showPage('portfolio')" class="nav-item">Portfolio</div>
+    <div onclick="showPage('growth')" class="nav-item">Growth</div>
+    <div onclick="showPage('services')" class="nav-item">Services</div>
+    <div onclick="showPage('schedule')" class="nav-item">Schedule</div>
+    <div onclick="showPage('articles')" class="nav-item">Articles</div>
+    <div onclick="showPage('contact')" class="nav-item">Contact</div>
     
-    <div class="btn" onclick="filterVideos('all')">All</div>
-    <div class="btn" onclick="filterVideos('reels')">Reels</div>
-    <div class="btn" onclick="filterVideos('documentary')">Documentary</div>
-    <div class="btn" onclick="filterVideos('corporate')">Corporate</div>
+    <div style="position: absolute; bottom: 20px; width: 80%;">
+        <a href="#" onclick="openAdmin(event)" style="font-size: 12px; color: grey;">Admin Only</a>
+    </div>
+</div>
 
-    <div class="video-grid" id="videoGrid">
-        <!-- YouTube Link Example -->
-        <div class="card video-card" data-category="reels">
-            <h3>Trending Reel</h3>
-            <!-- YouTube Link Support -->
-            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
-            <p><span class="tag">Instagram Reels</span> - Viral Edit</p>
-        </div>
+<!-- Mobile Bottom Nav -->
+<div class="mobile-nav">
+    <div class="nav-item active" onclick="showPage('home')">Home</div>
+    <div class="nav-item" onclick="showPage('portfolio')">Portfolio</div>
+    <div class="nav-item" onclick="showPage('growth')">Growth</div>
+    <div class="nav-item" onclick="showPage('services')">Services</div>
+    <div class="nav-item" onclick="showPage('schedule')">Meet</div>
+    <div class="nav-item" onclick="showPage('articles')">Blog</div>
+    <div class="nav-item" onclick="showPage('contact')">Contact</div>
+</div>
 
-        <!-- Google Drive Link Example -->
-        <div class="card video-card" data-category="documentary">
-            <h3>Documentary Highlight</h3>
-            <!-- Google Drive Support (Replace with your raw Google Drive link) -->
-            <iframe src="https://drive.google.com/file/d/REPLACE_WITH_YOUR_ID/preview" allowfullscreen></iframe>
-            <p><span class="tag">Documentary</span> - Cinematic Color Grading</p>
-        </div>
+<div class="main-content">
 
-        <!-- Generic Embed -->
-        <div class="card video-card" data-category="corporate">
-            <h3>Corporate Video</h3>
-            <!-- YouTube Link Example -->
-            <iframe src="https://www.youtube.com/embed/aqz-KE-bpKQ" allowfullscreen></iframe>
-            <p><span class="tag">Corporate</span> - Storytelling & Motion Graphics</p>
+    <!-- HOME -->
+    <div id="home" class="page active">
+        <div class="card" style="text-align: center;">
+            <img src="https://via.placeholder.com/150" class="profile-img" id="profileImage" alt="Profile">
+            <h1>Your Name Here</h1>
+            <p class="highlight-text">Professional Video Editor & Social Media Manager</p>
+            <p>With years of experience in creating viral content, I help brands elevate their visual storytelling to drive massive engagement and growth.</p>
+            <a href="#schedule" class="submit-btn" onclick="showPage('schedule')">Hire Me</a>
         </div>
     </div>
 
-    <!-- Services & Negotiable Pricing -->
-    <h2 id="services">🛠️ My Services & Pricing (Negotiable)</h2>
-    <div class="pricing-grid">
-        <div class="card">
-            <h3>Basic Editing</h3>
-            <p>Cutting, Trimming, Audio Sync</p>
-            <h2>₹1500 <small style="font-size:12px; color:gray;">/video</small></h2>
-            <button class="btn" onclick="alert('Price is negotiable! Please use the scheduler below.')">Negotiate Price</button>
-        </div>
-        <div class="card">
-            <h3>Pro Editing</h3>
-            <p>Color Grading, Transitions, SFX, Subtitles</p>
-            <h2>₹3500 <small style="font-size:12px; color:gray;">/video</small></h2>
-            <button class="btn" onclick="alert('Price is negotiable! Please use the scheduler below.')">Negotiate Price</button>
-        </div>
-        <div class="card">
-            <h3>Social Media Mgt</h3>
-            <p>Weekly Reels, Strategy, Posting, Growth</p>
-            <h2>₹10,000 <small style="font-size:12px; color:gray;">/month</small></h2>
-            <button class="btn" onclick="alert('Price is negotiable! Please use the scheduler below.')">Negotiate Price</button>
-        </div>
-    </div>
-
-    <!-- Meeting Scheduler -->
-    <h2>📅 Schedule a Meeting</h2>
-    <div class="card">
-        <form onsubmit="event.preventDefault(); alert('Meeting request sent! I will get back to you soon.'); this.reset();">
-            <div class="form-group">
-                <label>Your Name</label>
-                <input type="text" required placeholder="John Doe">
+    <!-- PORTFOLIO -->
+    <div id="portfolio" class="page">
+        <h2>My Portfolio</h2>
+        <div class="video-grid" id="videoGrid">
+            <!-- Videos added by Admin will appear here -->
+            <div class="card">
+                <div class="video-container"><iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe></div>
+                <h3>Sample Project</h3>
             </div>
-            <div class="form-group">
-                <label>Service Required</label>
-                <select style="width:100%; padding:12px; border-radius:12px;">
-                    <option>Video Editing</option>
-                    <option>Social Media Management</option>
-                    <option>Full Package</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Preferred Date & Time</label>
-                <input type="datetime-local" required>
-            </div>
-            <button type="submit" class="btn btn-blue" style="width:100%;">Book Meeting</button>
-        </form>
-    </div>
-
-    <!-- History / News / Articles (Like the 'About' section) -->
-    <h2>📰 News, Articles & My Journey</h2>
-    <div class="card">
-        <div class="article-card">
-            <h3>The Future of Video Editing in 2026</h3>
-            <p><small>Published: 2 days ago</small></p>
-            <p>AI is changing the game, but story-telling remains king. Here is my take on how editors should adapt...</p>
-            <button class="btn" style="padding: 5px 15px;">Read More</button>
         </div>
-        <div class="article-card">
-            <h3>History of my Growth: From 0 to 100k Views</h3>
-            <p><small>Published: 1 week ago</small></p>
-            <p>Unveiling the strategy behind cracking the Instagram algorithm using reels and high retention editing...</p>
-            <button class="btn" style="padding: 5px 15px;">Read More</button>
+        <h2>Image Gallery</h2>
+        <div class="image-grid" id="imageGrid">
+            <!-- Images added by Admin will appear here -->
+            <img src="https://via.placeholder.com/300" alt="Work 1">
+            <img src="https://via.placeholder.com/300" alt="Work 2">
         </div>
     </div>
 
-    <!-- Bottom Close Button Layout -->
-    <div style="text-align: center; margin-top: 20px;">
-        <button class="btn btn-blue">Close</button>
+    <!-- GROWTH / RESULTS -->
+    <div id="growth" class="page">
+        <h2>Social Media Growth Results</h2>
+        <div class="card">
+            <div class="stats-grid" id="statsGrid">
+                <div class="stat-box"><h2>10M+</h2><p>Views Generated</p></div>
+                <div class="stat-box"><h2>150+</h2><p>Happy Clients</p></div>
+                <div class="stat-box"><h2>500K</h2><p>Followers Grown</p></div>
+                <div class="stat-box"><h2>3 Years</h2><p>Experience</p></div>
+            </div>
+        </div>
     </div>
 
-    <!-- === JavaScript Logic === -->
-    <script>
-        // Video Category Filter
-        function filterVideos(category) {
-            const videos = document.querySelectorAll('.video-card');
-            videos.forEach(video => {
-                if (category === 'all' || video.getAttribute('data-category') === category) {
-                    video.style.display = 'block';
-                } else {
-                    video.style.display = 'none';
+    <!-- SERVICES -->
+    <div id="services" class="page">
+        <h2>Let's Collaborate</h2>
+        <div class="card">
+            <div class="service-item">
+                <h3>Video Editing</h3>
+                <p>Cinematic cuts, color grading, motion graphics, and sound design tailored for YouTube, Instagram Reels, and advertisements.</p>
+            </div>
+            <div class="service-item">
+                <h3>Social Media Management</h3>
+                <p>Complete management of your profiles, content calendars, captions, hashtags, and growth strategies.</p>
+            </div>
+            <div class="service-item">
+                <h3>Thumbnail & Design</h3>
+                <p>Eye-catching thumbnails and creatives designed to maximize click-through rates and visual appeal.</p>
+            </div>
+            <p style="color: var(--grey); font-size: 14px;">For pricing and custom packages, please contact me or schedule a meeting.</p>
+        </div>
+    </div>
+
+    <!-- SCHEDULE -->
+    <div id="schedule" class="page">
+        <h2>Schedule a Meeting</h2>
+        <div class="card">
+            <form onsubmit="event.preventDefault(); alert('Meeting Request Sent!');">
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Your Email" required>
+                <input type="date" required>
+                <input type="time" required>
+                <textarea placeholder="Project Details" rows="3"></textarea>
+                <button type="submit" class="submit-btn">Book Meeting</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ARTICLES / ACHIEVEMENTS -->
+    <div id="articles" class="page">
+        <h2>Articles, Achievements & History</h2>
+        <div id="articleList">
+            <div class="card">
+                <h3>Award for Best Editor 2024</h3>
+                <p>Received the award for outstanding creativity and technical skill in video post-production. This milestone shaped my career.</p>
+            </div>
+            <div class="card">
+                <h3>Journey to 100k Followers</h3>
+                <p>How I helped a small brand explode their social media presence using data-driven editing strategies and consistent posting.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTACT -->
+    <div id="contact" class="page">
+        <h2>Contact Details</h2>
+        <div class="card">
+            <p><strong>Email:</strong> admin@portfolio.com</p>
+            <p><strong>Phone:</strong> +91-9876543210</p>
+            <p><strong>Instagram:</strong> @yourprofile</p>
+            <p><strong>LinkedIn:</strong> /in/yourprofile</p>
+        </div>
+    </div>
+</div>
+
+<div class="admin-gear" onclick="openAdmin(event)">⚙️</div>
+
+<script>
+    // Navigation Logic
+    function showPage(pageId) {
+        document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+        document.getElementById(pageId).classList.add('active');
+        
+        // Mobile Nav update
+        if (window.innerWidth < 900) {
+            document.querySelectorAll('.mobile-nav .nav-item').forEach(item => item.classList.remove('active'));
+            // Find the clicked mobile item
+            const navItems = document.querySelectorAll('.mobile-nav .nav-item');
+            for(let i=0; i<navItems.length; i++) {
+                if(navItems[i].getAttribute('onclick').includes(pageId)) {
+                    navItems[i].classList.add('active');
+                    break;
                 }
-            });
+            }
+        }
+    }
+
+    // Admin Functions
+    let isAdmin = false;
+    
+    function openAdmin(e) {
+        if(e) e.preventDefault();
+        if (isAdmin) {
+            document.getElementById('addContentModal').style.display = 'flex';
+        } else {
+            document.getElementById('adminModal').style.display = 'flex';
+        }
+    }
+
+    function closeAdmin() {
+        document.getElementById('adminModal').style.display = 'none';
+    }
+
+    function closeAddModal() {
+        document.getElementById('addContentModal').style.display = 'none';
+    }
+
+    function checkAdmin() {
+        const pass = document.getElementById('adminPass').value;
+        if (pass === 'admin123') {
+            isAdmin = true;
+            alert('Login Successful! Welcome Admin.');
+            closeAdmin();
+            openAddModal();
+        } else {
+            alert('Wrong Password!');
+        }
+    }
+
+    function openAddModal() {
+        document.getElementById('addContentModal').style.display = 'flex';
+    }
+
+    function addContent() {
+        const type = document.getElementById('contentType').value;
+        const title = document.getElementById('contentTitle').value;
+        const url = document.getElementById('contentUrl').value;
+        const text = document.getElementById('contentText').value;
+
+        if(type === 'video' && url) {
+            let embedUrl = url;
+            if (url.includes('youtube.com/watch?v=')) {
+                const id = url.split('v=')[1];
+                embedUrl = `https://www.youtube.com/embed/${id}`;
+            }
+            const html = `<div class="card"><div class="video-container"><iframe src="${embedUrl}" allowfullscreen></iframe></div><h3>${title}</h3></div>`;
+            document.getElementById('videoGrid').insertAdjacentHTML('beforeend', html);
+        }
+        else if(type === 'image' && url) {
+            const html = `<img src="${url}" alt="${title}">`;
+            document.getElementById('imageGrid').insertAdjacentHTML('beforeend', html);
+        }
+        else if(type === 'article') {
+            const html = `<div class="card"><h3>${title}</h3><p>${text}</p></div>`;
+            document.getElementById('articleList').insertAdjacentHTML('beforeend', html);
         }
 
-        // Button Press Interaction effect (Purely CSS, but JS adds smooth hover logic if needed)
-        const buttons = document.querySelectorAll('.btn');
-        buttons.forEach(btn => {
-            btn.addEventListener('mousedown', () => btn.style.transform = 'scale(0.95)');
-            btn.addEventListener('mouseup', () => btn.style.transform = 'scale(1)');
-        });
-    </script>
+        // Clear inputs
+        document.getElementById('contentTitle').value = '';
+        document.getElementById('contentUrl').value = '';
+        document.getElementById('contentText').value = '';
+        alert('Content Added Successfully!');
+    }
+</script>
+
 </body>
-  </html>
+</html>
