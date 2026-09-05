@@ -3,30 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio | Video Editor & SMM</title>
+    <title>Professional Portfolio - Video Editor & SMM</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg: #f5f5f5;
-            --white: #ffffff;
-            --dark: #111;
-            --grey: #777;
-            --yellow: #ffd900;
-            --blue: #0056b3;
-            --radius: 24px;
-            --shadow: 0 4px 20px rgba(0,0,0,0.08);
-        }
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: var(--bg);
-            margin: 0;
-            padding: 20px;
-            padding-bottom: 80px; /* Space for mobile tab bar */
-            color: var(--dark);
-        }
+        :root { --bg: #f4f4f4; --white: #ffffff; --dark: #111; --grey: #666; --yellow: #ffd900; --blue: #0056b3; --radius: 20px; --shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding: 20px; padding-bottom: 90px; color: var(--dark); }
         h1, h2, h3 { margin: 10px 0; }
         
-        /* Desktop vs Mobile Layout */
+        /* Layouts */
         .desktop-nav { display: none; }
         .mobile-tabs { display: flex; position: fixed; bottom: 0; left: 0; right: 0; background: var(--white); box-shadow: 0 -4px 10px rgba(0,0,0,0.1); z-index: 100; border-radius: 20px 20px 0 0; }
         .tab-btn { flex: 1; padding: 15px; text-align: center; font-size: 12px; border: none; background: none; font-weight: 600; color: var(--grey); cursor: pointer; }
@@ -37,313 +21,287 @@
             .mobile-tabs { display: none; }
             .desktop-nav { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 20px; position: sticky; top: 0; background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); padding: 15px; border-radius: 20px; z-index: 100; }
             .page-section { max-width: 1200px; margin: 0 auto; }
+            .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
             .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
         }
 
-        /* Cards */
+        /* Cards & Buttons */
         .card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; margin-bottom: 20px; border: 1px solid #ddd; }
-        
-        /* Buttons with Press Animation */
-        .btn { background: var(--yellow); border: 2px solid var(--dark); border-radius: 50px; padding: 12px 25px; font-weight: 700; cursor: pointer; transition: transform 0.1s; border: none; }
+        .btn { background: var(--yellow); border: 2px solid var(--dark); border-radius: 50px; padding: 10px 20px; font-weight: 700; cursor: pointer; transition: transform 0.1s; }
         .btn:active { transform: scale(0.95); }
-        .btn-blue { background: var(--blue); color: white; }
-        
+        .btn-blue { background: var(--blue); color: white; border: none; }
+        .btn-outline { background: transparent; border: 2px solid var(--blue); color: var(--blue); }
+
         /* Profile */
-        .profile-section { display: flex; flex-direction: column; align-items: center; text-align: center; }
-        .profile-img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid var(--yellow); box-shadow: var(--shadow); }
-        
-        /* Results / Milestones (Gamified style) */
-        .milestones-container { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px; scroll-snap-type: x mandatory; }
-        .milestone-box { min-width: 220px; background: #222; color: white; border-radius: 15px; padding: 15px; scroll-snap-align: start; }
-        .progress-bg { height: 10px; background: #444; border-radius: 10px; margin-top: 10px; }
-        .progress-fill { height: 100%; background: var(--yellow); border-radius: 10px; }
+        .profile-section { text-align: center; }
+        .profile-img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 5px solid var(--yellow); box-shadow: var(--shadow); }
 
-        /* Video & Images */
-        .filter-btns { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
-        .grid-2 { display: grid; grid-template-columns: 1fr; gap: 20px; }
-        @media (min-width: 600px) { .grid-2 { grid-template-columns: 1fr 1fr; } }
+        /* Video Grid */
         .video-card iframe { width: 100%; height: 220px; border: none; border-radius: 15px; background: black; }
-        .image-card img { width: 100%; border-radius: 15px; object-fit: cover; max-height: 300px; }
-
-        /* Scheduler & Forms */
-        input, textarea, select { width: 100%; padding: 12px; border-radius: 15px; border: 1px solid #ddd; box-sizing: border-box; margin-bottom: 15px; font-family: inherit; }
         
+        /* Modals (Popup) */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 2000; }
+        .modal-content { background: var(--white); border-radius: 20px; padding: 20px; width: 90%; max-width: 600px; max-height: 80vh; overflow-y: auto; position: relative; }
+        .close-btn { position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; font-weight: bold; }
+        
+        /* Growth Results - Improved */
+        .growth-stat { display: flex; align-items: center; gap: 15px; padding: 10px 0; border-bottom: 1px dashed #eee; }
+        .stat-bar { flex: 1; height: 10px; background: #eee; border-radius: 5px; overflow: hidden; }
+        .stat-fill { height: 100%; background: var(--yellow); }
+
+        /* Client Carousel (Auto Scroll) */
+        .client-wrapper { display: flex; gap: 20px; overflow-x: auto; padding: 10px 0; scroll-behavior: smooth; animation: scrollClients 15s linear infinite; }
+        .client-card { min-width: 200px; max-width: 200px; border: 1px solid #ddd; border-radius: 15px; padding: 15px; text-align: center; }
+        @keyframes scrollClients { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } } /* Needs enough items */
+
+        /* Articles Carousel */
+        .article-row { display: flex; gap: 20px; overflow-x: auto; padding-bottom: 10px; }
+        .article-card { min-width: 280px; border-left: 5px solid var(--yellow); padding-left: 10px; cursor: pointer; }
+
+        /* Contact */
+        .contact-info { display: flex; flex-direction: column; gap: 10px; }
+
         /* Admin Panel */
         #adminLogin { position: fixed; top: 10px; right: 10px; z-index: 999; }
-        #adminPanel { background: var(--white); border-radius: 20px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 400px; z-index: 1000; }
+        #adminPanel { background: var(--white); border-radius: 20px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 400px; z-index: 1500; }
         .hidden { display: none; }
+        input, textarea { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid #ddd; box-sizing: border-box; margin-bottom: 10px; }
         
         h2 { border-left: 5px solid var(--yellow); padding-left: 10px; }
     </style>
 </head>
 <body>
 
-    <!-- Admin Login Button -->
+    <!-- Admin Login -->
     <button id="adminLogin" class="btn btn-blue" onclick="adminLogin()">Admin</button>
-
+    
     <!-- Admin Panel -->
     <div id="adminPanel">
         <h3>Admin Panel</h3>
-        <div id="adminControls">
-            <button class="btn" onclick="showAddVideo()">Add Video</button>
-            <button class="btn" onclick="showAddImage()">Add Image</button>
-            <button class="btn btn-blue" onclick="logout()">Logout</button>
-        </div>
+        <button class="btn" onclick="showForm('video')">Add Video</button>
+        <button class="btn" onclick="showForm('client')">Add Client</button>
+        <button class="btn" onclick="showForm('article')">Add Article</button>
+        <button class="btn btn-blue" onclick="logout()" style="float:right;">Logout</button>
         
-        <div id="videoForm" class="hidden">
-            <input type="text" id="newVideoTitle" placeholder="Video Title (e.g. Instagram Reel)">
-            <input type="text" id="newVideoLink" placeholder="Paste YouTube or Drive Link">
-            <input type="text" id="newVideoCat" placeholder="Category (e.g. Reels)">
-            <button class="btn" onclick="addVideo()">Save Video</button>
+        <div id="videoForm" class="hidden" style="margin-top:10px;">
+            <input type="text" id="vTitle" placeholder="Video Title">
+            <input type="text" id="vLink" placeholder="YouTube/Drive Link">
+            <input type="text" id="vCat" placeholder="Category (Reels, Cinematic)">
+            <button class="btn" onclick="addVideo()">Save</button>
         </div>
-        
-        <div id="imageForm" class="hidden">
-            <input type="text" id="newImageTitle" placeholder="Image Title">
-            <input type="text" id="newImageLink" placeholder="Paste Image URL">
-            <button class="btn" onclick="addImage()">Save Image</button>
+        <div id="clientForm" class="hidden" style="margin-top:10px;">
+            <input type="text" id="cName" placeholder="Client Name">
+            <input type="text" id="cService" placeholder="Service (e.g. Reels Editing)">
+            <input type="text" id="cImg" placeholder="Client Logo URL">
+            <button class="btn" onclick="addClient()">Save</button>
+        </div>
+        <div id="articleForm" class="hidden" style="margin-top:10px;">
+            <input type="text" id="aTitle" placeholder="Article Title">
+            <textarea id="aContent" placeholder="Article Content..."></textarea>
+            <button class="btn" onclick="addArticle()">Save</button>
         </div>
     </div>
 
-    <!-- PC Navigation -->
+    <!-- Desktop Nav -->
     <div class="desktop-nav">
-        <a href="#home" class="btn" style="text-decoration:none;">Home</a>
-        <a href="#videos" class="btn" style="text-decoration:none;">Videos</a>
-        <a href="#images" class="btn" style="text-decoration:none;">Images</a>
-        <a href="#results" class="btn" style="text-decoration:none;">Results</a>
-        <a href="#services" class="btn" style="text-decoration:none;">Services</a>
-        <a href="#meeting" class="btn" style="text-decoration:none;">Meeting</a>
-        <a href="#articles" class="btn" style="text-decoration:none;">Articles</a>
-        <a href="#contact" class="btn" style="text-decoration:none;">Contact</a>
+        <a href="#home" class="btn">Home</a>
+        <a href="#videos" class="btn">Videos</a>
+        <a href="#growth" class="btn">Growth</a>
+        <a href="#clients" class="btn">Clients</a>
+        <a href="#articles" class="btn">Articles</a>
+        <a href="#contact" class="btn">Contact</a>
     </div>
 
-    <!-- Home Section -->
+    <!-- 1. Profile -->
     <div id="home" class="page-section">
         <div class="card profile-section">
             <img src="https://via.placeholder.com/150" class="profile-img" alt="Profile">
             <h1>✦ Your Name ⚡</h1>
-            <p style="color: var(--grey);">Professional Video Editor & Social Media Manager</p>
-            <p>I craft high-quality, engaging visual stories that help brands grow and connect with their audience.</p>
-            <div style="display:flex; gap: 10px;">
-                <a href="#contact" class="btn btn-blue" style="text-decoration:none;">Contact Me</a>
-                <a href="#videos" class="btn" style="text-decoration:none;">View Work</a>
-            </div>
+            <p style="color: var(--grey);">Video Editor & Social Media Manager</p>
+            <p>Building impactful visual stories for brands.</p>
+            <button class="btn btn-blue">Contact Me</button>
         </div>
     </div>
 
-    <!-- Videos Section -->
+    <!-- 2. Videos (2-3 on site, More in Popup) -->
     <div id="videos" class="page-section">
         <h2>🎬 Video Portfolio</h2>
-        <div class="filter-btns">
-            <button class="btn" onclick="filterVideos('all')">All</button>
-            <button class="btn" onclick="filterVideos('Reels')">Reels</button>
-            <button class="btn" onclick="filterVideos('Editing')">Cinematic</button>
-        </div>
-        
-        <div class="grid-2" id="videosContainer">
-            <!-- Default Video (Admin can add more) -->
-            <div class="card video-card" data-cat="Editing">
+        <div class="grid-2" id="mainVideoGrid">
+            <!-- Only 2 will be visible -->
+            <div class="card video-card">
                 <iframe src="https://www.youtube.com/embed/aqz-KE-bpKQ" allowfullscreen></iframe>
-                <h3>Cinematic Travel Edit</h3>
-                <p style="color: var(--grey);">2026 Highlight</p>
+                <h3>Cinematic Edit</h3>
             </div>
-            <div class="card video-card" data-cat="Reels">
+            <div class="card video-card">
                 <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
-                <h3>Viral Instagram Reel</h3>
-                <p style="color: var(--grey);">Trending Audio</p>
+                <h3>Reel Edit</h3>
             </div>
         </div>
+        <button class="btn btn-outline" style="width:100%;" onclick="openVideoModal()">More Videos</button>
     </div>
 
-    <!-- Images Section -->
-    <div id="images" class="page-section">
-        <h2>🖼️ Photography & Thumbnails</h2>
-        <div class="grid-2" id="imagesContainer">
-            <div class="card image-card">
-                <img src="https://via.placeholder.com/600x400" alt="Work">
-                <h3>Project Thumbnail 1</h3>
-            </div>
-            <div class="card image-card">
-                <img src="https://via.placeholder.com/600x400" alt="Work">
-                <h3>Project Thumbnail 2</h3>
-            </div>
-        </div>
-    </div>
-
-    <!-- Results / Milestones Section -->
-    <div id="results" class="page-section">
-        <h2>📈 Social Media Growth Results</h2>
+    <!-- 3. Social Growth (Improved) -->
+    <div id="growth" class="page-section">
+        <h2>📊 Social Growth Results</h2>
         <div class="card">
-            <div class="milestones-container">
-                <div class="milestone-box">
-                    <p>10K Views</p><div class="progress-bg"><div class="progress-fill" style="width: 100%;"></div></div>
-                    <p style="color: var(--yellow);">Achieved</p>
-                </div>
-                <div class="milestone-box">
-                    <p>30K Views</p><div class="progress-bg"><div class="progress-fill" style="width: 80%;"></div></div>
-                    <p style="color: var(--yellow);">90% there</p>
-                </div>
-                <div class="milestone-box">
-                    <p>100K Views</p><div class="progress-bg"><div class="progress-fill" style="width: 40%;"></div></div>
-                    <p style="color: var(--yellow);">Growing</p>
-                </div>
-            </div>
+            <div class="growth-stat"><span>10K Views</span><div class="stat-bar"><div class="stat-fill" style="width:100%;"></div></div><strong>100%</strong></div>
+            <div class="growth-stat"><span>50K Reach</span><div class="stat-bar"><div class="stat-fill" style="width:80%;"></div></div><strong>80%</strong></div>
+            <div class="growth-stat"><span>1M Impressions</span><div class="stat-bar"><div class="stat-fill" style="width:50%;"></div></div><strong>50%</strong></div>
         </div>
     </div>
 
-    <!-- Services Section (No Pricing) -->
-    <div id="services" class="page-section">
+    <!-- 4. Client Collaboration (Auto-scroll) -->
+    <div id="clients" class="page-section">
         <h2>🤝 Client Collaboration & Services</h2>
-        <div class="grid-3">
-            <div class="card">
-                <h3>Video Editing</h3>
-                <p>Professional cuts, color grading, motion graphics, high-quality sound design for Reels, YouTube, and Corporate.</p>
-            </div>
-            <div class="card">
-                <h3>Social Media Management</h3>
-                <p>Content strategy, posting schedules, growth hacking, audience engagement across all platforms.</p>
-            </div>
-            <div class="card">
-                <h3>Complete Branding</h3>
-                <p>Visual storytelling, thumbnails, ad creatives, and a consistent brand look. <br>(Pricing is negotiable and discussed directly with clients.)</p>
-            </div>
+        <div class="client-wrapper" id="clientList">
+            <!-- Default clients -->
+            <div class="client-card"><img src="https://via.placeholder.com/50" style="border-radius:50%;"><h4>Company A</h4><p style="color:grey;font-size:12px;">Reels Editing</p></div>
+            <div class="client-card"><img src="https://via.placeholder.com/50" style="border-radius:50%;"><h4>Company B</h4><p style="color:grey;font-size:12px;">Full SMM</p></div>
+            <div class="client-card"><img src="https://via.placeholder.com/50" style="border-radius:50%;"><h4>Company C</h4><p style="color:grey;font-size:12px;">Cinematic Ads</p></div>
+            <!-- Duplicates for smooth scroll -->
         </div>
     </div>
 
-    <!-- Meeting Scheduler -->
-    <div id="meeting" class="page-section">
-        <h2>📅 Schedule a Meeting</h2>
-        <div class="card">
-            <p>Let's discuss your project!</p>
-            <form onsubmit="event.preventDefault(); alert('Meeting Request Sent Successfully!'); this.reset();">
-                <input type="text" placeholder="Your Name" required>
-                <input type="email" placeholder="Your Email" required>
-                <input type="datetime-local" required>
-                <textarea placeholder="Project Details..."></textarea>
-                <button type="submit" class="btn btn-blue" style="width: 100%;">Book Meeting</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Articles & Achievements -->
+    <!-- 5. Articles (Horizontal, More in Popup) -->
     <div id="articles" class="page-section">
-        <h2>🏆 Articles & Achievements</h2>
-        <div class="card">
-            <div style="border-left: 4px solid var(--yellow); padding-left: 15px;">
-                <h3>2026: Won Best Editing Award</h3>
-                <p style="color: var(--grey);">Small intro about the award...</p>
-            </div>
-            <div style="border-left: 4px solid var(--yellow); padding-left: 15px; margin-top: 20px;">
-                <h3>History: From Beginner to Pro</h3>
-                <p style="color: var(--grey);">How I started my editing journey...</p>
-            </div>
+        <h2>📰 Articles & Achievements</h2>
+        <div class="article-row" id="mainArticles">
+            <div class="card article-card" onclick="openArticle(0)"><h3>Winning the Editing Award</h3><p>Details about this prestigious award...</p></div>
+            <div class="card article-card" onclick="openArticle(1)"><h3>My Editing Journey</h3><p>How it all started...</p></div>
+        </div>
+        <button class="btn btn-outline" style="width:100%;" onclick="openArticleModal()">More Articles</button>
+    </div>
+
+    <!-- 6. Contact -->
+    <div id="contact" class="page-section">
+        <h2>📬 Contact Details</h2>
+        <div class="card contact-info">
+            <p>📧: business@email.com</p>
+            <p>📞: +91 9876543210</p>
+            <p>📸: @your_handle</p>
+            <button class="btn">Email Me</button>
         </div>
     </div>
 
-    <!-- Contact Details -->
-    <div id="contact" class="page-section">
-        <h2>📧 Contact Details</h2>
-        <div class="card">
-            <p><strong>Email:</strong> yourbusiness@email.com</p>
-            <p><strong>Phone/WhatsApp:</strong> +91 9876543210</p>
-            <p><strong>Instagram:</strong> @your_handle</p>
-            <a href="mailto:yourbusiness@email.com" class="btn">Email Now</a>
+    <!-- Popup for All Videos -->
+    <div id="videoModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('videoModal')">&times;</span>
+            <h2>All Videos</h2>
+            <div id="allVideosList"></div>
+        </div>
+    </div>
+
+    <!-- Popup for All Articles -->
+    <div id="articleModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('articleModal')">&times;</span>
+            <h2>All Articles</h2>
+            <div id="allArticlesList"></div>
+        </div>
+    </div>
+
+    <!-- Article Reading Popup -->
+    <div id="articleReader" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('articleReader')">&times;</span>
+            <div id="articleContent"></div>
         </div>
     </div>
 
     <!-- Mobile Tab Bar -->
     <div class="mobile-tabs">
-        <button class="tab-btn active" onclick="goTo('home', this)">Home</button>
-        <button class="tab-btn" onclick="goTo('videos', this)">Videos</button>
-        <button class="tab-btn" onclick="goTo('results', this)">Growth</button>
-        <button class="tab-btn" onclick="goTo('services', this)">Services</button>
-        <button class="tab-btn" onclick="goTo('meeting', this)">Book</button>
+        <button class="tab-btn active" onclick="goTo('home')">Home</button>
+        <button class="tab-btn" onclick="goTo('videos')">Videos</button>
+        <button class="tab-btn" onclick="goTo('clients')">Clients</button>
+        <button class="tab-btn" onclick="goTo('articles')">Articles</button>
+        <button class="tab-btn" onclick="goTo('contact')">Contact</button>
     </div>
 
-    <!-- Javascript Logic -->
+    <!-- JavaScript -->
     <script>
-        // --- Mobile Tab Navigation ---
-        function goTo(id, btn) {
+        // Navigation
+        function goTo(id) {
             document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
         }
 
-        // --- Video Filtering ---
-        function filterVideos(cat) {
-            const videos = document.querySelectorAll('.video-card');
-            videos.forEach(v => {
-                if (cat === 'all' || v.getAttribute('data-cat') === cat) {
-                    v.style.display = 'block';
-                } else {
-                    v.style.display = 'none';
-                }
-            });
-        }
-
-        // --- Admin Functionality (Local Storage for Real-time Add) ---
-        let isAdmin = false;
-        
+        // Admin
         function adminLogin() {
             let pass = prompt("Enter Admin Password:");
             if (pass === "admin123") {
-                isAdmin = true;
                 document.getElementById('adminPanel').style.display = 'block';
-                alert("Welcome Admin!");
-            } else {
-                alert("Wrong Password!");
-            }
+            } else alert("Wrong Password");
+        }
+        function logout() { document.getElementById('adminPanel').style.display = 'none'; }
+        function showForm(type) {
+            document.querySelectorAll('#adminPanel div').forEach(d => d.classList.add('hidden'));
+            document.getElementById(type + 'Form').classList.remove('hidden');
         }
 
-        function logout() {
-            isAdmin = false;
-            document.getElementById('adminPanel').style.display = 'none';
-        }
-
-        function showAddVideo() {
-            document.getElementById('videoForm').classList.toggle('hidden');
-            document.getElementById('imageForm').classList.add('hidden');
-        }
-
-        function showAddImage() {
-            document.getElementById('imageForm').classList.toggle('hidden');
-            document.getElementById('videoForm').classList.add('hidden');
-        }
+        // Videos
+        let allVideos = [
+            {title: "Cinematic Edit", link: "https://www.youtube.com/embed/aqz-KE-bpKQ"},
+            {title: "Reel Edit", link: "https://www.youtube.com/embed/dQw4w9WgXcQ"},
+            {title: "Highlight Reel", link: "https://www.youtube.com/embed/aqz-KE-bpKQ"}
+        ];
 
         function addVideo() {
-            let title = document.getElementById('newVideoTitle').value;
-            let link = document.getElementById('newVideoLink').value;
-            let cat = document.getElementById('newVideoCat').value;
-
-            // Convert YouTube watch to embed
-            if (link.includes("watch?v=")) {
-                link = link.replace("watch?v=", "embed/");
-            }
-
-            let videoHTML = `
-                <div class="card video-card" data-cat="${cat}">
-                    <iframe src="${link}" allowfullscreen></iframe>
-                    <h3>${title}</h3>
-                    <p style="color: var(--grey);">Added by Admin</p>
-                </div>`;
-            
-            document.getElementById('videosContainer').insertAdjacentHTML('beforeend', videoHTML);
-            alert("Video Added!");
-            document.getElementById('videoForm').classList.add('hidden');
+            let v = {title: document.getElementById('vTitle').value, link: document.getElementById('vLink').value.replace("watch?v=", "embed/")};
+            allVideos.push(v);
+            document.getElementById('vTitle').value = ''; document.getElementById('vLink').value = '';
+            alert("Video Added! Check 'More Videos'.");
         }
 
-        function addImage() {
-            let title = document.getElementById('newImageTitle').value;
-            let link = document.getElementById('newImageLink').value;
+        function openVideoModal() {
+            let list = document.getElementById('allVideosList');
+            list.innerHTML = allVideos.map(v => `<div class="card video-card" style="margin-bottom:10px;"><h3>${v.title}</h3><iframe src="${v.link}" allowfullscreen></iframe></div>`).join('');
+            document.getElementById('videoModal').style.display = 'flex';
+        }
 
-            let imgHTML = `
-                <div class="card image-card">
-                    <img src="${link}" alt="${title}">
-                    <h3>${title}</h3>
-                </div>`;
-            
-            document.getElementById('imagesContainer').insertAdjacentHTML('beforeend', imgHTML);
-            alert("Image Added!");
-            document.getElementById('imageForm').classList.add('hidden');
+        // Clients
+        let clients = [
+            {name: "Company A", service: "Reels Editing", img: "https://via.placeholder.com/50"},
+            {name: "Company B", service: "SMM", img: "https://via.placeholder.com/50"},
+            {name: "Company C", service: "Cinematic", img: "https://via.placeholder.com/50"},
+            // Duplicate for infinite scroll
+            {name: "Company A", service: "Reels Editing", img: "https://via.placeholder.com/50"},
+            {name: "Company B", service: "SMM", img: "https://via.placeholder.com/50"},
+            {name: "Company C", service: "Cinematic", img: "https://via.placeholder.com/50"}
+        ];
+
+        function addClient() {
+            let c = {name: document.getElementById('cName').value, service: document.getElementById('cService').value, img: document.getElementById('cImg').value || "https://via.placeholder.com/50"};
+            clients.push(c); // Add a new one (will appear in wrapper)
+            document.getElementById('clientList').innerHTML = clients.map(x => `<div class="client-card"><img src="${x.img}" style="border-radius:50%; width:50px; height:50px;"><h4>${x.name}</h4><p style="color:grey;font-size:12px;">${x.service}</p></div>`).join('');
+            alert("Client Added!");
+        }
+
+        // Articles
+        let articles = [
+            {title: "Winning the Editing Award", content: "<p>Details about this prestigious award. It was a great honor to be recognized for visual storytelling.</p>"},
+            {title: "My Editing Journey", content: "<p>From editing simple clips to complex brand campaigns, the journey has been incredible. Here's a look back.</p>"}
+        ];
+
+        function addArticle() {
+            let a = {title: document.getElementById('aTitle').value, content: "<p>" + document.getElementById('aContent').value + "</p>"};
+            articles.push(a);
+            alert("Article Added!");
+        }
+
+        function openArticle(index) {
+            document.getElementById('articleContent').innerHTML = `<h2>${articles[index].title}</h2>${articles[index].content}`;
+            document.getElementById('articleReader').style.display = 'flex';
+        }
+
+        function openArticleModal() {
+            let list = document.getElementById('allArticlesList');
+            list.innerHTML = articles.map((a, i) => `<div class="card article-card" onclick="openArticle(${i}); closeModal('articleModal');"><h3>${a.title}</h3><p>Click to read...</p></div>`).join('');
+            document.getElementById('articleModal').style.display = 'flex';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
         }
     </script>
 </body>
